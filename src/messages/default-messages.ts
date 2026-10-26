@@ -4,6 +4,7 @@ import { accountMessages } from "./defaults/account.js";
 import { authMessages } from "./defaults/auth.js";
 import { avatarMessages } from "./defaults/avatar.js";
 import { communitiesMessages } from "./defaults/communities.js";
+import { editorMessages } from "./defaults/editor.js";
 import { legalMessages } from "./defaults/legal.js";
 import { notificationsMessages } from "./defaults/notifications.js";
 import { patternsMessages } from "./defaults/patterns.js";
@@ -28,4 +29,5 @@ export const defaultMessages: Messages = {
   ...supportUsMessages,
   ...pwaMessages,
   ...wellbeingMessages,
+  ...editorMessages,
 };

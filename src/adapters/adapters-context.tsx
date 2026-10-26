@@ -7,9 +7,20 @@ function PlainLink({ href, ...props }: LinkProps) {
   return <a href={href} {...props} />;
 }
 
+function isSameHostUrl(url: string): boolean {
+  if (!/^https?:\/\//i.test(url)) return true;
+  try {
+    return typeof window !== "undefined" && new URL(url).host === window.location.host;
+  } catch {
+    return false;
+  }
+}
+
 export const defaultAdapters: Adapters = {
   Link: PlainLink,
   resolveMediaUrl: (url) => url || undefined,
+  resolveMediaOriginalUrl: (url) => url || undefined,
+  isOwnMediaUrl: isSameHostUrl,
 };
 
 export const AdaptersContext = createContext<Adapters>(defaultAdapters);

@@ -11,4 +11,15 @@ export type Adapters = {
   Link: ComponentType<LinkProps>;
   /** Turns a stored media path into a URL the browser can load. Default: returns it unchanged. */
   resolveMediaUrl: (url: string | null | undefined) => string | undefined;
+  /**
+   * Same as `resolveMediaUrl`, but for video and audio: the URL of the original file, without CDN
+   * transformations. Default: returns it unchanged.
+   */
+  resolveMediaOriginalUrl: (url: string | null | undefined) => string | undefined;
+  /**
+   * Whether a URL points at the app's own media (relative path, app host or the app CDN). Rich text
+   * only renders own images inline; third-party images become links. Default: relative paths and
+   * the current host.
+   */
+  isOwnMediaUrl: (url: string) => boolean;
 };
