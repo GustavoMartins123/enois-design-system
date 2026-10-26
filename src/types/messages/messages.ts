@@ -3,6 +3,7 @@ import type { AuthMessages } from "./auth-messages.js";
 import type { AvatarMessages } from "./avatar-messages.js";
 import type { CommunitiesMessages } from "./communities-messages.js";
 import type { EditorMessages } from "./editor-messages.js";
+import type { GamesMessages } from "./games-messages.js";
 import type { LegalMessages } from "./legal-messages.js";
 import type { NotificationsMessages } from "./notifications-messages.js";
 import type { PatternsMessages } from "./patterns-messages.js";
@@ -33,4 +34,5 @@ export type Messages = UiMessages &
   PwaMessages &
   WellbeingMessages &
   EditorMessages &
-  PostMessages;
+  PostMessages &
+  GamesMessages;
