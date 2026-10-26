@@ -6,6 +6,7 @@ import type { EditorMessages } from "./editor-messages.js";
 import type { LegalMessages } from "./legal-messages.js";
 import type { NotificationsMessages } from "./notifications-messages.js";
 import type { PatternsMessages } from "./patterns-messages.js";
+import type { PostMessages } from "./post-messages.js";
 import type { PwaMessages } from "./pwa-messages.js";
 import type { SearchMessages } from "./search-messages.js";
 import type { ShellMessages } from "./shell-messages.js";
@@ -31,4 +32,5 @@ export type Messages = UiMessages &
   SupportUsMessages &
   PwaMessages &
   WellbeingMessages &
-  EditorMessages;
+  EditorMessages &
+  PostMessages;
