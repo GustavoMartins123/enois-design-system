@@ -1,0 +1,11 @@
+node_modules
+dist
+storybook-static
+*.log
+*.tsbuildinfo
+.DS_Store
+.idea
+.vscode/*
+*.tgz
+.serena
+.vitest
