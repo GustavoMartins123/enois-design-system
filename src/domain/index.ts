@@ -15,3 +15,4 @@ export * from "./post/index.js";
 export * from "./games/index.js";
 export * from "./appearance/index.js";
 export * from "./wallet/index.js";
+export * from "./profile/index.js";

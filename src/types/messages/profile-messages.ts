@@ -1,0 +1,214 @@
+export type ProfileMessages = {
+  editProfileDialog: {
+    title: string;
+    cancel: string;
+    close: string;
+    save: string;
+    saving: string;
+    edit: string;
+    remove: string;
+    add: string;
+    imageUploadError: string;
+    showRanking: string;
+    showRankingHint: string;
+    tabs: { info: string; experiences: string; education: string; certifications: string };
+    fields: {
+      name: string;
+      username: string;
+      badges: string;
+      aka: string;
+      headline: string;
+      bio: string;
+      company: string;
+      location: string;
+      birthDate: string;
+      availability: string;
+      portfolio: string;
+      externalLinks: string;
+      skills: string;
+      goals: string;
+    };
+    placeholders: {
+      username: string;
+      aka: string;
+      headline: string;
+      availability: string;
+      portfolio: string;
+    };
+    openToWork: string;
+    mentorAvailable: string;
+    akaHint: string;
+    badgeUpload: string;
+    badgeRemove: string;
+    badgesHint: string;
+    badgesFull: string;
+    experienceFields: {
+      title: string;
+      company: string;
+      location: string;
+      description: string;
+      startDate: string;
+      endDate: string;
+    };
+    educationFields: {
+      school: string;
+      degree: string;
+      field: string;
+      description: string;
+      startDate: string;
+      endDate: string;
+    };
+    certificationFields: {
+      name: string;
+      issuer: string;
+      description: string;
+      issueDate: string;
+      expirationDate: string;
+      credentialUrl: string;
+    };
+    emptyExperience: string;
+    emptyEducation: string;
+    emptyCertification: string;
+    currentlyHere: string;
+  };
+  profileBannerDialog: {
+    title: string;
+    choiceHint: string;
+    photoTab: string;
+    photo: string;
+    photoHint: string;
+    htmlTab: string;
+    label: string;
+    description: string;
+    placeholder: string;
+    empty: string;
+    frameTitle: string;
+    save: string;
+    remove: string;
+    cancel: string;
+    saving: string;
+  };
+  profileBioDialog: {
+    action: string;
+    title: string;
+    label: string;
+    description: string;
+    placeholder: string;
+    empty: string;
+    frameTitle: string;
+    hint: string;
+    save: string;
+    cancel: string;
+    saving: string;
+  };
+  profileResumeDialog: {
+    action: string;
+    title: string;
+    hint: string;
+    empty: string;
+    upload: string;
+    sending: string;
+    download: string;
+    remove: string;
+    wrongType: string;
+    tooBig: string;
+  };
+  profileExperiencesSection: {
+    title: string;
+    present: string;
+    /** "1 ano e 2 meses": a duração de uma posição, em meses inclusivos. */
+    duration: (months: number) => string;
+  };
+  profileCommunityShelf: {
+    communityEyebrow: string;
+    communityTitle: string;
+    communityDescription: string;
+    communityEmpty: string;
+    communityAction: string;
+    loading: string;
+  };
+  profileExplorePanel: {
+    exploreTitle: string;
+    exploreDescription: string;
+    dailyGames: string;
+    appearance: string;
+  };
+  profileGamificationPanel: {
+    walletEyebrow: string;
+    walletCaption: string;
+    walletAction: string;
+    progressTitle: string;
+    reputationLabel: string;
+    postsLabel: string;
+    progressCaption: string;
+    badgesTitle: string;
+    badgeAlt: string;
+    badgesEmpty: string;
+    loading: string;
+  };
+  profileNetworkDialog: {
+    connectionsTitle: (name: string) => string;
+    followersTitle: (name: string) => string;
+    emptyConnections: string;
+    emptyFollowers: string;
+    error: string;
+    loading: string;
+  };
+  profileQuickComposer: {
+    start: string;
+    video: string;
+    photo: string;
+    article: string;
+    placeholder: string;
+    hint: string;
+    action: string;
+    cancel: string;
+    sending: string;
+  };
+  profileProjectsSection: {
+    title: string;
+    manage: string;
+    empty: string;
+    repo: string;
+    diary: string;
+    htmlFrame: string;
+  };
+  projectsManager: {
+    title: string;
+    hint: string;
+    empty: string;
+    diary: string;
+    modeStructured: string;
+    modeHtml: string;
+    titleField: string;
+    stackField: string;
+    repoField: string;
+    statusField: string;
+    diaryAdd: string;
+    diaryText: string;
+    add: string;
+    save: string;
+    remove: string;
+    deleteConfirm: string;
+    htmlFrame: string;
+    edit: string;
+    cancel: string;
+    close: string;
+  };
+  projectFormDialog: {
+    createTitle: string;
+    editTitle: string;
+    title: string;
+    shortDescription: string;
+    description: string;
+    url: string;
+    repoUrl: string;
+    tags: string;
+    category: string;
+    cover: string;
+    slug: string;
+    save: string;
+    saving: string;
+    cancel: string;
+  };
+};

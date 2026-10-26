@@ -11,6 +11,7 @@ import { legalMessages } from "./defaults/legal.js";
 import { notificationsMessages } from "./defaults/notifications.js";
 import { patternsMessages } from "./defaults/patterns.js";
 import { postMessages } from "./defaults/post.js";
+import { profileMessages } from "./defaults/profile.js";
 import { pwaMessages } from "./defaults/pwa.js";
 import { searchMessages } from "./defaults/search.js";
 import { shellMessages } from "./defaults/shell.js";
@@ -38,4 +39,5 @@ export const defaultMessages: Messages = {
   ...gamesMessages,
   ...appearanceMessages,
   ...walletMessages,
+  ...profileMessages,
 };
