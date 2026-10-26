@@ -13,6 +13,7 @@ import { gamesMessages } from "./defaults/games.js";
 import { jobsMessages } from "./defaults/jobs.js";
 import { legalMessages } from "./defaults/legal.js";
 import { marketplaceMessages } from "./defaults/marketplace.js";
+import { moderationMessages } from "./defaults/moderation.js";
 import { notificationsMessages } from "./defaults/notifications.js";
 import { patternsMessages } from "./defaults/patterns.js";
 import { postMessages } from "./defaults/post.js";
@@ -54,4 +55,5 @@ export const defaultMessages: Messages = {
   ...marketplaceMessages,
   ...blogMessages,
   ...jobsMessages,
+  ...moderationMessages,
 };
