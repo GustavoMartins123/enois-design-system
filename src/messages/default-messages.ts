@@ -1,6 +1,7 @@
 import type { Messages } from "../types/messages/messages.js";
 
 import { accountMessages } from "./defaults/account.js";
+import { appearanceMessages } from "./defaults/appearance.js";
 import { authMessages } from "./defaults/auth.js";
 import { avatarMessages } from "./defaults/avatar.js";
 import { communitiesMessages } from "./defaults/communities.js";
@@ -15,6 +16,7 @@ import { searchMessages } from "./defaults/search.js";
 import { shellMessages } from "./defaults/shell.js";
 import { supportUsMessages } from "./defaults/support-us.js";
 import { uiMessages } from "./defaults/ui.js";
+import { walletMessages } from "./defaults/wallet.js";
 import { wellbeingMessages } from "./defaults/wellbeing.js";
 
 export const defaultMessages: Messages = {
@@ -34,4 +36,6 @@ export const defaultMessages: Messages = {
   ...editorMessages,
   ...postMessages,
   ...gamesMessages,
+  ...appearanceMessages,
+  ...walletMessages,
 };

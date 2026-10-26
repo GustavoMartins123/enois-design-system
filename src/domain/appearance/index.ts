@@ -1,3 +1,12 @@
+export { AppearanceDialog } from "./appearance-dialog.js";
+export { BackgroundStylePicker } from "./background-style-picker.js";
+export { CollectionGrid } from "./collection-grid.js";
+export { CollectionPreview } from "./collection-preview.js";
+export { ContrastNotice } from "./contrast-notice.js";
+export { PresetRow } from "./preset-row.js";
+export { RangeField } from "./range-field.js";
+export { ThemePreview } from "./theme-preview.js";
+export { ThemeSellDialog } from "./theme-sell-dialog.js";
 export {
   PAGE_PAINT_TARGETS,
   WIDGET_PAINT_TARGETS,
@@ -58,6 +67,17 @@ export {
 export { THEME_PRESET_IDS } from "../../lib/theme/theme-preset-ids.js";
 export { THEME_PRESETS } from "../../lib/theme/theme-presets.js";
 export { THEME_TOKEN_NAMES } from "../../lib/theme/theme-tokens.js";
+export type { AppearanceDialogProps } from "../../types/domain/appearance/appearance-dialog-props.js";
+export type { AppearanceFileStatus } from "../../types/domain/appearance/appearance-file-status.js";
+export type { AppearanceNameStyleSelection } from "../../types/domain/appearance/appearance-name-style-selection.js";
+export type { BackgroundStylePickerProps } from "../../types/domain/appearance/background-style-picker-props.js";
+export type { CollectionGridProps } from "../../types/domain/appearance/collection-grid-props.js";
+export type { CollectionPreviewProps } from "../../types/domain/appearance/collection-preview-props.js";
+export type { ContrastNoticeProps } from "../../types/domain/appearance/contrast-notice-props.js";
+export type { PresetRowProps } from "../../types/domain/appearance/preset-row-props.js";
+export type { RangeFieldProps } from "../../types/domain/appearance/range-field-props.js";
+export type { ThemeSellDialogProps } from "../../types/domain/appearance/theme-sell-dialog-props.js";
+export type { ThemeSellValues } from "../../types/domain/appearance/theme-sell-values.js";
 export type { BackgroundStyle } from "../../types/lib/theme/background-style.js";
 export type { GalleryThemePackage } from "../../types/lib/theme/gallery-theme-package.js";
 export type { ProfileNameFont } from "../../types/lib/theme/profile-name-font.js";

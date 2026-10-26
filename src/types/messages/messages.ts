@@ -1,4 +1,5 @@
 import type { AccountMessages } from "./account-messages.js";
+import type { AppearanceMessages } from "./appearance-messages.js";
 import type { AuthMessages } from "./auth-messages.js";
 import type { AvatarMessages } from "./avatar-messages.js";
 import type { CommunitiesMessages } from "./communities-messages.js";
@@ -13,6 +14,7 @@ import type { SearchMessages } from "./search-messages.js";
 import type { ShellMessages } from "./shell-messages.js";
 import type { SupportUsMessages } from "./support-us-messages.js";
 import type { UiMessages } from "./ui-messages.js";
+import type { WalletMessages } from "./wallet-messages.js";
 import type { WellbeingMessages } from "./wellbeing-messages.js";
 
 /**
@@ -35,4 +37,6 @@ export type Messages = UiMessages &
   WellbeingMessages &
   EditorMessages &
   PostMessages &
-  GamesMessages;
+  GamesMessages &
+  AppearanceMessages &
+  WalletMessages;

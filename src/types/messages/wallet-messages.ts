@@ -1,0 +1,38 @@
+export type WalletMessages = {
+  frameShop: {
+    ownedTab: string;
+    cosmetics: string;
+    yourCollection: string;
+    heroTitle: string;
+    heroDescription: string;
+    ownedTitle: string;
+    ownedDescription: string;
+    catalog: string;
+    catalogDescription: string;
+    search: string;
+    filterLabel: string;
+    orderLabel: string;
+    oldestFirst: string;
+    newestFirst: string;
+    filters: { all: string; simple: string; animated: string };
+    owned: string;
+    equipped: string;
+    animated: string;
+    simple: string;
+    buy: string;
+    equip: string;
+    unequip: string;
+    try: string;
+    tryItem: (name: string) => string;
+    preview: string;
+    sparks: string;
+    showMore: string;
+    showing: (visible: number, total: number) => string;
+    noResults: string;
+    noOwned: string;
+    emptyHint: string;
+    note: string;
+    loadError: string;
+    retry: string;
+  };
+};
