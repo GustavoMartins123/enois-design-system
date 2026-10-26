@@ -42,6 +42,10 @@ export function EmbedPlayer({ type, id, autoplay = false }: EmbedPlayerProps) {
             className="aspect-video w-full"
             allow="autoplay; fullscreen; encrypted-media"
             allowFullScreen
+            // YouTube refuses playback without a `Referer` (error 153), and apps may send
+            // `Referrer-Policy: no-referrer`: the frame asks for the browser default just for
+            // itself, so the origin goes along but the post path does not.
+            referrerPolicy="strict-origin-when-cross-origin"
           />
         </div>
       ) : (
