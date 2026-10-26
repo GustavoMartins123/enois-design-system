@@ -21,6 +21,7 @@ export {
 } from "./dialog.js";
 export { EmojiPicker } from "./emoji-picker.js";
 export { EmptyState } from "./empty-state.js";
+export { GithubIcon } from "./github-icon.js";
 export { Input } from "./input.js";
 export { Label } from "./label.js";
 export { LoadingState } from "./loading-state.js";

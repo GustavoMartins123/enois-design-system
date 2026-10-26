@@ -1,0 +1,80 @@
+import { useState } from "react";
+
+import { AlertTriangle, ChevronDown, Copy } from "lucide-react";
+
+import { useMessages } from "../../messages/messages-context.js";
+import type { ErrorBannerProps } from "../../types/patterns/error-banner-props.js";
+
+export function ErrorBanner({
+  message,
+  details,
+  hint,
+  className,
+  showDetails = true,
+}: ErrorBannerProps) {
+  const messages = useMessages().errorBanner;
+  const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const copy = () => {
+    const text = [
+      messages.error(message),
+      ...details.map((d) => `  ${d}`),
+      hint ? messages.suggestion(hint) : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+    navigator.clipboard?.writeText(text).catch(() => {});
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
+
+  return (
+    <div
+      className={`space-y-1.5 rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-2.5 text-sm text-destructive ${className ?? ""}`}
+      role="alert"
+    >
+      <div className="flex items-start justify-between gap-3">
+        <p className="flex items-start gap-2">
+          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+
+          <span>{message}</span>
+        </p>
+
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          className="shrink-0 p-0.5 text-destructive/70 transition hover:text-destructive"
+          aria-label={open ? messages.hide : messages.show}
+          title={open ? messages.hide : messages.show}
+        >
+          <ChevronDown className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`} />
+        </button>
+      </div>
+
+      {showDetails && open && (
+        <div className="space-y-2 rounded-lg bg-background/40 p-3 text-xs">
+          <ul className="list-inside list-disc space-y-0.5 text-destructive/90">
+            {details.map((d) => (
+              <li key={d} className="break-all font-mono">
+                {d}
+              </li>
+            ))}
+          </ul>
+          {hint && <p className="font-normal text-destructive/90">{hint}</p>}
+          {details.length > 0 && (
+            <button
+              type="button"
+              onClick={copy}
+              className="inline-flex items-center gap-1 font-medium text-destructive transition hover:underline"
+            >
+              <Copy className="h-3 w-3" />
+
+              <>{copied ? messages.copied : messages.copy}</>
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}

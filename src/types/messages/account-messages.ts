@@ -1,0 +1,51 @@
+export type AccountMessages = {
+  accountMenu: {
+    trigger: string;
+    triggerLabel: string;
+    profile: string;
+    identity: string;
+    socialIdentity: string;
+    corporateIdentity: string;
+    corporateProfile: string;
+    wallet: string;
+    marketplace: string;
+    changeEmail: string;
+    changePassword: string;
+    support: string;
+    blockedUsers: string;
+    myReports: string;
+    moderator: string;
+    sanctions: string;
+    linkedAccounts: string;
+    healthyUsage: string;
+    guardian: string;
+    security: string;
+    apoie: string;
+    deleteAccount: string;
+    logout: string;
+    loggingOut: string;
+  };
+  pushToggle: { on: string; off: string; working: string };
+  ageGate: {
+    title: string;
+    description: string;
+    label: string;
+    confirm: string;
+    later: string;
+    invalid: string;
+    parental: {
+      title: string;
+      description: string;
+      howItWorks: string;
+      emailLabel: string;
+      invite: string;
+      inviting: string;
+      sentFor: (email: string) => string;
+      waiting: string;
+      checkAgain: string;
+      checking: string;
+      later: string;
+      invalidEmail: string;
+    };
+  };
+};

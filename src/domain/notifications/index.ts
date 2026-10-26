@@ -1,0 +1,12 @@
+export { NotificationsPopover } from "./notifications-popover.js";
+export { NotificationItem } from "./notification-item.js";
+export { ConnectionRequestItem } from "./connection-request-item.js";
+export { notificationMeta } from "./notification-meta.js";
+export type { ConnectionRequestData } from "../../types/domain/notifications/connection-request-data.js";
+export type { ConnectionRequestItemProps } from "../../types/domain/notifications/connection-request-item-props.js";
+export type { ConnectionRequestProfile } from "../../types/domain/notifications/connection-request-profile.js";
+export type { NotificationData } from "../../types/domain/notifications/notification-data.js";
+export type { NotificationItemProps } from "../../types/domain/notifications/notification-item-props.js";
+export type { NotificationMeta } from "../../types/domain/notifications/notification-meta.js";
+export type { NotificationTab } from "../../types/domain/notifications/notification-tab.js";
+export type { NotificationsPopoverProps } from "../../types/domain/notifications/notifications-popover-props.js";
