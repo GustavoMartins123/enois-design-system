@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { CommunityCardSkeletons } from "./community-card-skeletons.js";
 import { CommunityCard } from "./community-card.js";
+import { CommunityChannels } from "./community-channels.js";
 import { CommunityFavoriteButton } from "./community-favorite-button.js";
 
 const meta: Meta = {
@@ -70,4 +71,36 @@ export const OwnerBlocked: StoryObj = {
 
 export const Loading: StoryObj = {
   render: () => <CommunityCardSkeletons count={3} />,
+};
+
+const topics = [
+  { value: "TECNOLOGIA", label: "Tecnologia" },
+  { value: "CARREIRA", label: "Carreira" },
+];
+
+export const Channels: StoryObj = {
+  render: () => (
+    <CommunityChannels
+      joined
+      loading={false}
+      topics={topics}
+      channels={[
+        { id: "ch1", name: "Bastidores", href: "#", topicLabel: "Carreira", description: null },
+        { id: "ch2", name: "Dúvidas", href: "#", topicLabel: null, description: "Pergunte aqui." },
+      ]}
+      onCreate={async () => null}
+    />
+  ),
+};
+
+export const ChannelsLocked: StoryObj = {
+  render: () => (
+    <CommunityChannels
+      joined={false}
+      loading={false}
+      topics={topics}
+      channels={[]}
+      onCreate={async () => null}
+    />
+  ),
 };

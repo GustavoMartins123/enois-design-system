@@ -6,6 +6,8 @@ import { authMessages } from "./defaults/auth.js";
 import { avatarMessages } from "./defaults/avatar.js";
 import { blogMessages } from "./defaults/blog.js";
 import { communitiesMessages } from "./defaults/communities.js";
+import { conversationsMessages } from "./defaults/conversations.js";
+import { developersMessages } from "./defaults/developers.js";
 import { editorMessages } from "./defaults/editor.js";
 import { gamesMessages } from "./defaults/games.js";
 import { jobsMessages } from "./defaults/jobs.js";
@@ -20,6 +22,7 @@ import { searchMessages } from "./defaults/search.js";
 import { securityMessages } from "./defaults/security.js";
 import { shellMessages } from "./defaults/shell.js";
 import { supportUsMessages } from "./defaults/support-us.js";
+import { supportMessages } from "./defaults/support.js";
 import { uiMessages } from "./defaults/ui.js";
 import { walletMessages } from "./defaults/wallet.js";
 import { wellbeingMessages } from "./defaults/wellbeing.js";
@@ -45,6 +48,9 @@ export const defaultMessages: Messages = {
   ...walletMessages,
   ...securityMessages,
   ...profileMessages,
+  ...developersMessages,
+  ...supportMessages,
+  ...conversationsMessages,
   ...marketplaceMessages,
   ...blogMessages,
   ...jobsMessages,

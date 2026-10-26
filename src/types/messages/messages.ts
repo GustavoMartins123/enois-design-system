@@ -4,6 +4,8 @@ import type { AuthMessages } from "./auth-messages.js";
 import type { AvatarMessages } from "./avatar-messages.js";
 import type { BlogMessages } from "./blog-messages.js";
 import type { CommunitiesMessages } from "./communities-messages.js";
+import type { ConversationsMessages } from "./conversations-messages.js";
+import type { DevelopersMessages } from "./developers-messages.js";
 import type { EditorMessages } from "./editor-messages.js";
 import type { GamesMessages } from "./games-messages.js";
 import type { JobsMessages } from "./jobs-messages.js";
@@ -17,6 +19,7 @@ import type { PwaMessages } from "./pwa-messages.js";
 import type { SearchMessages } from "./search-messages.js";
 import type { SecurityMessages } from "./security-messages.js";
 import type { ShellMessages } from "./shell-messages.js";
+import type { SupportMessages } from "./support-messages.js";
 import type { SupportUsMessages } from "./support-us-messages.js";
 import type { UiMessages } from "./ui-messages.js";
 import type { WalletMessages } from "./wallet-messages.js";
@@ -49,4 +52,7 @@ export type Messages = UiMessages &
   ProfileMessages &
   JobsMessages &
   BlogMessages &
-  MarketplaceMessages;
+  MarketplaceMessages &
+  ConversationsMessages &
+  SupportMessages &
+  DevelopersMessages;

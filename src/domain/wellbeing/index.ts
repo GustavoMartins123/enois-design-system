@@ -1,2 +1,10 @@
+export { HealthyUsageDialog } from "./healthy-usage-dialog.js";
+export { HealthyUsageReminder } from "./healthy-usage-reminder.js";
 export { NightRestReminder } from "./night-rest-reminder.js";
+export type { HealthyUsageDeviceSettings } from "../../types/domain/wellbeing/healthy-usage-device-settings.js";
+export type { HealthyUsageDialogProps } from "../../types/domain/wellbeing/healthy-usage-dialog-props.js";
+export type { HealthyUsagePersonalization } from "../../types/domain/wellbeing/healthy-usage-personalization.js";
+export type { HealthyUsageReminderProps } from "../../types/domain/wellbeing/healthy-usage-reminder-props.js";
+export type { HealthyUsageTopicOption } from "../../types/domain/wellbeing/healthy-usage-topic-option.js";
+export type { HealthyUsageValues } from "../../types/domain/wellbeing/healthy-usage-values.js";
 export type { NightRestReminderProps } from "../../types/domain/wellbeing/night-rest-reminder-props.js";

@@ -6,4 +6,22 @@ export type CommunitiesMessages = {
     ownerLeaveBlocked: string;
   };
   communityFavoriteButton: { favorite: string; unfavorite: string };
+  communityChannels: {
+    title: string;
+    subtitle: string;
+    locked: string;
+    create: string;
+    createTitle: string;
+    name: string;
+    namePlaceholder: string;
+    topic: string;
+    topicNone: string;
+    description: string;
+    descriptionPlaceholder: string;
+    cancel: string;
+    confirm: string;
+    creating: string;
+    empty: string;
+    invalidName: string;
+  };
 };
