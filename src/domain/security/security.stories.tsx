@@ -1,0 +1,101 @@
+import { useState } from "react";
+
+import type { Meta, StoryObj } from "@storybook/react-vite";
+
+import { IdentitySection } from "./identity-section.js";
+import { IdentityVerificationSection } from "./identity-verification-section.js";
+import { LinkedinImportSection } from "./linkedin-import-section.js";
+
+const meta: Meta = {
+  title: "Domain/Security",
+};
+
+export default meta;
+
+export const Identity: StoryObj = {
+  render: function IdentityStory() {
+    const [badges, setBadges] = useState<string[]>([]);
+    return (
+      <IdentitySection
+        identity={{ socialName: "Ana", nickname: null, pronouns: "ela/dela" }}
+        onSave={() => {}}
+        badges={badges}
+        onAddBadge={() => {}}
+        onRemoveBadge={(url) => setBadges(badges.filter((badge) => badge !== url))}
+      />
+    );
+  },
+};
+
+export const Verification: StoryObj = {
+  render: () => (
+    <IdentityVerificationSection
+      status={{ state: "VERIFIED", verified: true, provider: "demo", providerAvailable: true }}
+      onStart={() => {}}
+      onRefresh={() => {}}
+      onRevoke={() => {}}
+    />
+  ),
+};
+
+export const VerificationUnavailable: StoryObj = {
+  render: () => (
+    <IdentityVerificationSection
+      status={{ state: "NOT_VERIFIED", verified: false, providerAvailable: false }}
+      onStart={() => {}}
+      onRefresh={() => {}}
+      onRevoke={() => {}}
+    />
+  ),
+};
+
+const base = {
+  onImportArchive: () => {},
+  onImportText: () => {},
+  onImportResume: () => {},
+  onSave: () => {},
+  onCancelPreview: () => {},
+};
+
+export const LinkedinImport: StoryObj = {
+  render: function LinkedinImportStory() {
+    const [pasteOpen, setPasteOpen] = useState(false);
+    return (
+      <LinkedinImportSection
+        {...base}
+        linkedinConnected
+        preview={null}
+        selected={{}}
+        onToggle={() => {}}
+        pasteOpen={pasteOpen}
+        onPasteOpenChange={setPasteOpen}
+      />
+    );
+  },
+};
+
+export const LinkedinImportPreview: StoryObj = {
+  render: function LinkedinImportPreviewStory() {
+    const [selected, setSelected] = useState<Record<string, boolean>>({ perfil: true, exp0: true });
+    return (
+      <LinkedinImportSection
+        {...base}
+        linkedinConnected
+        preview={{
+          profile: { headline: "Dev front-end", location: "Recife", summary: "Resumo" },
+          skills: ["React", "TypeScript"],
+          experiences: [{ title: "Dev", company: "Énóis" }],
+          education: [],
+          certifications: [],
+          projects: [],
+          semEstrutura: { Idiomas: 2 },
+          found: 3,
+        }}
+        selected={selected}
+        onToggle={(key) => setSelected({ ...selected, [key]: !selected[key] })}
+        pasteOpen={false}
+        onPasteOpenChange={() => {}}
+      />
+    );
+  },
+};

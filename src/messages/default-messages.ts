@@ -14,6 +14,7 @@ import { postMessages } from "./defaults/post.js";
 import { profileMessages } from "./defaults/profile.js";
 import { pwaMessages } from "./defaults/pwa.js";
 import { searchMessages } from "./defaults/search.js";
+import { securityMessages } from "./defaults/security.js";
 import { shellMessages } from "./defaults/shell.js";
 import { supportUsMessages } from "./defaults/support-us.js";
 import { uiMessages } from "./defaults/ui.js";
@@ -39,5 +40,6 @@ export const defaultMessages: Messages = {
   ...gamesMessages,
   ...appearanceMessages,
   ...walletMessages,
+  ...securityMessages,
   ...profileMessages,
 };

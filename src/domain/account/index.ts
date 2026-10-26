@@ -1,5 +1,11 @@
 export { AccountMenu } from "./account-menu.js";
 export { AgeGate } from "./age-gate.js";
+export { BlockUserDialog } from "./block-user-dialog.js";
+export { ChangeEmailDialog } from "./change-email-dialog.js";
+export { ChangePasswordDialog } from "./change-password-dialog.js";
+export { DeleteAccountDialog } from "./delete-account-dialog.js";
+export { LinkedAccountsDialog } from "./linked-accounts-dialog.js";
+export { LinkedInSyncPrompt } from "./linkedin-sync-prompt.js";
 export { PushToggle } from "./push-toggle.js";
 export type { AccountIdentity } from "../../types/domain/account/account-identity.js";
 export type { AccountMenuHrefs } from "../../types/domain/account/account-menu-hrefs.js";
@@ -7,4 +13,14 @@ export type { AccountMenuProfile } from "../../types/domain/account/account-menu
 export type { AccountMenuProps } from "../../types/domain/account/account-menu-props.js";
 export type { AgeGateMode } from "../../types/domain/account/age-gate-mode.js";
 export type { AgeGateProps } from "../../types/domain/account/age-gate-props.js";
+export type { BlockUserDialogProps } from "../../types/domain/account/block-user-dialog-props.js";
+export type { ChangeEmailDialogProps } from "../../types/domain/account/change-email-dialog-props.js";
+export type { ChangeEmailValues } from "../../types/domain/account/change-email-values.js";
+export type { ChangePasswordDialogProps } from "../../types/domain/account/change-password-dialog-props.js";
+export type { ChangePasswordValues } from "../../types/domain/account/change-password-values.js";
+export type { DeleteAccountDialogProps } from "../../types/domain/account/delete-account-dialog-props.js";
+export type { LinkedAccountsDialogProps } from "../../types/domain/account/linked-accounts-dialog-props.js";
+export type { LinkedInSyncPromptProps } from "../../types/domain/account/linkedin-sync-prompt-props.js";
+export type { LinkedProviderRow } from "../../types/domain/account/linked-provider-row.js";
+export type { LinkedinSyncStatus } from "../../types/domain/account/linkedin-sync-status.js";
 export type { PushToggleProps } from "../../types/domain/account/push-toggle-props.js";

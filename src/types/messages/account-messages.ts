@@ -48,4 +48,79 @@ export type AccountMessages = {
       invalidEmail: string;
     };
   };
+  changeEmailDialog: {
+    title: string;
+    description: string;
+    current: (email: string) => string;
+    newEmail: string;
+    newEmailPlaceholder: string;
+    password: string;
+    passwordHint: string;
+    action: string;
+    saving: string;
+    success: string;
+    invalidEmail: string;
+    sameEmail: string;
+    close: string;
+  };
+  changePasswordDialog: {
+    title: string;
+    titleCreate: string;
+    description: string;
+    descriptionCreate: string;
+    current: string;
+    newPassword: string;
+    confirm: string;
+    action: string;
+    actionCreate: string;
+    saving: string;
+    tooShort: string;
+    mismatch: string;
+  };
+  deleteAccountDialog: {
+    title: string;
+    description: string;
+    consequences: readonly string[];
+    password: string;
+    confirm: string;
+    action: string;
+    deleting: string;
+  };
+  linkedAccountsDialog: {
+    title: string;
+    description: string;
+    linked: string;
+    notLinked: string;
+    link: (provider: string) => string;
+    unlink: string;
+    linkedinSync: {
+      toggle: string;
+      toggleHint: string;
+      lastShareOk: string;
+      lastShareFailed: (detail: string) => string;
+      notReady: string;
+      serverKey: string;
+      reconnect: string;
+      reconnectHint: string;
+    };
+  };
+  linkedInSyncPrompt: {
+    promptTitle: string;
+    promptBody: string;
+    notReady: string;
+    serverKey: string;
+    yes: string;
+    no: string;
+    close: string;
+  };
+  blockUserDialog: {
+    blockUser: string;
+    unblockUser: string;
+    blockTitle: (name: string) => string;
+    unblockTitle: (name: string) => string;
+    blockDescription: string;
+    unblockDescription: string;
+    blockError: string;
+    cancel: string;
+  };
 };

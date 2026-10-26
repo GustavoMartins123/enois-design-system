@@ -1,0 +1,57 @@
+import type { IdentityVerificationState } from "../domain/security/identity-verification-state.js";
+
+export type SecurityMessages = {
+  identitySection: {
+    title: string;
+    hint: string;
+    socialName: string;
+    nickname: string;
+    pronouns: string;
+    placeholderOptional: string;
+    pronounsPlaceholder: string;
+    save: string;
+    badgesTitle: string;
+    badgesHint: string;
+    badgesAdd: string;
+    badgesRemove: string;
+    badgesFull: string;
+    sending: string;
+  };
+  identityVerificationSection: {
+    title: string;
+    subtitle: string;
+    states: Record<IdentityVerificationState, string>;
+    start: string;
+    refresh: string;
+    revoke: string;
+    unavailable: string;
+    whatWeStore: string;
+    whoProcesses: string;
+    badgeLabel: string;
+    badgeHint: string;
+  };
+  linkedinImportSection: {
+    semEstrutura: (lista: string) => string;
+    connectFirst: string;
+    title: string;
+    hint: string;
+    button: string;
+    getArchive: string;
+    tooLarge: (mb: number) => string;
+    pasteToggle: string;
+    pastePlaceholder: string;
+    pasteRead: string;
+    found: (count: number) => string;
+    save: string;
+    resumeButton: string;
+    resumeHint: string;
+    resumeWrongFormat: string;
+    resumeTooLarge: string;
+    readingResume: string;
+    loading: string;
+    cancel: string;
+    profileRow: string;
+    profileRowSummary: string;
+    skillsRow: string;
+  };
+};
