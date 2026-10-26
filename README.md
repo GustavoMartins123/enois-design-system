@@ -56,6 +56,10 @@ import { Button, ToastProvider } from "@rede-enois/design-system/ui";
 </EnoisProvider>;
 ```
 
+## Migrating components from the front
+
+See [docs/component-migration.md](docs/component-migration.md).
+
 ## Development
 
 ```bash

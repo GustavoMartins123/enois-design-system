@@ -1,19 +1,10 @@
+import type { AvatarMessages } from "./avatar-messages.js";
+import type { CommunitiesMessages } from "./communities-messages.js";
+import type { UiMessages } from "./ui-messages.js";
+
 /**
- * Fixed microcopy owned by the design system components (accessible labels, empty states,
- * counters). Content and product copy never live here: they come from the app through props.
+ * Fixed microcopy owned by the design system components (accessible labels, headings, empty
+ * states, counters), keyed by component. Content and product copy never live here: they come
+ * from the app through props. Each feature adds its own `<Feature>Messages` type to this union.
  */
-export type Messages = {
-  dialog: { close: string };
-  sheet: { close: string };
-  confirmDialog: { cancel: string; pending: string };
-  charCounter: {
-    progress: (used: number, max: number) => string;
-    left: (count: number) => string;
-    limitReached: string;
-  };
-  passwordInput: { show: string; hide: string };
-  emojiPicker: { search: string; empty: string };
-  readMore: { more: string; less: string };
-  toast: { region: string; dismiss: string };
-  dateTextInput: { placeholder: string; invalid: string; outOfRange: string };
-};
+export type Messages = UiMessages & AvatarMessages & CommunitiesMessages;

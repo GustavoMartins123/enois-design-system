@@ -1,3 +1,4 @@
+export { AppLink } from "./app-link.js";
 export { Avatar, AvatarFallback, AvatarImage } from "./avatar.js";
 export { Badge } from "./badge.js";
 export { badgeVariants } from "./badge-variants.js";

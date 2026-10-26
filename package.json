@@ -1,6 +1,6 @@
 {
   "name": "@rede-enois/design-system",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Énois design system: tokens and React components consumed by enois-frontend.",
   "license": "GPL-3.0-only",
   "type": "module",
@@ -28,6 +28,14 @@
     "./ui": {
       "types": "./dist/ui/index.d.ts",
       "import": "./dist/ui/index.js"
+    },
+    "./patterns": {
+      "types": "./dist/patterns/index.d.ts",
+      "import": "./dist/patterns/index.js"
+    },
+    "./domain": {
+      "types": "./dist/domain/index.d.ts",
+      "import": "./dist/domain/index.js"
     },
     "./styles.css": "./dist/styles.css"
   },
