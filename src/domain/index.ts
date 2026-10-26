@@ -17,3 +17,6 @@ export * from "./appearance/index.js";
 export * from "./wallet/index.js";
 export * from "./security/index.js";
 export * from "./profile/index.js";
+export * from "./jobs/index.js";
+export * from "./blog/index.js";
+export * from "./marketplace/index.js";

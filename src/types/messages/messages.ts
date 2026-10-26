@@ -2,10 +2,13 @@ import type { AccountMessages } from "./account-messages.js";
 import type { AppearanceMessages } from "./appearance-messages.js";
 import type { AuthMessages } from "./auth-messages.js";
 import type { AvatarMessages } from "./avatar-messages.js";
+import type { BlogMessages } from "./blog-messages.js";
 import type { CommunitiesMessages } from "./communities-messages.js";
 import type { EditorMessages } from "./editor-messages.js";
 import type { GamesMessages } from "./games-messages.js";
+import type { JobsMessages } from "./jobs-messages.js";
 import type { LegalMessages } from "./legal-messages.js";
+import type { MarketplaceMessages } from "./marketplace-messages.js";
 import type { NotificationsMessages } from "./notifications-messages.js";
 import type { PatternsMessages } from "./patterns-messages.js";
 import type { PostMessages } from "./post-messages.js";
@@ -43,4 +46,7 @@ export type Messages = UiMessages &
   AppearanceMessages &
   WalletMessages &
   SecurityMessages &
-  ProfileMessages;
+  ProfileMessages &
+  JobsMessages &
+  BlogMessages &
+  MarketplaceMessages;

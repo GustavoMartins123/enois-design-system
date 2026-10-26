@@ -4,10 +4,13 @@ import { accountMessages } from "./defaults/account.js";
 import { appearanceMessages } from "./defaults/appearance.js";
 import { authMessages } from "./defaults/auth.js";
 import { avatarMessages } from "./defaults/avatar.js";
+import { blogMessages } from "./defaults/blog.js";
 import { communitiesMessages } from "./defaults/communities.js";
 import { editorMessages } from "./defaults/editor.js";
 import { gamesMessages } from "./defaults/games.js";
+import { jobsMessages } from "./defaults/jobs.js";
 import { legalMessages } from "./defaults/legal.js";
+import { marketplaceMessages } from "./defaults/marketplace.js";
 import { notificationsMessages } from "./defaults/notifications.js";
 import { patternsMessages } from "./defaults/patterns.js";
 import { postMessages } from "./defaults/post.js";
@@ -42,4 +45,7 @@ export const defaultMessages: Messages = {
   ...walletMessages,
   ...securityMessages,
   ...profileMessages,
+  ...marketplaceMessages,
+  ...blogMessages,
+  ...jobsMessages,
 };
