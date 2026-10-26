@@ -1,5 +1,6 @@
 import { Fragment, useState } from "react";
 
+import { safeHref } from "../../lib/safe-href.js";
 import { useMessages } from "../../messages/messages-context.js";
 import type { ProfileProjectsSectionProps } from "../../types/domain/profile/profile-projects-section-props.js";
 import { Button } from "../../ui/button.js";
@@ -80,7 +81,7 @@ export function ProfileProjectsSection({
 
                 {project.repoUrl && (
                   <a
-                    href={project.repoUrl}
+                    href={safeHref(project.repoUrl) ?? undefined}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-2 inline-flex items-center gap-1 text-xs font-normal text-primary hover:underline"
