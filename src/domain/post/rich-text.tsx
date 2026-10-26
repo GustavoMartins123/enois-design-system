@@ -3,6 +3,7 @@ import { Fragment, type Key, type ReactNode, useMemo } from "react";
 import { useAdapters } from "../../adapters/adapters-context.js";
 import { splitByInlineMedia } from "../../lib/rich-text/inline-media.js";
 import { parseRichText } from "../../lib/rich-text/parse.js";
+import { safeHref } from "../../lib/safe-href.js";
 import { directMediaKind, gifMediaUrl } from "../../lib/shared-links.js";
 import { cn } from "../../lib/utils.js";
 import { useMessages } from "../../messages/messages-context.js";
@@ -238,13 +239,13 @@ function renderInline(nodes: RichNode[], ctx: RichTextContext, mediaSpoiler = fa
         if (isMidiaDireta(node.href)) {
           return renderMidia(node.href!, index, ctx, mediaSpoiler);
         }
-        if (!safeRichHref(node.href)) {
+        if (!safeHref(node.href)) {
           return <span key={index}>{inner}</span>;
         }
         return (
           <a
             key={index}
-            href={safeRichHref(node.href) ?? undefined}
+            href={safeHref(node.href) ?? undefined}
             target="_blank"
             rel="noopener noreferrer"
             className={cn("break-words", ctx.linkClass)}
@@ -273,7 +274,7 @@ function renderInline(nodes: RichNode[], ctx: RichTextContext, mediaSpoiler = fa
         ) : (
           <a
             key={index}
-            href={node.href}
+            href={safeHref(node.href) ?? undefined}
             target="_blank"
             rel="noopener noreferrer"
             className={cn("break-words", ctx.linkClass)}
@@ -293,14 +294,6 @@ const HEADING_SIZE: Record<number, string> = {
   2: "text-base",
   3: "text-base",
 };
-
-/** Defesa extra na renderização: só http(s) e caminho relativo viram href (E-07). */
-function safeRichHref(href?: string | null): string | null {
-  if (!href) return null;
-  if (href.startsWith("/") || href.startsWith("#")) return href;
-  const scheme = /^([a-z][a-z0-9+.-]*):/i.exec(href)?.[1]?.toLowerCase();
-  return scheme === undefined || scheme === "http" || scheme === "https" ? href : null;
-}
 
 /** O endereço é MÍDIA direta (GIF de Giphy/Tenor, imagem/vídeo/áudio por extensão)? */
 function isMidiaDireta(href?: string | null): boolean {
