@@ -18,7 +18,7 @@ export function AuthenticatedAppHeader({
     <AppHeaderLayout>
       <button
         onClick={onOpenNavigation}
-        className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-primary md:hidden"
+        className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-primary lg:hidden"
         aria-label={messages.openMenu}
         title={messages.openMenu}
       >
