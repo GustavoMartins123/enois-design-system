@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { FolderKanban, Globe } from "lucide-react";
 
+import { safeHref } from "../../lib/safe-href.js";
 import { useMessages } from "../../messages/messages-context.js";
 import { ListRowSkeletons } from "../../patterns/skeletons/list-row-skeletons.js";
 import type { ProjectsReviewSectionProps } from "../../types/domain/moderation/projects-review-section-props.js";
@@ -59,7 +60,7 @@ export function ProjectsReviewSection({
                 <div className="flex flex-wrap gap-3 pt-1 text-xs">
                   {project.url && (
                     <a
-                      href={project.url}
+                      href={safeHref(project.url) ?? undefined}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 text-primary hover:underline"
@@ -72,7 +73,7 @@ export function ProjectsReviewSection({
 
                   {project.repoUrl && (
                     <a
-                      href={project.repoUrl}
+                      href={safeHref(project.repoUrl) ?? undefined}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-primary hover:underline"
