@@ -11,6 +11,7 @@ import { Button } from "../../../ui/button.js";
 import { ReadMore } from "../../../ui/read-more.js";
 import { UserAvatar } from "../../avatar/user-avatar.js";
 import { UserBadges } from "../../badges/user-badges.js";
+import { ContributorTag } from "../../name/contributor-tag.js";
 import { StyledName } from "../../name/styled-name.js";
 import { LinkPreviews } from "../media/link-previews.js";
 import { ReactionPicker } from "../reactions/reaction-picker.js";
@@ -95,6 +96,10 @@ export function CommentItem<T extends string>({
         <div className="rounded-xl bg-surface-1 px-3 py-2">
           <div className="flex flex-wrap items-center gap-2">
             {profileLink}
+
+            {comment.authorContributor && (
+              <ContributorTag color={comment.authorContributor.color} />
+            )}
 
             <UserBadges badges={comment.authorBadges} badge={comment.authorBadge} />
             {replyingTo && (

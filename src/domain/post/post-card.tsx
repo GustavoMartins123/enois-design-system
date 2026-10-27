@@ -105,6 +105,7 @@ export function PostCard({
         <AuthorInfo
           authorName={post.authorName}
           authorStyle={post.authorStyle}
+          authorContributor={post.authorContributor}
           authorBadge={post.authorBadge}
           authorBadges={post.authorBadges}
           authorAvatar={post.authorAvatar}

@@ -1,9 +1,12 @@
+import type { AuthorContributorTag } from "../name/author-contributor-tag.js";
 import type { AuthorNameStyle } from "../name/author-name-style.js";
 
 export type AuthorInfoProps = {
   authorName: string;
   /** Personalização do nome do autor (tema/fonte/cor). */
   authorStyle?: AuthorNameStyle | null;
+  /** Tag "Contribuinte" quando o autor tem selo ativo; ausente = não é contribuinte. */
+  authorContributor?: AuthorContributorTag | null;
   authorAvatar: string | null;
   authorAvatarFrame?: string | null;
   authorBadge?: string | null;
