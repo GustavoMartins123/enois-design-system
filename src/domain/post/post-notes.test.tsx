@@ -37,4 +37,10 @@ describe("PostNotes", () => {
     expect(html).toContain("Sua nota foi negada: Sem fonte.");
     expect(html).toContain("Adicionar nota de rodapé");
   });
+
+  it("shows the discarded note on its own", () => {
+    const html = renderToStaticMarkup(<PostNotes notes={[]} discarded onSend={onSend} />);
+
+    expect(html).toContain("a sua foi descartada sem penalidade");
+  });
 });

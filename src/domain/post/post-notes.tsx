@@ -29,6 +29,7 @@ export function PostNotes({
   notes,
   pending = false,
   deniedReason = null,
+  discarded = false,
   canAdd = false,
   sending = false,
   onSend,
@@ -40,7 +41,7 @@ export function PostNotes({
   const denied = deniedReason !== null;
   const length = body.trim().length;
 
-  if (notes.length === 0 && !pending && !denied && !canAdd) return null;
+  if (notes.length === 0 && !pending && !denied && !discarded && !canAdd) return null;
 
   const send = async () => {
     if (await onSend(body.trim())) {
@@ -66,6 +67,12 @@ export function PostNotes({
       {denied && (
         <p className="rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2 text-xs text-destructive">
           {messages.denied(deniedReason)}
+        </p>
+      )}
+
+      {discarded && (
+        <p className="rounded-lg bg-surface-2 px-3 py-2 text-xs text-text-subtle">
+          {messages.discarded}
         </p>
       )}
 

@@ -227,6 +227,7 @@ export const postMessages: PostMessages = {
     sending: "Enviando...",
     pending: "Sua nota está em análise pela moderação.",
     denied: (reason) => `Sua nota foi negada: ${reason}`,
+    discarded: "Outra nota foi aprovada para este post; a sua foi descartada sem penalidade.",
     count: (length, max) => `${length}/${max}`,
     time: (time) => `· ${time}`,
   },

@@ -7,7 +7,9 @@ export type PostNotesProps = {
   pending?: boolean;
   /** Motivo da negativa quando a nota de quem lê foi negada; `null` = não foi negada. */
   deniedReason?: string | null;
-  /** Quem lê pode pedir uma nota (logado, não é o autor, ainda não enviou). */
+  /** A nota de quem lê foi descartada porque outra foi aprovada para o post (sem penalidade). */
+  discarded?: boolean;
+  /** Quem lê pode pedir uma nota (logado, não é o autor, ainda não enviou e o post ainda não tem nota aprovada). */
   canAdd?: boolean;
   /** Envio em andamento. */
   sending?: boolean;

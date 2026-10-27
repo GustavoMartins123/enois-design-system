@@ -176,6 +176,7 @@ export type PostMessages = {
     sending: string;
     pending: string;
     denied: (reason: string) => string;
+    discarded: string;
     count: (length: number, max: number) => string;
     time: (time: string) => string;
   };
