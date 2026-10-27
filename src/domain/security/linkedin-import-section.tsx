@@ -36,6 +36,7 @@ export function LinkedinImportSection({
   onSave,
   savePending = false,
   onCancelPreview,
+  contactsSection,
 }: LinkedinImportSectionProps) {
   const messages = useMessages().linkedinImportSection;
   const { toast } = useToast();
@@ -226,6 +227,8 @@ export function LinkedinImportSection({
           </div>
         </div>
       )}
+
+      {contactsSection}
     </div>
   );
 }

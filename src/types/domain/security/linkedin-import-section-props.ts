@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import type { LinkedinImportPreview } from "./linkedin-import-preview.js";
 
 export type LinkedinImportSectionProps = {
@@ -21,4 +23,6 @@ export type LinkedinImportSectionProps = {
   onSave: () => void;
   savePending?: boolean;
   onCancelPreview: () => void;
+  /** Contatos e convite automático; o app só passa com o LinkedIn vinculado. */
+  contactsSection?: ReactNode;
 };

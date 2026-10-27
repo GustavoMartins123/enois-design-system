@@ -73,6 +73,31 @@ export const securityMessages: SecurityMessages = {
     profileRowSummary: " · com o seu resumo",
     skillsRow: "Habilidades: ",
   },
+  linkedinContactsSection: {
+    title: "Convidar contatos do LinkedIn",
+    hint: "O LinkedIn não entrega a sua lista de conexões pela API. Baixe o Connections.csv no arquivo de dados e envie aqui: o Énóis encontra quem já tem conta e manda a solicitação de conexão.",
+    import: "Enviar Connections.csv",
+    importHint:
+      "Aceita o CSV (ou o ZIP da exportação), até 5 MB. Só nome e e-mail são usados para encontrar a pessoa; empresa, cargo e URL são descartados.",
+    tooLarge: (mb) => `O arquivo passa de ${mb} MB.`,
+    importing: "Lendo seus contatos...",
+    loadError: "Não foi possível carregar os seus contatos do LinkedIn.",
+    retry: "Tentar de novo",
+    autoInvite: "Enviar convites automaticamente",
+    autoInviteHint:
+      "Ligado, cada contato importado que ainda não está conectado recebe uma solicitação sua. Quem tiver mais de um perfil com o mesmo nome fica de fora.",
+    summary: (contacts, invited) =>
+      `${contacts} ${contacts === 1 ? "contato importado" : "contatos importados"} · ` +
+      `${invited} ${invited === 1 ? "convite enviado" : "convites enviados"}`,
+    details: (detalhes) => `Também: ${detalhes}.`,
+    already: (count) => `${count} já ${count === 1 ? "era conexão" : "eram conexões"}`,
+    pending: (count) =>
+      `${count} já ${count === 1 ? "tinha pedido" : "tinham pedido"} para conectar`,
+    queued: (count) => `${count} na fila`,
+    missing: (count) => `${count} sem conta no Énóis`,
+    ambiguous: (count) => `${count} com nome ambíguo`,
+    skipped: (count) => `${count} não ${count === 1 ? "enviado" : "enviados"}`,
+  },
   gitHubLinkCard: {
     title: "GitHub para selos de contribuição",
     description:

@@ -5,6 +5,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { GitHubLinkCard } from "./github-link-card.js";
 import { IdentitySection } from "./identity-section.js";
 import { IdentityVerificationSection } from "./identity-verification-section.js";
+import { LinkedinContactsSection } from "./linkedin-contacts-section.js";
 import { LinkedinImportSection } from "./linkedin-import-section.js";
 
 const meta: Meta = {
@@ -70,6 +71,24 @@ export const LinkedinImport: StoryObj = {
         onToggle={() => {}}
         pasteOpen={pasteOpen}
         onPasteOpenChange={setPasteOpen}
+        contactsSection={
+          <LinkedinContactsSection
+            summary={{
+              autoInvite: true,
+              contacts: 42,
+              invited: 12,
+              pending: 2,
+              alreadyConnected: 5,
+              noMatch: 20,
+              ambiguous: 1,
+              skipped: 0,
+              queued: 2,
+            }}
+            onRetry={() => {}}
+            onAutoInviteChange={() => {}}
+            onImport={() => {}}
+          />
+        }
       />
     );
   },

@@ -54,6 +54,26 @@ export type SecurityMessages = {
     profileRowSummary: string;
     skillsRow: string;
   };
+  linkedinContactsSection: {
+    title: string;
+    hint: string;
+    import: string;
+    importHint: string;
+    tooLarge: (mb: number) => string;
+    importing: string;
+    loadError: string;
+    retry: string;
+    autoInvite: string;
+    autoInviteHint: string;
+    summary: (contacts: number, invited: number) => string;
+    details: (detalhes: string) => string;
+    already: (count: number) => string;
+    pending: (count: number) => string;
+    queued: (count: number) => string;
+    missing: (count: number) => string;
+    ambiguous: (count: number) => string;
+    skipped: (count: number) => string;
+  };
   gitHubLinkCard: {
     title: string;
     description: string;
