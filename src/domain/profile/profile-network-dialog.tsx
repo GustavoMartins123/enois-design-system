@@ -3,6 +3,7 @@ import type { ProfileNetworkDialogProps } from "../../types/domain/profile/profi
 import { AppLink } from "../../ui/app-link.js";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../ui/dialog.js";
 import { UserAvatar } from "../avatar/user-avatar.js";
+import { StyledName } from "../name/styled-name.js";
 
 export function ProfileNetworkDialog({
   name,
@@ -55,7 +56,7 @@ export function ProfileNetworkDialog({
 
                 <span className="min-w-0">
                   <span className="block truncate text-sm font-medium text-text-strong">
-                    {person.name}
+                    <StyledName name={person.name} style={person.nameStyle} />
                   </span>
 
                   <span className="block truncate text-xs text-text-subtle">
