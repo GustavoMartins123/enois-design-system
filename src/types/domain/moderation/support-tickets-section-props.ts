@@ -23,6 +23,8 @@ export type SupportTicketsSectionProps = {
   onStart: (ticketId: string) => void;
   onResolve: (ticketId: string) => void;
   onReopen: (ticketId: string) => void;
+  /** The conversation of a ticket (`TicketThread`), above the reply form. */
+  renderThread: (ticket: SupportTicketData) => ReactNode;
   /** The reply form of a ticket (`TicketReply`). */
   renderReply: (ticketId: string) => ReactNode;
 };

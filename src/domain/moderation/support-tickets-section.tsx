@@ -1,11 +1,12 @@
 import { LifeBuoy } from "lucide-react";
 
 import { safeHref } from "../../lib/safe-href.js";
-import { cn } from "../../lib/utils.js";
 import { useMessages } from "../../messages/messages-context.js";
 import { ListRowSkeletons } from "../../patterns/skeletons/list-row-skeletons.js";
 import type { SupportTicketsSectionProps } from "../../types/domain/moderation/support-tickets-section-props.js";
 import { Button } from "../../ui/button.js";
+
+import { FilterChip } from "./filter-chip.js";
 
 /**
  * Tickets de suporte do painel central. A aba "Issues" usa o mesmo componente com `lockedCategory`
@@ -26,6 +27,7 @@ export function SupportTicketsSection({
   onStart,
   onResolve,
   onReopen,
+  renderThread,
   renderReply,
 }: SupportTicketsSectionProps) {
   const messages = useMessages().supportTicketsSection;
@@ -188,21 +190,7 @@ export function SupportTicketsSection({
                 )}
               </div>
 
-              {ticket.adminReply && (
-                <div className="rounded-xl border border-primary/30 bg-primary-soft px-3 py-2">
-                  <p className="text-xs font-medium text-primary-text">
-                    {messages.adminReplyLabel}
-                  </p>
-
-                  <p className="mt-1 whitespace-pre-wrap break-words text-sm text-text-strong">
-                    {ticket.adminReply}
-                  </p>
-
-                  {ticket.repliedAtLabel && (
-                    <p className="mt-1 text-xs text-text-subtle">{ticket.repliedAtLabel}</p>
-                  )}
-                </div>
-              )}
+              {renderThread(ticket)}
 
               {renderReply(ticket.id)}
             </li>
@@ -210,30 +198,5 @@ export function SupportTicketsSection({
         </ul>
       )}
     </section>
-  );
-}
-
-function FilterChip({
-  active,
-  label,
-  onClick,
-}: {
-  active: boolean;
-  label: string;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        "rounded-full border px-3 py-1 text-xs font-medium transition",
-        active
-          ? "border-primary bg-primary text-primary-foreground"
-          : "border-border-soft text-text-subtle hover:border-primary/50 hover:text-primary",
-      )}
-    >
-      {label}
-    </button>
   );
 }

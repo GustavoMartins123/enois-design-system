@@ -95,12 +95,81 @@ export type ModerationMessages = {
     start: string;
     resolve: string;
     reopen: string;
-    adminReplyLabel: string;
     from: string;
     image: string;
     noMessage: string;
     githubIssue: string;
     categories: Record<string, string>;
+  };
+  ticketThread: {
+    adminReplyLabel: string;
+    title: string;
+    hint: string;
+    github: string;
+    enois: string;
+    error: string;
+  };
+  pullRequestsSection: {
+    title: string;
+    description: string;
+    empty: string;
+    approve: string;
+    requestChanges: string;
+    cancel: string;
+    commentLabel: string;
+    commentPlaceholder: string;
+    send: string;
+    writeHint: string;
+    connectWrite: string;
+    openOnGithub: string;
+    by: (login: string) => string;
+  };
+  contributionsSection: {
+    title: string;
+    description: string;
+    filterAll: string;
+    kindAll: string;
+    kind: Record<string, string>;
+    kindLabel: Record<string, string>;
+    status: Record<string, string>;
+    sync: string;
+    syncDryRun: string;
+    syncFull: string;
+    syncing: string;
+    syncDone: (
+      created: number,
+      updated: number,
+      fetched: number,
+      issuesCreated: number,
+      issuesUpdated: number,
+      issuesFetched: number,
+    ) => string;
+    syncDetails: (detailsFetched: number, revertedFlagged: number) => string;
+    rateLimited: string;
+    empty: string;
+    error: string;
+    refresh: string;
+    reviewNotePlaceholder: string;
+    validate: string;
+    reject: string;
+    contest: string;
+    revokeEvidence: string;
+    mergedAt: string;
+    closedAt: string;
+    labels: string;
+    tests: string;
+    yes: string;
+    no: string;
+    changedFiles: (count: number) => string;
+    score: (value: number) => string;
+    reverted: string;
+    noUser: string;
+    saveError: string;
+    repositoriesTitle: string;
+    repositoryOn: string;
+    repositoryOff: string;
+    enableRepository: string;
+    disableRepository: string;
   };
   ticketReply: {
     title: string;

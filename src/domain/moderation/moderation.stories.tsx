@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { AppealsSection } from "./appeals-section.js";
+import { ContributionsSection } from "./contributions-section.js";
 import { ContributorCard } from "./contributor-card.js";
 import { ContributorsSection } from "./contributors-section.js";
 import { DisputesSection } from "./disputes-section.js";
@@ -9,10 +10,12 @@ import { GamesReviewSection } from "./games-review-section.js";
 import { MonitoringSection } from "./monitoring-section.js";
 import { PanicModeSection } from "./panic-mode-section.js";
 import { ProjectsReviewSection } from "./projects-review-section.js";
+import { PullRequestsSection } from "./pull-requests-section.js";
 import { SupportTicketsSection } from "./support-tickets-section.js";
 import { SuspiciousPostsSection } from "./suspicious-posts-section.js";
 import { SuspiciousUsersSection } from "./suspicious-users-section.js";
 import { TicketReply } from "./ticket-reply.js";
+import { TicketThread } from "./ticket-thread.js";
 
 const meta: Meta = {
   title: "Domain/Moderation",
@@ -190,7 +193,135 @@ export const Reviews: StoryObj = {
         onStart={noop}
         onResolve={noop}
         onReopen={noop}
+        renderThread={(ticket) => (
+          <TicketThread
+            mirrored={ticket.githubIssueNumber != null}
+            legacyReply={null}
+            legacyRepliedAtLabel={null}
+            messages={[
+              {
+                id: "m1",
+                direction: "GITHUB",
+                authorGithubLogin: "bia",
+                body: "Consegui reproduzir no Firefox.",
+                createdAtLabel: "18/10/2026, 11:00",
+              },
+              {
+                id: "m2",
+                direction: "ENOIS",
+                authorName: "Suporte",
+                body: "Corrigido, pode testar de novo?",
+                createdAtLabel: "18/10/2026, 12:10",
+              },
+            ]}
+          />
+        )}
         renderReply={() => <TicketReply onSubmit={resolved} />}
+      />
+    </div>
+  ),
+};
+
+export const Github: StoryObj = {
+  render: () => (
+    <div className="max-w-2xl space-y-8">
+      <PullRequestsSection
+        loading={false}
+        showWriteHint
+        onConnectWrite={noop}
+        reviewing={{ key: "rede-enois/frontend#12", decision: "APPROVE" }}
+        onReview={resolved}
+        pulls={[
+          {
+            repository: "rede-enois/frontend",
+            number: 12,
+            title: "Corrige o carregamento infinito do login",
+            url: "https://github.com/rede-enois/frontend/pull/12",
+            authorLogin: "bia",
+            authorAvatarUrl: null,
+            updatedAtLabel: "18/10/2026, 10:30",
+          },
+          {
+            repository: "rede-enois/backend",
+            number: 7,
+            title: "Adiciona limite de taxa no envio de e-mail",
+            url: "https://github.com/rede-enois/backend/pull/7",
+            authorLogin: null,
+            authorAvatarUrl: null,
+            updatedAtLabel: null,
+          },
+        ]}
+      />
+      <ContributionsSection
+        filter="PENDING"
+        onFilterChange={noop}
+        kind="ALL"
+        onKindChange={noop}
+        loading={false}
+        loadError={false}
+        onRefresh={noop}
+        onReview={noop}
+        onSync={noop}
+        report={{
+          created: 2,
+          updated: 1,
+          fetched: 10,
+          issuesCreated: 1,
+          issuesUpdated: 0,
+          issuesFetched: 4,
+          repositories: ["rede-enois/frontend", "rede-enois/backend"],
+          detailsFetched: 3,
+          revertedFlagged: 0,
+          rateLimited: true,
+          errors: [],
+        }}
+        contributions={[
+          {
+            id: "g1",
+            kind: "PULL_REQUEST",
+            title: "Corrige o carregamento infinito do login",
+            url: "https://github.com/rede-enois/frontend/pull/12",
+            repository: "rede-enois/frontend",
+            number: 12,
+            username: "bia",
+            githubLogin: "bia",
+            status: "PENDING",
+            happenedAtLabel: "18/10/2026, 10:30",
+            hasTests: true,
+            changedFiles: 4,
+            additions: 120,
+            deletions: 30,
+            score: 8,
+            labels: '["bug","frontend"]',
+            reverted: false,
+            reviewNote: null,
+          },
+          {
+            id: "g2",
+            kind: "ISSUE",
+            title: "Login trava no Firefox",
+            url: "https://github.com/rede-enois/frontend/issues/9",
+            repository: "rede-enois/frontend",
+            number: 9,
+            username: null,
+            githubLogin: "carlos",
+            status: "VALIDATED",
+            happenedAtLabel: null,
+            hasTests: false,
+            changedFiles: 0,
+            additions: 0,
+            deletions: 0,
+            score: 0,
+            labels: null,
+            reverted: false,
+            reviewNote: "Reprodução clara e útil.",
+          },
+        ]}
+        repositories={[
+          { repository: "rede-enois/frontend", enabled: true },
+          { repository: "rede-enois/legacy", enabled: false },
+        ]}
+        onToggleRepository={noop}
       />
     </div>
   ),

@@ -9,6 +9,7 @@ export type SupportTicketData = {
   message: string;
   contactEmail: string;
   imageUrl: string | null;
+  /** Legacy single reply; the section passes it on through `renderThread` (`TicketThread`). */
   adminReply: string | null;
   githubIssueNumber: number | null;
   githubIssueUrl: string | null;
