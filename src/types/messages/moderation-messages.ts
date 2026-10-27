@@ -22,6 +22,12 @@ export type ModerationMessages = {
     approve: string;
     reject: string;
     done: string;
+    verifiedByGithub: string;
+    landingSource: string;
+    githubOnly: string;
+    formPending: string;
+    seal: (name: string) => string;
+    evidence: (count: number) => string;
   };
   disputesSection: {
     title: string;

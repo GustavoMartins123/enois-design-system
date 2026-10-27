@@ -61,8 +61,33 @@ export const Queues: StoryObj = {
             experience: "pleno",
             message: "Quero ajudar com acessibilidade.",
             status: "NEW",
+            githubVerified: false,
+            formPending: false,
+            sealName: null,
+            evidenceCount: null,
             createdAtLabel: "18/10/2026, 10:30",
             acceptedTermsAtLabel: "18/10/2026",
+          }}
+          onReview={noop}
+          onApprove={noop}
+          onReject={noop}
+        />
+        <ContributorCard
+          application={{
+            id: null,
+            name: "Bia Costa",
+            github: "biacosta",
+            email: null,
+            area: null,
+            experience: null,
+            message: null,
+            status: "APPROVED",
+            githubVerified: true,
+            formPending: true,
+            sealName: "Código",
+            evidenceCount: 3,
+            createdAtLabel: "19/10/2026, 09:12",
+            acceptedTermsAtLabel: null,
           }}
           onReview={noop}
           onApprove={noop}

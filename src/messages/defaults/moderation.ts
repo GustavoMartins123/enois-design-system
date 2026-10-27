@@ -99,6 +99,13 @@ export const moderationMessages: ModerationMessages = {
     approve: "Aprovar",
     reject: "Recusar",
     done: "Decidida",
+    verifiedByGithub: "Verificado pelo GitHub",
+    landingSource: "Landing",
+    githubOnly: "Aprovado pelo GitHub — sem triagem manual.",
+    formPending: "Aguardando a confirmação dos dados pelo formulário.",
+    seal: (name) => `Selo: ${name}`,
+    evidence: (count) =>
+      count === 1 ? "1 contribuição verificada" : `${count} contribuições verificadas`,
   },
   emailLogSection: {
     title: "E-mails enviados",
