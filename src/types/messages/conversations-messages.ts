@@ -1,7 +1,12 @@
 export type ConversationsMessages = {
   conversationHeader: { back: string; conversationFallback: string };
   conversationItem: { conversationFallback: string };
-  messageBubble: { readReceiptSent: string; readReceiptRead: string; react: string };
+  messageBubble: {
+    readReceiptSent: string;
+    readReceiptRead: string;
+    react: string;
+    report: string;
+  };
   conversationThread: {
     selectMessages: string;
     selectedMessages: (count: number) => string;

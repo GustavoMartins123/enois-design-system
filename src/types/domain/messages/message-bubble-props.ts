@@ -27,4 +27,6 @@ export type MessageBubbleProps = {
   onReact?: (type: string) => void;
   /** Recibo de leitura: a outra pessoa já abriu a conversa depois desta mensagem. */
   readByOther?: boolean;
+  /** Denunciar esta mensagem. Ausente nas mensagens próprias e onde não se denuncia. */
+  onReport?: () => void;
 };

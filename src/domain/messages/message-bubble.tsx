@@ -1,4 +1,4 @@
-import { Check, CheckCheck, Smile } from "lucide-react";
+import { Check, CheckCheck, Flag, Smile } from "lucide-react";
 
 import { useMessages } from "../../messages/messages-context.js";
 import type { MessageBubbleProps } from "../../types/domain/messages/message-bubble-props.js";
@@ -22,6 +22,7 @@ export function MessageBubble({
   onToggleSelect,
   onReact,
   readByOther = false,
+  onReport,
 }: MessageBubbleProps) {
   const messages = useMessages().messageBubble;
 
@@ -118,6 +119,18 @@ export function MessageBubble({
           >
             <Smile className="h-3.5 w-3.5" />
           </ReactionPicker>
+
+          {!isMe && onReport && (
+            <button
+              type="button"
+              onClick={onReport}
+              className="inline-flex h-6 w-6 items-center justify-center rounded-full text-text-subtle transition hover:bg-destructive/10 hover:text-destructive"
+              title={messages.report}
+              aria-label={messages.report}
+            >
+              <Flag className="h-3 w-3" />
+            </button>
+          )}
         </div>
       </div>
     </div>

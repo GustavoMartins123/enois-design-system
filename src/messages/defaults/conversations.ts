@@ -7,6 +7,7 @@ export const conversationsMessages: ConversationsMessages = {
     readReceiptSent: "Enviada",
     readReceiptRead: "Lida pela outra pessoa",
     react: "Reagir",
+    report: "Denunciar mensagem",
   },
   conversationThread: {
     selectMessages: "Selecionar mensagens",
