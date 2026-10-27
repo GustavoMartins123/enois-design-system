@@ -168,6 +168,7 @@ export type ProfileMessages = {
   profileProjectsSection: {
     title: string;
     manage: string;
+    importFromGithub: string;
     empty: string;
     repo: string;
     diary: string;
@@ -184,6 +185,8 @@ export type ProfileMessages = {
     stackField: string;
     repoField: string;
     statusField: string;
+    descriptionField: string;
+    descriptionPlaceholder: string;
     diaryAdd: string;
     diaryText: string;
     add: string;

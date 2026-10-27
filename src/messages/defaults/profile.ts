@@ -188,6 +188,7 @@ export const profileMessages: ProfileMessages = {
   profileProjectsSection: {
     title: "Projetos",
     manage: "Gerenciar projetos",
+    importFromGithub: "Importar do GitHub",
     empty: "Nenhum projeto ainda. Conte o que você está construindo.",
     repo: "Repositório",
     diary: "Diário de evolução",
@@ -204,6 +205,8 @@ export const profileMessages: ProfileMessages = {
     stackField: "Stack (separe por vírgula)",
     repoField: "Link do repositório (https)",
     statusField: "Status",
+    descriptionField: "Descrição do projeto",
+    descriptionPlaceholder: "Uma frase sobre o que o projeto faz",
     diaryAdd: "Adicionar entrada ao diário",
     diaryText: "O que evoluiu",
     add: "Novo projeto",

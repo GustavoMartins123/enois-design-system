@@ -8,7 +8,9 @@ export type ProfileProjectsSectionProps = {
   /** Verdadeiro quando o perfil em tela é o próprio — libera o gerenciador. */
   isOwner: boolean;
   onManage: () => void;
+  /** Abre a importação do GitHub; sem ele, o botão não aparece. */
+  onImport?: () => void;
   renderHtmlFrame: (props: ProfileHtmlFrameProps) => ReactNode;
-  /** O gerenciador de projetos (container do app), renderizado só para o dono. */
+  /** O gerenciador de projetos e a importação (containers do app), renderizados só para o dono. */
   manager?: ReactNode;
 };

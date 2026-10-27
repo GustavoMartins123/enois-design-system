@@ -34,6 +34,7 @@ const projects = [
   {
     id: "p1",
     title: "Énóis Connect",
+    description: "Rede de networking com propósito, com perfil, vagas e comunidades.",
     stack: ["React", "TypeScript"],
     repoUrl: "https://github.com/exemplo/connect",
     status: "em andamento",
@@ -92,6 +93,7 @@ export const Sections: StoryObj = {
         projects={projects}
         isOwner
         onManage={() => undefined}
+        onImport={() => undefined}
         renderHtmlFrame={frame}
       />
       <ProfileExperiencesSection

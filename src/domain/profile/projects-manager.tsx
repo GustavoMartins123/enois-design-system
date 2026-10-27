@@ -22,6 +22,7 @@ const STATUS_PRESETS = ["ideia", "em andamento", "pausado", "concluído"] as con
 
 const vazio = (): ProjectInput => ({
   title: "",
+  description: "",
   stack: [],
   repoUrl: null,
   status: "em andamento",
@@ -60,6 +61,7 @@ export function ProjectsManager({
     if (!editando) return;
     const input: ProjectInput = {
       title: editando.title.trim(),
+      description: editando.description?.trim() || null,
       stack: stackTexto
         .split(",")
         .map((item) => item.trim())
@@ -171,6 +173,21 @@ export function ProjectsManager({
 
             {modo === "estruturado" ? (
               <>
+                <div className="space-y-1.5">
+                  <Label className="text-xs text-muted-foreground">
+                    {messages.descriptionField}
+                  </Label>
+
+                  <Input
+                    value={editando.description ?? ""}
+                    maxLength={500}
+                    placeholder={messages.descriptionPlaceholder}
+                    onChange={(event) =>
+                      setEditando({ ...editando, description: event.target.value })
+                    }
+                  />
+                </div>
+
                 <div className="space-y-1.5">
                   <Label className="text-xs text-muted-foreground">{messages.statusField}</Label>
 

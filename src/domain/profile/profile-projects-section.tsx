@@ -23,6 +23,7 @@ export function ProfileProjectsSection({
   projects,
   isOwner,
   onManage,
+  onImport,
   renderHtmlFrame,
   manager,
 }: ProfileProjectsSectionProps) {
@@ -35,9 +36,17 @@ export function ProfileProjectsSection({
         <h2 className="text-base font-normal text-text-strong">{messages.title}</h2>
 
         {isOwner && (
-          <Button variant="outline" size="sm" className="rounded-full" onClick={onManage}>
-            {messages.manage}
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            {onImport && (
+              <Button variant="outline" size="sm" className="rounded-full" onClick={onImport}>
+                {messages.importFromGithub}
+              </Button>
+            )}
+
+            <Button variant="outline" size="sm" className="rounded-full" onClick={onManage}>
+              {messages.manage}
+            </Button>
+          </div>
         )}
       </div>
 
@@ -65,6 +74,12 @@ export function ProfileProjectsSection({
 
                   {project.status && <Chip label={project.status} />}
                 </div>
+
+                {project.description && (
+                  <p className="mt-2 text-sm leading-relaxed text-text-subtle">
+                    {project.description}
+                  </p>
+                )}
 
                 {project.stack.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-1.5">
