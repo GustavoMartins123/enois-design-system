@@ -15,6 +15,7 @@ import { ContributorTag } from "../../name/contributor-tag.js";
 import { StyledName } from "../../name/styled-name.js";
 import { LinkPreviews } from "../media/link-previews.js";
 import { ReactionPicker } from "../reactions/reaction-picker.js";
+import { ReactionsSummary } from "../reactions/reactions-summary.js";
 
 /** Um comentário (com responder, reagir e excluir). */
 export function CommentItem<T extends string>({
@@ -30,6 +31,8 @@ export function CommentItem<T extends string>({
   emojis,
   reaction,
   onReact,
+  reactionSummary,
+  onShowReactions,
   onReply,
   onTogglePin,
   onDelete,
@@ -42,11 +45,19 @@ export function CommentItem<T extends string>({
   renderMediaGrid,
   renderEditField,
   reportDialog,
+  reactionsDialog,
 }: CommentItemProps<T>) {
   const messages = useMessages().commentItem;
   const { isOwnMediaUrl } = useAdapters();
   const [editing, setEditing] = useState(false);
   const [editDraft, setEditDraft] = useState(content);
+  // Com o resumo, o total acompanha as pílulas otimistas; sem ele, vale o total do servidor.
+  const reactionTotal = reactionSummary
+    ? Object.values<number | undefined>(reactionSummary).reduce<number>(
+        (total, count) => total + (count ?? 0),
+        0,
+      )
+    : (comment.reactionCount ?? 0);
 
   const saveEdit = async () => {
     const next = editDraft.trim();
@@ -183,6 +194,17 @@ export function CommentItem<T extends string>({
           )}
         </div>
 
+        {reactionSummary && (
+          <ReactionsSummary
+            summary={reactionSummary}
+            emojis={emojis}
+            activeType={reaction}
+            clickable
+            compact
+            onToggle={onReact}
+          />
+        )}
+
         <div className="mt-1 flex flex-wrap items-center gap-x-1 gap-y-0.5 px-3 text-text-subtle">
           <ReactionPicker
             emojis={emojis}
@@ -198,10 +220,23 @@ export function CommentItem<T extends string>({
             ) : (
               <Heart className="h-3.5 w-3.5" />
             )}
-            {(comment.reactionCount ?? 0) > 0 && (
-              <span className="text-xs tabular-nums">{comment.reactionCount}</span>
-            )}
           </ReactionPicker>
+
+          {reactionTotal > 0 &&
+            (onShowReactions ? (
+              <button
+                type="button"
+                onClick={onShowReactions}
+                title={messages.seeWho(reactionTotal)}
+                aria-label={messages.seeWho(reactionTotal)}
+                aria-haspopup="dialog"
+                className="flex h-7 items-center rounded-full px-1 text-xs tabular-nums transition-colors hover:bg-surface-2 hover:text-primary hover:underline hover:decoration-dotted hover:underline-offset-4"
+              >
+                {reactionTotal}
+              </button>
+            ) : (
+              <span className="text-xs tabular-nums">{reactionTotal}</span>
+            ))}
 
           <button
             onClick={onReply}
@@ -269,6 +304,7 @@ export function CommentItem<T extends string>({
       </div>
 
       {reportDialog}
+      {reactionsDialog}
     </div>
   );
 }

@@ -149,7 +149,7 @@ export const Comments: StoryObj = {
           onRetry={() => {}}
           onLoadMore={() => {}}
           renderComment={(comment, replyingTo) => (
-            <CommentItem
+            <CommentItem<keyof typeof emojis>
               comment={comment}
               content={comment.content}
               edited={false}
@@ -159,8 +159,10 @@ export const Comments: StoryObj = {
               isOwner={comment.id === "c2"}
               canPin={false}
               emojis={emojis}
-              reaction={null}
+              reaction={comment.id === "c1" ? "LOVE" : null}
               onReact={() => {}}
+              reactionSummary={comment.id === "c1" ? { LOVE: 3, LIKE: 1 } : undefined}
+              onShowReactions={() => {}}
               onReply={() => {}}
               onTogglePin={() => {}}
               onDelete={() => {}}

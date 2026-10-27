@@ -180,6 +180,7 @@ export const postMessages: PostMessages = {
     readMore: "Ler mais",
     readLess: "Mostrar menos",
     react: "Reagir",
+    seeWho: (count) => `Ver quem reagiu (${count} ${count === 1 ? "reação" : "reações"})`,
     reply: "Responder",
     pin: "Fixar comentário",
     unpin: "Desafixar comentário",

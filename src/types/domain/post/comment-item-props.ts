@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+import type { ReactionCountSummary } from "../../lib/reactions/reaction-count-summary.js";
+
 import type { CommentItemData } from "./comment-item-data.js";
 import type { PostMediaGridProps } from "./post-media-grid-props.js";
 import type { PostRichTextProps } from "./post-rich-text-props.js";
@@ -24,6 +26,10 @@ export type CommentItemProps<T extends string = string> = {
   /** Reação de quem lê. */
   reaction: T | null;
   onReact: (type: T) => void;
+  /** Contagem por tipo (otimista): desenha as pílulas, iguais às do post. */
+  reactionSummary?: ReactionCountSummary<T>;
+  /** Abre a lista de quem reagiu (o contador vira botão). */
+  onShowReactions?: () => void;
   onReply: () => void;
   onTogglePin: () => void;
   onDelete: () => void;
@@ -39,4 +45,6 @@ export type CommentItemProps<T extends string = string> = {
   renderEditField: (value: string, onChange: (value: string) => void) => ReactNode;
   /** Diálogo de denúncia do comentário. */
   reportDialog?: ReactNode;
+  /** Diálogo de quem reagiu ao comentário. */
+  reactionsDialog?: ReactNode;
 };

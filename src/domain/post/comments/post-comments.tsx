@@ -14,9 +14,10 @@ import { CommentSkeletons } from "./comment-skeletons.js";
  * Comentarios de um post.
  *
  * A lista tem altura maxima com scroll proprio (comentario longo nao empurra o resto do card
- * para fora da tela) e o campo de escrita fica sempre visivel abaixo. Respostas cujo comentario
- * pai ainda nao foi carregado aparecem como raiz para nao sumirem. Carregar, enviar e subir mídia
- * é do app; aqui ficam a lista, o rascunho visual dos anexos e a gravação de áudio.
+ * para fora da tela) e o campo de escrita fica ACIMA dela: comentar nao pode exigir rolar todos
+ * os comentarios. Respostas cujo comentario pai ainda nao foi carregado aparecem como raiz para
+ * nao sumirem. Carregar, enviar e subir mídia é do app; aqui ficam a lista, o rascunho visual dos
+ * anexos e a gravação de áudio.
  */
 export function PostComments<C extends PostCommentNode>({
   formId,
@@ -140,72 +141,7 @@ export function PostComments<C extends PostCommentNode>({
 
   return (
     <section className="mt-4 border-t border-border-soft pt-4">
-      <div
-        ref={listRef}
-        // Sem `overscroll-contain`: quando a lista ainda não transborda, ele impede a propagação
-        // do toque para a página e o usuário não consegue rolar (relato em tablet/Fennec — o
-        // último post da viewport travava o scroll até fechar os comentários).
-        // A rolagem também recorta o eixo horizontal: o respiro acolhe os 30% da moldura
-        // fora do avatar, inclusive no primeiro e no último comentário, mantendo o alinhamento lateral.
-        className="-mx-3 max-h-[55vh] min-h-0 space-y-3 overflow-y-auto p-3"
-      >
-        {loading && <CommentSkeletons />}
-
-        {!loading && error && (
-          <div className="py-4 text-center">
-            <p className="text-sm font-normal text-destructive">{messages.errors[error]}</p>
-
-            <Button variant="outline" size="sm" className="mt-2 rounded-full" onClick={onRetry}>
-              {messages.retry}
-            </Button>
-          </div>
-        )}
-
-        {!loading && !error && roots.length === 0 && (
-          <p className="py-4 text-center text-sm font-normal text-text-subtle">{messages.empty}</p>
-        )}
-
-        {!loading &&
-          !error &&
-          roots.map((comment) => {
-            const replies = comments.filter(
-              (c) => c.id !== comment.id && rootIdByComment.get(c.id) === comment.id,
-            );
-            return (
-              <div key={comment.id}>
-                {renderComment(comment)}
-
-                {replies.length > 0 && (
-                  <div className="ml-6 mt-2 space-y-2 border-l-2 border-border-soft pl-3 sm:ml-10 sm:pl-4">
-                    {replies.map((reply) => (
-                      <Fragment key={reply.id}>
-                        {renderComment(reply, byId.get(reply.parentCommentId ?? "")?.authorName)}
-                      </Fragment>
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-
-        {loadingMore && <CommentSkeletons count={1} />}
-
-        {!loading && !error && hasMore && (
-          <div className="pt-1 text-center">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="rounded-full text-sm font-normal text-primary"
-              disabled={loadingMore}
-              onClick={onLoadMore}
-            >
-              {loadingMore ? messages.loadingMore : messages.loadMore}
-            </Button>
-          </div>
-        )}
-      </div>
-
-      <form onSubmit={submit} className="mt-4" id={formId}>
+      <form onSubmit={submit} className="mb-4" id={formId}>
         <input
           type="text"
           name="website"
@@ -368,6 +304,71 @@ export function PostComments<C extends PostCommentNode>({
           </div>
         </div>
       </form>
+
+      <div
+        ref={listRef}
+        // Sem `overscroll-contain`: quando a lista ainda não transborda, ele impede a propagação
+        // do toque para a página e o usuário não consegue rolar (relato em tablet/Fennec — o
+        // último post da viewport travava o scroll até fechar os comentários).
+        // A rolagem também recorta o eixo horizontal: o respiro acolhe os 30% da moldura
+        // fora do avatar, inclusive no primeiro e no último comentário, mantendo o alinhamento lateral.
+        className="-mx-3 max-h-[55vh] min-h-0 space-y-3 overflow-y-auto p-3"
+      >
+        {loading && <CommentSkeletons />}
+
+        {!loading && error && (
+          <div className="py-4 text-center">
+            <p className="text-sm font-normal text-destructive">{messages.errors[error]}</p>
+
+            <Button variant="outline" size="sm" className="mt-2 rounded-full" onClick={onRetry}>
+              {messages.retry}
+            </Button>
+          </div>
+        )}
+
+        {!loading && !error && roots.length === 0 && (
+          <p className="py-4 text-center text-sm font-normal text-text-subtle">{messages.empty}</p>
+        )}
+
+        {!loading &&
+          !error &&
+          roots.map((comment) => {
+            const replies = comments.filter(
+              (c) => c.id !== comment.id && rootIdByComment.get(c.id) === comment.id,
+            );
+            return (
+              <div key={comment.id}>
+                {renderComment(comment)}
+
+                {replies.length > 0 && (
+                  <div className="ml-6 mt-2 space-y-2 border-l-2 border-border-soft pl-3 sm:ml-10 sm:pl-4">
+                    {replies.map((reply) => (
+                      <Fragment key={reply.id}>
+                        {renderComment(reply, byId.get(reply.parentCommentId ?? "")?.authorName)}
+                      </Fragment>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+
+        {loadingMore && <CommentSkeletons count={1} />}
+
+        {!loading && !error && hasMore && (
+          <div className="pt-1 text-center">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="rounded-full text-sm font-normal text-primary"
+              disabled={loadingMore}
+              onClick={onLoadMore}
+            >
+              {loadingMore ? messages.loadingMore : messages.loadMore}
+            </Button>
+          </div>
+        )}
+      </div>
 
       {gifPicker}
     </section>

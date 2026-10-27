@@ -136,6 +136,7 @@ export type PostMessages = {
     readMore: string;
     readLess: string;
     react: string;
+    seeWho: (count: number) => string;
     reply: string;
     pin: string;
     unpin: string;
