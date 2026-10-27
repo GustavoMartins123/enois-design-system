@@ -98,7 +98,7 @@ export const moderationMessages: ModerationMessages = {
   notesSection: {
     title: "Notas de rodapé",
     description:
-      "Correções enviadas pela comunidade. Aprovar exibe a nota no post; negar mantém oculta e reduz a credibilidade de quem enviou.",
+      "Correções enviadas pela comunidade. Só uma nota é aprovada por post — aprovar descarta as outras pendentes sem penalidade. Negar mantém oculta e reduz a credibilidade de quem enviou.",
     empty: "Nenhuma nota pendente.",
     approve: "Aprovar",
     reject: "Negar",
