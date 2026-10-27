@@ -4,6 +4,7 @@ export { ApplyFreelanceDialog } from "./apply-freelance-dialog.js";
 export { ApplyJobDialog } from "./apply-job-dialog.js";
 export { CompanyEditDialog } from "./company-edit-dialog.js";
 export { CompanyTeamSection } from "./company-team-section.js";
+export { CompanyWebsiteLink } from "./company-website-link.js";
 export { CreateExternalJobDialog } from "./create-external-job-dialog.js";
 export { JobCardSkeletons } from "./job-card-skeletons.js";
 export { JobEditDialog } from "./job-edit-dialog.js";
@@ -17,6 +18,7 @@ export type { CompanyEditValues } from "../../types/domain/jobs/company-edit-val
 export type { CompanyImageKind } from "../../types/domain/jobs/company-image-kind.js";
 export type { CompanyMemberCandidate } from "../../types/domain/jobs/company-member-candidate.js";
 export type { CompanyTeamSectionProps } from "../../types/domain/jobs/company-team-section-props.js";
+export type { CompanyWebsiteLinkProps } from "../../types/domain/jobs/company-website-link-props.js";
 export type { CreateExternalJobDialogProps } from "../../types/domain/jobs/create-external-job-dialog-props.js";
 export type { ExternalJobValues } from "../../types/domain/jobs/external-job-values.js";
 export type { JobApplicationFieldData } from "../../types/domain/jobs/job-application-field-data.js";
