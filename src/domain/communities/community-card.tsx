@@ -59,7 +59,8 @@ export function CommunityCard({
             <span className="inline-flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
               <Users className="h-3.5 w-3.5 shrink-0" />
 
-              <span className="truncate">{messages.members(c.members)}</span>
+              {/* O tipo diz que `members` sempre vem; o `?? 0` segura a lista se a API mandar sem. */}
+              <span className="truncate">{messages.members(c.members ?? 0)}</span>
             </span>
 
             <Button
