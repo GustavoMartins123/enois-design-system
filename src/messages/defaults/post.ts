@@ -133,6 +133,7 @@ export const postMessages: PostMessages = {
       JOB: "Denunciar vaga",
       GROUP_POST: "Denunciar publicação do grupo",
       GROUP_COMMENT: "Denunciar comentário do grupo",
+      MESSAGE: "Denunciar mensagem",
     },
     reason: "Motivo",
     description: "Descrição (opcional)",
