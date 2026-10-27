@@ -12,6 +12,7 @@ import { MentionTextarea } from "./editor/mention-textarea.js";
 import { MediaGrid } from "./media/media-grid.js";
 import { PostCardSkeletons } from "./post-card-skeletons.js";
 import { PostCard } from "./post-card.js";
+import { PostNotes } from "./post-notes.js";
 import { PostSealPicker } from "./post-seal-picker.js";
 import { PostActions } from "./reactions/post-actions.js";
 import { ReactionsDialog } from "./reactions/reactions-dialog.js";
@@ -244,4 +245,23 @@ export const Report: StoryObj = {
       />
     );
   },
+};
+
+const note = {
+  id: "n1",
+  body: "O estágio citado é de 2023; o programa de 2024 mudou as regras de inscrição.",
+  authorName: "Ana Souza",
+  authorContributor: {},
+  createdAtLabel: "12/03/2024 14:30",
+  authorHref: "#",
+};
+
+export const Notes: StoryObj = {
+  render: () => (
+    <div className="max-w-xl space-y-6">
+      <PostNotes notes={[note]} canAdd onSend={async () => true} />
+      <PostNotes notes={[]} pending onSend={async () => true} />
+      <PostNotes notes={[]} deniedReason="Sem fonte." onSend={async () => true} />
+    </div>
+  ),
 };

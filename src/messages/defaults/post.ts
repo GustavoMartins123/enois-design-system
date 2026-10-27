@@ -213,6 +213,23 @@ export const postMessages: PostMessages = {
     gif: "GIF",
     send: "Enviar comentário",
   },
+  postNotes: {
+    title: "Nota da comunidade",
+    verified: "Verificada pela comunidade",
+    add: "Adicionar nota de rodapé",
+    dialogTitle: "Nota de rodapé",
+    dialogDescription:
+      "Corrija ou contextualize este post. A nota vai para a moderação e só aparece depois de aprovada.",
+    warning:
+      "Enviar uma nota falsa reduz sua credibilidade. Uma nota aprovada não altera sua credibilidade.",
+    placeholder: "O que está incorreto ou falta neste post? Inclua o contexto ou a fonte.",
+    send: "Enviar para moderação",
+    sending: "Enviando...",
+    pending: "Sua nota está em análise pela moderação.",
+    denied: (reason) => `Sua nota foi negada: ${reason}`,
+    count: (length, max) => `${length}/${max}`,
+    time: (time) => `· ${time}`,
+  },
   mentionTextarea: {
     toolbar: "Formatar texto",
     username: (username) => `@${username}`,

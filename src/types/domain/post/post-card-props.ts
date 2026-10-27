@@ -52,6 +52,8 @@ export type PostCardProps = {
   page?: ReactNode;
   /** Resumo de reações. */
   reactionsSummary?: ReactNode;
+  /** Notas de rodapé da comunidade (logo antes da fileira de ações). */
+  notes?: ReactNode;
   /** Fileira de ações (reagir, comentar, compartilhar...). */
   actions?: ReactNode;
   /** Diálogos de edição e exclusão do autor. */

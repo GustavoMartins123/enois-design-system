@@ -54,6 +54,7 @@ export function PostCard({
   mediaSpoiler = false,
   page,
   reactionsSummary,
+  notes,
   actions,
   ownerDialogs,
   comments,
@@ -336,6 +337,8 @@ export function PostCard({
           ))}
         </div>
       )}
+
+      {notes}
 
       {actions}
 

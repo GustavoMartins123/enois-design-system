@@ -164,6 +164,21 @@ export type PostMessages = {
     gif: string;
     send: string;
   };
+  postNotes: {
+    title: string;
+    verified: string;
+    add: string;
+    dialogTitle: string;
+    dialogDescription: string;
+    warning: string;
+    placeholder: string;
+    send: string;
+    sending: string;
+    pending: string;
+    denied: (reason: string) => string;
+    count: (length: number, max: number) => string;
+    time: (time: string) => string;
+  };
   mentionTextarea: {
     toolbar: string;
     username: (username: string) => string;
