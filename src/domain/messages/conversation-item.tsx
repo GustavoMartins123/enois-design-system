@@ -3,6 +3,7 @@ import type { ConversationItemProps } from "../../types/domain/messages/conversa
 import { AppLink } from "../../ui/app-link.js";
 import { UserAvatar } from "../avatar/user-avatar.js";
 import { UserBadges } from "../badges/user-badges.js";
+import { StyledName } from "../name/styled-name.js";
 
 /** Uma linha da lista de conversas. Vive fora da rota para o dock poder reaproveitá-la. */
 export function ConversationItem({
@@ -43,7 +44,9 @@ export function ConversationItem({
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between">
             <span className="flex min-w-0 items-center gap-1.5">
-              <span className="truncate text-sm font-medium">{title}</span>
+              <span className="truncate text-sm font-medium">
+                {conversation.title ?? <StyledName name={title} style={peer?.nameStyle} />}
+              </span>
 
               <UserBadges badges={peer?.badges} badge={peer?.badge} />
             </span>

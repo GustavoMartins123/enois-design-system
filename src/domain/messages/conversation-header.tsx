@@ -5,6 +5,7 @@ import type { ConversationHeaderProps } from "../../types/domain/messages/conver
 import { AppLink } from "../../ui/app-link.js";
 import { UserAvatar } from "../avatar/user-avatar.js";
 import { UserBadges } from "../badges/user-badges.js";
+import { StyledName } from "../name/styled-name.js";
 
 /** Cabeçalho do filão: quem é o outro, voltar para a lista e a ação da tela. */
 export function ConversationHeader({
@@ -36,7 +37,9 @@ export function ConversationHeader({
 
         <div className="min-w-0">
           <span className="flex items-center gap-1.5">
-            <span className="truncate font-semibold">{title}</span>
+            <span className="truncate font-semibold">
+              {conversationTitle ?? <StyledName name={title} style={peer?.nameStyle} />}
+            </span>
 
             <UserBadges badges={peer?.badges} badge={peer?.badge} />
           </span>
