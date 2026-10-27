@@ -11,6 +11,7 @@ import { Button } from "../../../ui/button.js";
 import { ReadMore } from "../../../ui/read-more.js";
 import { UserAvatar } from "../../avatar/user-avatar.js";
 import { UserBadges } from "../../badges/user-badges.js";
+import { StyledName } from "../../name/styled-name.js";
 import { LinkPreviews } from "../media/link-previews.js";
 import { ReactionPicker } from "../reactions/reaction-picker.js";
 
@@ -59,10 +60,12 @@ export function CommentItem<T extends string>({
   // Nome e foto levam ao perfil de quem comentou (quando o perfil existe).
   const profileLink = profileHref ? (
     <AppLink href={profileHref} className="text-xs font-medium text-text-strong hover:underline">
-      {comment.authorName}
+      <StyledName name={comment.authorName} style={comment.authorStyle} />
     </AppLink>
   ) : (
-    <span className="text-xs font-medium text-text-strong">{comment.authorName}</span>
+    <span className="text-xs font-medium text-text-strong">
+      <StyledName name={comment.authorName} style={comment.authorStyle} />
+    </span>
   );
 
   const avatar = (

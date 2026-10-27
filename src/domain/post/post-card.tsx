@@ -104,6 +104,7 @@ export function PostCard({
       <header className="flex justify-between items-start gap-3">
         <AuthorInfo
           authorName={post.authorName}
+          authorStyle={post.authorStyle}
           authorBadge={post.authorBadge}
           authorBadges={post.authorBadges}
           authorAvatar={post.authorAvatar}

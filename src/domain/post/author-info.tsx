@@ -3,10 +3,12 @@ import type { AuthorInfoProps } from "../../types/domain/post/author-info-props.
 import { AppLink } from "../../ui/app-link.js";
 import { UserAvatar } from "../avatar/user-avatar.js";
 import { UserBadges } from "../badges/user-badges.js";
+import { StyledName } from "../name/styled-name.js";
 
 /** Avatar + nome + tempo relativo do autor de um post, com a comunidade quando houver. */
 export function AuthorInfo({
   authorName,
+  authorStyle,
   authorAvatar,
   authorAvatarFrame,
   authorBadge,
@@ -37,7 +39,7 @@ export function AuthorInfo({
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
           <AppLink href={authorHref} className="font-bold hover:underline text-sm">
-            {authorName}
+            <StyledName name={authorName} style={authorStyle} />
           </AppLink>
 
           <UserBadges badges={authorBadges} badge={authorBadge} />

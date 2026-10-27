@@ -1,5 +1,9 @@
+import type { AuthorNameStyle } from "../name/author-name-style.js";
+
 export type AuthorInfoProps = {
   authorName: string;
+  /** Personalização do nome do autor (tema/fonte/cor). */
+  authorStyle?: AuthorNameStyle | null;
   authorAvatar: string | null;
   authorAvatarFrame?: string | null;
   authorBadge?: string | null;
