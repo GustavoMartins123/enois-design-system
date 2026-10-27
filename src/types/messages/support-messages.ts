@@ -56,9 +56,13 @@ export type SupportMessages = {
     termsLink: string;
     termsSuffix: string;
     submit: string;
+    confirm: string;
     sending: string;
     successTitle: string;
     successDescription: string;
+    verifiedGithubHint: string;
+    verifiedSuccessTitle: string;
+    verifiedSuccessDescription: string;
     again: string;
     validationName: string;
     validationGithub: string;

@@ -84,10 +84,16 @@ export const supportMessages: SupportMessages = {
     termsLink: "regras de contribuição e os termos de uso",
     termsSuffix: ".",
     submit: "Enviar candidatura",
+    confirm: "Confirmar meus dados",
     sending: "Enviando...",
     successTitle: "Recebemos sua candidatura",
     successDescription:
       "O registro fica na fila interna do projeto. Se houver uma issue ou um próximo passo para a sua área, a gente fala com você pelo GitHub ou pelo e-mail informado.",
+    verifiedGithubHint:
+      "O GitHub vem do seu vínculo verificado; ele não pode ser alterado por aqui.",
+    verifiedSuccessTitle: "Dados confirmados",
+    verifiedSuccessDescription:
+      "Você já aparece no painel de contribuintes. A verificação é o próprio GitHub, sem aprovação manual.",
     again: "Enviar outra",
     validationName: "Informe seu nome (pelo menos 2 caracteres).",
     validationGithub: "Informe seu usuário do GitHub.",

@@ -61,3 +61,16 @@ export const Contribution: StoryObj = {
     </div>
   ),
 };
+
+export const ContributionVerified: StoryObj = {
+  render: () => (
+    <div className="max-w-2xl">
+      <ContributionForm
+        termsHref="#"
+        onSubmit={async () => null}
+        mode="verified"
+        initial={{ name: "Marina Rocha", email: "marina@example.com", github: "marinarocha" }}
+      />
+    </div>
+  ),
+};
