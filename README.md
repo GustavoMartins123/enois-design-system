@@ -33,6 +33,9 @@ Rules:
 npm install @rede-enois/design-system
 ```
 
+`react`, `react-dom`, `lucide-react` and `tailwindcss` are peer dependencies: the app provides them, so the
+app and the design system share one copy (two `lucide-react` copies would ship two icon sets).
+
 App stylesheet:
 
 ```css
