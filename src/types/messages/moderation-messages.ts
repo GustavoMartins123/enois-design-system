@@ -124,6 +124,18 @@ export type ModerationMessages = {
     openOnGithub: string;
     by: (login: string) => string;
   };
+  notesSection: {
+    title: string;
+    description: string;
+    empty: string;
+    approve: string;
+    reject: string;
+    reasonLabel: string;
+    reasonPlaceholder: string;
+    confirmReject: string;
+    cancel: string;
+    openPost: string;
+  };
   contributionsSection: {
     title: string;
     description: string;

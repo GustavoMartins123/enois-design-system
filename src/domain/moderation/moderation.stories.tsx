@@ -8,6 +8,7 @@ import { DisputesSection } from "./disputes-section.js";
 import { EmailLogSection } from "./email-log-section.js";
 import { GamesReviewSection } from "./games-review-section.js";
 import { MonitoringSection } from "./monitoring-section.js";
+import { NotesSection } from "./notes-section.js";
 import { PanicModeSection } from "./panic-mode-section.js";
 import { ProjectsReviewSection } from "./projects-review-section.js";
 import { PullRequestsSection } from "./pull-requests-section.js";
@@ -218,6 +219,32 @@ export const Reviews: StoryObj = {
         )}
         renderReply={() => <TicketReply onSubmit={resolved} />}
       />
+      <NotesSection
+        loading={false}
+        reviewing={{ id: "cm0note0000abc123", status: "APPROVED" }}
+        onReview={resolved}
+        notes={[
+          {
+            id: "cm0note0000abc123",
+            postHref: "/post/p1",
+            body: "O dado citado é de 2019; o relatório de 2026 mostra outro número.",
+            createdAtLabel: "18/10/2026, 10:31",
+            authorId: "u1",
+            authorUsername: "bia",
+            authorName: "Bia",
+          },
+          {
+            id: "cm0note0000def456",
+            postHref: "/post/p2",
+            body: "A foto é de outro evento.",
+            createdAtLabel: "18/10/2026, 11:02",
+            authorId: "u2",
+            authorUsername: null,
+            authorName: null,
+          },
+        ]}
+      />
+      <NotesSection loading={false} notes={[]} reviewing={null} onReview={resolved} />
     </div>
   ),
 };

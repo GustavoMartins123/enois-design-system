@@ -95,6 +95,19 @@ export const moderationMessages: ModerationMessages = {
     openOnGithub: "Abrir no GitHub",
     by: (login: string) => `por @${login}`,
   },
+  notesSection: {
+    title: "Notas de rodapé",
+    description:
+      "Correções enviadas pela comunidade. Aprovar exibe a nota no post; negar mantém oculta e reduz a credibilidade de quem enviou.",
+    empty: "Nenhuma nota pendente.",
+    approve: "Aprovar",
+    reject: "Negar",
+    reasonLabel: "Motivo da negação",
+    reasonPlaceholder: "Explique por que a nota é falsa ou não se aplica...",
+    confirmReject: "Confirmar negação",
+    cancel: "Cancelar",
+    openPost: "Abrir post",
+  },
   contributionsSection: {
     title: "Contribuições GitHub",
     description:

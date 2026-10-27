@@ -6,6 +6,7 @@ export { DisputesSection } from "./disputes-section.js";
 export { EmailLogSection } from "./email-log-section.js";
 export { GamesReviewSection } from "./games-review-section.js";
 export { MonitoringSection } from "./monitoring-section.js";
+export { NotesSection } from "./notes-section.js";
 export { PanicModeSection } from "./panic-mode-section.js";
 export { ProjectsReviewSection } from "./projects-review-section.js";
 export { PullRequestsSection } from "./pull-requests-section.js";
@@ -39,7 +40,10 @@ export type { MonitoringOverviewData } from "../../types/domain/moderation/monit
 export type { MonitoringResource } from "../../types/domain/moderation/monitoring-resource.js";
 export type { MonitoringSectionProps } from "../../types/domain/moderation/monitoring-section-props.js";
 export type { MonitoringSupplyData } from "../../types/domain/moderation/monitoring-supply-data.js";
+export type { NoteReviewStatus } from "../../types/domain/moderation/note-review-status.js";
+export type { NotesSectionProps } from "../../types/domain/moderation/notes-section-props.js";
 export type { PanicModeSectionProps } from "../../types/domain/moderation/panic-mode-section-props.js";
+export type { AdminPostNoteData } from "../../types/domain/moderation/admin-post-note-data.js";
 export type { ProjectReviewData } from "../../types/domain/moderation/project-review-data.js";
 export type { ProjectsReviewSectionProps } from "../../types/domain/moderation/projects-review-section-props.js";
 export type { PullRequestData } from "../../types/domain/moderation/pull-request-data.js";
