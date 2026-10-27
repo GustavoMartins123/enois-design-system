@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import { GitHubLinkCard } from "./github-link-card.js";
 import { IdentitySection } from "./identity-section.js";
 import { IdentityVerificationSection } from "./identity-verification-section.js";
 import { LinkedinImportSection } from "./linkedin-import-section.js";
@@ -98,4 +99,25 @@ export const LinkedinImportPreview: StoryObj = {
       />
     );
   },
+};
+
+const gitHubLinkBase = {
+  onLink: () => {},
+  onUnlink: () => {},
+  onSync: () => {},
+  criteriaHref: "/selos",
+};
+
+export const GitHubLinkUnlinked: StoryObj = {
+  render: () => <GitHubLinkCard {...gitHubLinkBase} status={{ linked: false }} />,
+};
+
+export const GitHubLinkSynced: StoryObj = {
+  render: () => (
+    <GitHubLinkCard
+      {...gitHubLinkBase}
+      status={{ linked: true, login: "ana", syncState: "OK", lastSyncLabel: "27/10/2026 às 14:30" }}
+      syncResult={{ contributions: 3, issues: 1, rateLimited: false }}
+    />
+  ),
 };

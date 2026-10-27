@@ -73,4 +73,41 @@ export const securityMessages: SecurityMessages = {
     profileRowSummary: " · com o seu resumo",
     skillsRow: "Habilidades: ",
   },
+  gitHubLinkCard: {
+    title: "GitHub para selos de contribuição",
+    description:
+      "Vincule sua conta GitHub para que o Énóis possa verificar PRs integrados nos repositórios oficiais. O vínculo não altera seu login nem sua verificação de identidade.",
+    linkedAs: (login) => `Vinculado como @${login}`,
+    lastSync: (date) => `Última sincronização: ${date}`,
+    neverSynced: "Ainda não sincronizou. Use “Verificar contribuições” para buscar os dados agora.",
+    syncStale:
+      "Os dados podem estar desatualizados. Use “Verificar contribuições” para atualizar agora.",
+    syncError:
+      "A última sincronização falhou; os números podem estar desatualizados. Tente verificar de novo.",
+    syncNow: "Verificar contribuições",
+    syncing: "Verificando contribuições...",
+    syncEmpty:
+      "Nenhuma contribuição encontrada ainda. Se você já teve PR integrado ou issue qualificada, tente de novo em alguns instantes.",
+    syncFound: (contributions, issues) => {
+      const parts: string[] = [];
+      if (contributions > 0) {
+        parts.push(contributions === 1 ? "1 pull request" : `${contributions} pull requests`);
+      }
+      if (issues > 0) {
+        parts.push(issues === 1 ? "1 issue" : `${issues} issues`);
+      }
+      return `Verificação concluída: ${parts.join(" e ")}.`;
+    },
+    syncFailed: "Não foi possível verificar agora. Tente de novo em alguns minutos.",
+    link: "Vincular GitHub",
+    unlink: "Desvincular GitHub",
+    linking: "Abrindo GitHub...",
+    unlinkConfirm:
+      "Desvincular o GitHub? Os selos já concedidos permanecem, mas novas contribuições não serão vinculadas.",
+    error: "Não foi possível alterar o vínculo com o GitHub.",
+    unlinkError: "Não foi possível desvincular o GitHub.",
+    criteria: "Ler os critérios dos selos",
+    notConfigured:
+      "O vínculo com GitHub ainda não está configurado neste ambiente. Fale com a administração.",
+  },
 };

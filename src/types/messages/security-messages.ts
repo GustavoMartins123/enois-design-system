@@ -54,4 +54,26 @@ export type SecurityMessages = {
     profileRowSummary: string;
     skillsRow: string;
   };
+  gitHubLinkCard: {
+    title: string;
+    description: string;
+    linkedAs: (login: string) => string;
+    lastSync: (date: string) => string;
+    neverSynced: string;
+    syncStale: string;
+    syncError: string;
+    syncNow: string;
+    syncing: string;
+    syncEmpty: string;
+    syncFound: (contributions: number, issues: number) => string;
+    syncFailed: string;
+    link: string;
+    unlink: string;
+    linking: string;
+    unlinkConfirm: string;
+    error: string;
+    unlinkError: string;
+    criteria: string;
+    notConfigured: string;
+  };
 };
