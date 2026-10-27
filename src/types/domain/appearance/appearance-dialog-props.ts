@@ -8,6 +8,7 @@ import type { Theme } from "../../lib/theme/theme.js";
 
 import type { AppearanceFileStatus } from "./appearance-file-status.js";
 import type { AppearanceNameStyleSelection } from "./appearance-name-style-selection.js";
+import type { PurchasedThemesProps } from "./purchased-themes-props.js";
 
 export type AppearanceDialogProps = {
   open: boolean;
@@ -26,6 +27,8 @@ export type AppearanceDialogProps = {
   /** A coleção ativa já resolvida (`null` quando não há ou não existe mais). */
   activeCollection: ThemeCollection | null;
   onCollectionSelect: (collectionId: string | null) => void;
+  /** Temas comprados na loja (aba global); sem isto, a seção não aparece (ex.: sem login). */
+  purchasedThemes?: PurchasedThemesProps;
   widgetBackground: BackgroundStyle | null;
   onWidgetBackgroundChange: (style: BackgroundStyle | null) => void;
   pageBackground: BackgroundStyle | null;

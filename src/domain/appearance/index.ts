@@ -4,6 +4,7 @@ export { CollectionGrid } from "./collection-grid.js";
 export { CollectionPreview } from "./collection-preview.js";
 export { ContrastNotice } from "./contrast-notice.js";
 export { PresetRow } from "./preset-row.js";
+export { PurchasedThemes } from "./purchased-themes.js";
 export { RangeField } from "./range-field.js";
 export { ThemePreview } from "./theme-preview.js";
 export { ThemeSellDialog } from "./theme-sell-dialog.js";
@@ -75,6 +76,8 @@ export type { CollectionGridProps } from "../../types/domain/appearance/collecti
 export type { CollectionPreviewProps } from "../../types/domain/appearance/collection-preview-props.js";
 export type { ContrastNoticeProps } from "../../types/domain/appearance/contrast-notice-props.js";
 export type { PresetRowProps } from "../../types/domain/appearance/preset-row-props.js";
+export type { PurchasedTheme } from "../../types/domain/appearance/purchased-theme.js";
+export type { PurchasedThemesProps } from "../../types/domain/appearance/purchased-themes-props.js";
 export type { RangeFieldProps } from "../../types/domain/appearance/range-field-props.js";
 export type { ThemeSellDialogProps } from "../../types/domain/appearance/theme-sell-dialog-props.js";
 export type { ThemeSellValues } from "../../types/domain/appearance/theme-sell-values.js";

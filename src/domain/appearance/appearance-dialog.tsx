@@ -1,6 +1,6 @@
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 
-import { Download, Moon, RotateCcw, Store, Sun, Upload } from "lucide-react";
+import { ChevronDown, Download, Moon, RotateCcw, Store, Sun, Upload } from "lucide-react";
 
 import { reportThemeContrast, sameThemeSettings } from "../../lib/theme/build-theme-tokens.js";
 import {
@@ -29,11 +29,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../ui/dialog.js";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs.js";
 
 import { BackgroundStylePicker } from "./background-style-picker.js";
 import { CollectionGrid } from "./collection-grid.js";
 import { ContrastNotice } from "./contrast-notice.js";
 import { PresetRow } from "./preset-row.js";
+import { PurchasedThemes } from "./purchased-themes.js";
 import { RangeField } from "./range-field.js";
 import { ThemePreview } from "./theme-preview.js";
 
@@ -70,6 +72,7 @@ export function AppearanceDialog({
   collectionId,
   activeCollection,
   onCollectionSelect,
+  purchasedThemes,
   widgetBackground,
   onWidgetBackgroundChange,
   pageBackground,
@@ -85,6 +88,7 @@ export function AppearanceDialog({
 }: AppearanceDialogProps) {
   const messages = useMessages().appearanceDialog;
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [themesOpen, setThemesOpen] = useState(true);
 
   const selectedNameTheme: ProfileNameTheme = nameStyle.theme ?? "DEFAULT";
   const selectedNameThemeDefinition = profileNameTheme(selectedNameTheme);
@@ -129,454 +133,498 @@ export function AppearanceDialog({
           <DialogDescription>{messages.description}</DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-5 pt-2">
-          <section className="space-y-2">
-            <h3 className="text-xs font-medium text-text-strong">{messages.collectionsTitle}</h3>
+        <Tabs defaultValue="global" className="pt-2">
+          <TabsList className="w-full justify-start rounded-xl border border-border-soft bg-surface-1 p-1">
+            <TabsTrigger value="global">{messages.tabGlobal}</TabsTrigger>
 
-            <p className="text-xs font-normal text-text-subtle">{messages.collectionsHint}</p>
+            <TabsTrigger value="identity">{messages.tabIdentity}</TabsTrigger>
+          </TabsList>
 
-            <CollectionGrid activeId={collectionId} onSelect={onCollectionSelect} />
+          <TabsContent value="global" className="space-y-5">
+            <section className="space-y-2">
+              <button
+                type="button"
+                onClick={() => setThemesOpen((value) => !value)}
+                aria-expanded={themesOpen}
+                className="flex w-full items-center justify-between gap-2 text-left"
+              >
+                <h3 className="text-xs font-medium text-text-strong">
+                  {messages.collectionsTitle}
+                </h3>
 
-            {activeCollection && (
-              <p className="text-xs font-normal text-text-subtle">
-                {messages.colorsNote(activeCollection.name)}
-              </p>
-            )}
-          </section>
+                <span className="inline-flex items-center gap-1 text-[11px] font-normal text-text-subtle">
+                  {themesOpen ? messages.themesCollapse : messages.themesExpand}
 
-          <section className="space-y-3 border-t border-border-soft pt-4">
-            <div className="space-y-0.5">
-              <h3 className="text-xs font-medium text-text-strong">{messages.nameStyleTitle}</h3>
+                  <ChevronDown
+                    className={cn("h-3.5 w-3.5 transition-transform", themesOpen && "rotate-180")}
+                    aria-hidden
+                  />
+                </span>
+              </button>
 
-              <p className="text-xs font-normal text-text-subtle">{messages.nameStyleHint}</p>
-            </div>
+              {themesOpen && (
+                <>
+                  <p className="text-xs font-normal text-text-subtle">{messages.collectionsHint}</p>
 
-            <div className="space-y-2">
-              <h4 className="text-xs font-medium text-text-strong">
-                {messages.nameStyleThemesTitle}
-              </h4>
+                  <CollectionGrid activeId={collectionId} onSelect={onCollectionSelect} />
 
-              <p className="text-xs font-normal text-text-subtle">{messages.nameStyleThemesHint}</p>
+                  {activeCollection && (
+                    <p className="text-xs font-normal text-text-subtle">
+                      {messages.colorsNote(activeCollection.name)}
+                    </p>
+                  )}
+                </>
+              )}
+            </section>
 
-              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                {Object.entries(PROFILE_NAME_THEMES).map(([theme, definition]) => {
-                  const themeId = theme as typeof selectedNameTheme;
-                  const themeColors = profileNameThemePaint(themeId);
-                  const gradient = definition.colors.length > 1;
+            {purchasedThemes && <PurchasedThemes {...purchasedThemes} />}
+
+            <section className="space-y-2">
+              <h3 className="text-xs font-medium text-text-strong">{messages.mode}</h3>
+
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => onModeChange("light")}
+                  aria-pressed={mode === "light"}
+                  className={cn(
+                    "flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-normal transition",
+                    mode === "light"
+                      ? "border-primary bg-primary-soft text-primary"
+                      : "border-border-soft bg-surface-1 text-text-subtle hover:text-text-strong",
+                  )}
+                >
+                  <Sun className="h-3.5 w-3.5" />
+
+                  <>{messages.light}</>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => onModeChange("dark")}
+                  aria-pressed={mode === "dark"}
+                  className={cn(
+                    "flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-normal transition",
+                    mode === "dark"
+                      ? "border-primary bg-primary-soft text-primary"
+                      : "border-border-soft bg-surface-1 text-text-subtle hover:text-text-strong",
+                  )}
+                >
+                  <Moon className="h-3.5 w-3.5" />
+
+                  <>{messages.dark}</>
+                </button>
+              </div>
+            </section>
+
+            {/* As cores livres valem SEMPRE: sem tema, são o tema; com tema, são
+              camada por cima (destaque e fundo — superfícies ficam do tema). */}
+            <section className="space-y-2">
+              <h3 className="text-xs font-medium text-text-strong">{messages.presets}</h3>
+
+              <PresetRow activeId={activePresetId} onSelect={onSettingsChange} />
+            </section>
+
+            <section className="space-y-3">
+              <div className="space-y-0.5">
+                <h3 className="text-xs font-medium text-text-strong">{messages.accentSection}</h3>
+
+                <p className="text-xs font-normal text-text-subtle">{messages.accentHint}</p>
+              </div>
+
+              <RangeField
+                label={messages.hue}
+                value={settings.accent.hue}
+                min={THEME_LIMITS.hue.min}
+                max={THEME_LIMITS.hue.max}
+                step={1}
+                valueLabel={messages.hueValue(Math.round(settings.accent.hue))}
+                onChange={(hue) => updateAccent({ hue })}
+                hueTrack
+              />
+              <RangeField
+                label={messages.saturation}
+                value={settings.accent.chroma}
+                min={THEME_LIMITS.accentChroma.min}
+                max={THEME_LIMITS.accentChroma.max}
+                step={0.005}
+                valueLabel={percent(settings.accent.chroma, CHROMA_MAX.accent)}
+                onChange={(chroma) => updateAccent({ chroma })}
+              />
+              <RangeField
+                label={messages.brightness}
+                value={settings.accent.lightness}
+                min={THEME_LIMITS.accentLightness.min}
+                max={THEME_LIMITS.accentLightness.max}
+                step={0.005}
+                valueLabel={percent(
+                  settings.accent.lightness - THEME_LIMITS.accentLightness.min,
+                  THEME_LIMITS.accentLightness.max - THEME_LIMITS.accentLightness.min,
+                )}
+                onChange={(lightness) => updateAccent({ lightness })}
+                hint={messages.brightnessHint}
+              />
+            </section>
+
+            <section className="space-y-3">
+              <div className="space-y-0.5">
+                <h3 className="text-xs font-medium text-text-strong">
+                  {messages.backgroundSection}
+                </h3>
+
+                <p className="text-xs font-normal text-text-subtle">{messages.backgroundHint}</p>
+              </div>
+
+              {/* Plano de fundo: automático, cor sólida ou gradiente. Com fundo
+                    escolhido, o tingimento fino não faz sentido e fica fora. */}
+              {/* Cor de widget (o interno dos cartões/painéis) e plano de fundo (a
+                página atrás de tudo) — cada um com cor sólida ou gradiente. */}
+              <div className="space-y-2 border-t border-border-soft pt-3">
+                <p className="text-xs font-medium text-text-strong">{messages.bgStyleTitle}</p>
+
+                <p className="text-xs font-normal text-text-subtle">{messages.bgStyleHint}</p>
+
+                <BackgroundStylePicker
+                  value={widgetBackground}
+                  onChange={onWidgetBackgroundChange}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-xs font-medium text-text-strong">{messages.pageBgTitle}</p>
+
+                <p className="text-xs font-normal text-text-subtle">{messages.pageBgHint}</p>
+
+                <BackgroundStylePicker value={pageBackground} onChange={onPageBackgroundChange} />
+              </div>
+
+              {!activeCollection && !pageBackground && (
+                <>
+                  <RangeField
+                    label={messages.hue}
+                    value={settings.background.hue}
+                    min={THEME_LIMITS.hue.min}
+                    max={THEME_LIMITS.hue.max}
+                    step={1}
+                    valueLabel={messages.hueValue(Math.round(settings.background.hue))}
+                    onChange={(hue) => updateBackground({ hue })}
+                    hueTrack
+                  />
+                  <RangeField
+                    label={messages.backgroundIntensity}
+                    value={settings.background.chroma}
+                    min={THEME_LIMITS.backgroundChroma.min}
+                    max={THEME_LIMITS.backgroundChroma.max}
+                    step={0.001}
+                    valueLabel={percent(settings.background.chroma, CHROMA_MAX.background)}
+                    onChange={(chroma) => updateBackground({ chroma })}
+                  />
+                </>
+              )}
+            </section>
+
+            <section className="space-y-2">
+              <h3 className="text-xs font-medium text-text-strong">{messages.preview}</h3>
+
+              <ThemePreview />
+              {!activeCollection && <ContrastNotice report={report} />}
+            </section>
+
+            <section className="space-y-2 border-t border-border-soft pt-3">
+              <h3 className="text-xs font-medium text-text-strong">{messages.fileSection}</h3>
+
+              <p className="text-xs font-normal text-text-subtle">{messages.fileHint}</p>
+
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-auto rounded-full gap-2 text-xs"
+                  onClick={onExport}
+                >
+                  <Download className="h-3.5 w-3.5" />
+
+                  <>{messages.exportTheme}</>
+                </Button>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-auto rounded-full gap-2 text-xs"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <Upload className="h-3.5 w-3.5" />
+
+                  <>{messages.importTheme}</>
+                </Button>
+
+                {/* Qualquer aparência (coleção + cores livres + fundos) pode virar tema e ser
+                  vendida: o marketplace deixa de ser só "tema de coleção". */}
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-auto rounded-full gap-2 text-xs"
+                  onClick={onSell}
+                >
+                  <Store className="h-3.5 w-3.5" />
+
+                  <>{messages.sellTheme}</>
+                </Button>
+              </div>
+
+              {/* O input fica escondido: quem abre é o botão de importar. */}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".enois-theme,application/json"
+                className="hidden"
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  event.target.value = "";
+                  if (file) onImport(file);
+                }}
+              />
+
+              {fileStatus && (
+                <p
+                  className={cn(
+                    "text-xs",
+                    fileStatus.kind === "ok" ? "text-growth" : "text-destructive",
+                  )}
+                >
+                  {fileStatus.kind === "ok"
+                    ? messages.fileImported
+                    : messages.fileErrors[fileStatus.reason]}
+                </p>
+              )}
+            </section>
+          </TabsContent>
+
+          <TabsContent value="identity" className="space-y-5">
+            <section className="space-y-3">
+              <div className="space-y-0.5">
+                <h3 className="text-xs font-medium text-text-strong">{messages.nameStyleTitle}</h3>
+
+                <p className="text-xs font-normal text-text-subtle">{messages.nameStyleHint}</p>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="text-xs font-medium text-text-strong">
+                  {messages.nameStyleThemesTitle}
+                </h4>
+
+                <p className="text-xs font-normal text-text-subtle">
+                  {messages.nameStyleThemesHint}
+                </p>
+
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                  {Object.entries(PROFILE_NAME_THEMES).map(([theme, definition]) => {
+                    const themeId = theme as typeof selectedNameTheme;
+                    const themeColors = profileNameThemePaint(themeId);
+                    const gradient = definition.colors.length > 1;
+                    return (
+                      <button
+                        key={theme}
+                        type="button"
+                        onClick={() => updateNameStyle({ theme: themeId })}
+                        aria-pressed={selectedNameTheme === themeId}
+                        className={cn(
+                          "rounded-xl border px-2 py-3 text-center text-sm transition",
+                          selectedNameTheme === themeId
+                            ? "border-primary bg-primary-soft text-primary"
+                            : "border-border-soft bg-surface-1 text-text-subtle hover:border-primary/60 hover:text-text-strong",
+                          definition.className,
+                        )}
+                        style={{
+                          fontFamily: profileNameFontFamily(definition.font),
+                          ...(gradient
+                            ? {
+                                backgroundImage: themeColors,
+                                WebkitBackgroundClip: "text",
+                                backgroundClip: "text",
+                                color: "transparent",
+                              }
+                            : { color: definition.colors[0] }),
+                        }}
+                      >
+                        {messages.nameStyleThemes[themeId]}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
+                {Object.entries(PROFILE_NAME_FONTS).map(([font, family]) => {
+                  const fontId = font as typeof selectedNameFont;
                   return (
                     <button
-                      key={theme}
+                      key={font}
                       type="button"
-                      onClick={() => updateNameStyle({ theme: themeId })}
-                      aria-pressed={selectedNameTheme === themeId}
+                      onClick={() => updateNameStyle({ font: fontId })}
+                      aria-pressed={selectedNameFont === fontId}
                       className={cn(
-                        "rounded-xl border px-2 py-3 text-center text-sm transition",
-                        selectedNameTheme === themeId
+                        "rounded-xl border px-2 py-3 text-center text-xs transition",
+                        selectedNameFont === fontId
                           ? "border-primary bg-primary-soft text-primary"
                           : "border-border-soft bg-surface-1 text-text-subtle hover:border-primary/60 hover:text-text-strong",
-                        definition.className,
                       )}
-                      style={{
-                        fontFamily: profileNameFontFamily(definition.font),
-                        ...(gradient
-                          ? {
-                              backgroundImage: themeColors,
-                              WebkitBackgroundClip: "text",
-                              backgroundClip: "text",
-                              color: "transparent",
-                            }
-                          : { color: definition.colors[0] }),
-                      }}
+                      style={{ fontFamily: family }}
                     >
-                      {messages.nameStyleThemes[themeId]}
+                      {messages.nameStyleFonts[fontId]}
                     </button>
                   );
                 })}
               </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
-              {Object.entries(PROFILE_NAME_FONTS).map(([font, family]) => {
-                const fontId = font as typeof selectedNameFont;
-                return (
-                  <button
-                    key={font}
-                    type="button"
-                    onClick={() => updateNameStyle({ font: fontId })}
-                    aria-pressed={selectedNameFont === fontId}
-                    className={cn(
-                      "rounded-xl border px-2 py-3 text-center text-xs transition",
-                      selectedNameFont === fontId
-                        ? "border-primary bg-primary-soft text-primary"
-                        : "border-border-soft bg-surface-1 text-text-subtle hover:border-primary/60 hover:text-text-strong",
-                    )}
-                    style={{ fontFamily: family }}
-                  >
-                    {messages.nameStyleFonts[fontId]}
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2">
-              {PROFILE_NAME_COLORS.map((color) => (
-                <button
-                  key={color}
-                  type="button"
-                  aria-label={messages.nameStyleUseColor(color)}
-                  aria-pressed={selectedNameColor === color}
-                  onClick={() => updateNameStyle({ color })}
-                  className={cn(
-                    "h-8 w-8 rounded-full border-2 transition",
-                    selectedNameColor === color
-                      ? "border-text-strong ring-2 ring-primary ring-offset-2 ring-offset-surface-card"
-                      : "border-transparent",
-                  )}
-                  style={{ backgroundColor: color }}
-                />
-              ))}
-              <label className="inline-flex items-center gap-2 rounded-full border border-border-soft bg-surface-1 px-3 py-1.5 text-xs text-text-subtle">
-                {messages.nameStyleOtherColor}
-                <input
-                  type="color"
-                  value={selectedNameColor}
-                  onChange={(event) => updateNameStyle({ color: event.target.value })}
-                  className="h-6 w-6 cursor-pointer rounded-full border-0 bg-transparent p-0"
-                />
-              </label>
-            </div>
-
-            <div className="rounded-xl border border-border-soft bg-surface-1 px-4 py-3">
-              <p className="text-xs text-text-subtle">{messages.nameStylePreview}</p>
-
-              <p
-                className={cn("mt-1 text-xl font-semibold", selectedNameThemeDefinition.className)}
-                style={{
-                  fontFamily: profileNameFontFamily(selectedNameFont),
-                  ...(selectedNameThemeDefinition.colors.length > 1
-                    ? {
-                        backgroundImage: profileNameThemePaint(
-                          selectedNameTheme,
-                          selectedNameColor,
-                        ),
-                        WebkitBackgroundClip: "text",
-                        backgroundClip: "text",
-                        color: "transparent",
-                      }
-                    : { color: selectedNameColor }),
-                }}
-              >
-                {profileName ?? messages.nameStylePreviewName}
-              </p>
-            </div>
-          </section>
-
-          {onContributorTagColorChange && (
-            <section className="space-y-3 border-t border-border-soft pt-4">
-              <div className="space-y-0.5">
-                <h3 className="text-xs font-medium text-text-strong">
-                  {messages.contributorTagTitle}
-                </h3>
-
-                <p className="text-xs font-normal text-text-subtle">
-                  {messages.contributorTagHint}
-                </p>
-              </div>
 
               <div className="flex flex-wrap items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => onContributorTagColorChange(null)}
-                  aria-pressed={contributorTagColor === null}
-                  className={cn(
-                    "rounded-full border px-3 py-1.5 text-xs transition",
-                    contributorTagColor === null
-                      ? "border-primary bg-primary-soft text-primary"
-                      : "border-border-soft bg-surface-1 text-text-subtle hover:border-primary/60 hover:text-text-strong",
-                  )}
-                >
-                  {messages.contributorTagDefault}
-                </button>
-
                 {PROFILE_NAME_COLORS.map((color) => (
                   <button
                     key={color}
                     type="button"
                     aria-label={messages.nameStyleUseColor(color)}
-                    aria-pressed={contributorTagColor === color}
-                    onClick={() => onContributorTagColorChange(color)}
+                    aria-pressed={selectedNameColor === color}
+                    onClick={() => updateNameStyle({ color })}
                     className={cn(
                       "h-8 w-8 rounded-full border-2 transition",
-                      contributorTagColor === color
+                      selectedNameColor === color
                         ? "border-text-strong ring-2 ring-primary ring-offset-2 ring-offset-surface-card"
                         : "border-transparent",
                     )}
                     style={{ backgroundColor: color }}
                   />
                 ))}
-
                 <label className="inline-flex items-center gap-2 rounded-full border border-border-soft bg-surface-1 px-3 py-1.5 text-xs text-text-subtle">
                   {messages.nameStyleOtherColor}
                   <input
                     type="color"
-                    value={contributorTagColor ?? CONTRIBUTOR_TAG_PICKER_START}
-                    onChange={(event) => onContributorTagColorChange(event.target.value)}
+                    value={selectedNameColor}
+                    onChange={(event) => updateNameStyle({ color: event.target.value })}
                     className="h-6 w-6 cursor-pointer rounded-full border-0 bg-transparent p-0"
                   />
                 </label>
               </div>
 
               <div className="rounded-xl border border-border-soft bg-surface-1 px-4 py-3">
-                <p className="text-xs text-text-subtle">{messages.contributorTagPreview}</p>
+                <p className="text-xs text-text-subtle">{messages.nameStylePreview}</p>
 
-                <span
-                  className="mt-1 inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium"
+                <p
+                  className={cn(
+                    "mt-1 text-xl font-semibold",
+                    selectedNameThemeDefinition.className,
+                  )}
                   style={{
-                    color: contributorTagColor ?? "var(--primary)",
-                    borderColor: contributorTagColor ?? "var(--primary)",
+                    fontFamily: profileNameFontFamily(selectedNameFont),
+                    ...(selectedNameThemeDefinition.colors.length > 1
+                      ? {
+                          backgroundImage: profileNameThemePaint(
+                            selectedNameTheme,
+                            selectedNameColor,
+                          ),
+                          WebkitBackgroundClip: "text",
+                          backgroundClip: "text",
+                          color: "transparent",
+                        }
+                      : { color: selectedNameColor }),
                   }}
                 >
-                  {messages.contributorTagLabel}
-                </span>
+                  {profileName ?? messages.nameStylePreviewName}
+                </p>
               </div>
             </section>
-          )}
 
-          <section className="space-y-2">
-            <h3 className="text-xs font-medium text-text-strong">{messages.mode}</h3>
+            {onContributorTagColorChange && (
+              <section className="space-y-3 border-t border-border-soft pt-4">
+                <div className="space-y-0.5">
+                  <h3 className="text-xs font-medium text-text-strong">
+                    {messages.contributorTagTitle}
+                  </h3>
 
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => onModeChange("light")}
-                aria-pressed={mode === "light"}
-                className={cn(
-                  "flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-normal transition",
-                  mode === "light"
-                    ? "border-primary bg-primary-soft text-primary"
-                    : "border-border-soft bg-surface-1 text-text-subtle hover:text-text-strong",
-                )}
-              >
-                <Sun className="h-3.5 w-3.5" />
+                  <p className="text-xs font-normal text-text-subtle">
+                    {messages.contributorTagHint}
+                  </p>
+                </div>
 
-                <>{messages.light}</>
-              </button>
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => onContributorTagColorChange(null)}
+                    aria-pressed={contributorTagColor === null}
+                    className={cn(
+                      "rounded-full border px-3 py-1.5 text-xs transition",
+                      contributorTagColor === null
+                        ? "border-primary bg-primary-soft text-primary"
+                        : "border-border-soft bg-surface-1 text-text-subtle hover:border-primary/60 hover:text-text-strong",
+                    )}
+                  >
+                    {messages.contributorTagDefault}
+                  </button>
 
-              <button
-                type="button"
-                onClick={() => onModeChange("dark")}
-                aria-pressed={mode === "dark"}
-                className={cn(
-                  "flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-normal transition",
-                  mode === "dark"
-                    ? "border-primary bg-primary-soft text-primary"
-                    : "border-border-soft bg-surface-1 text-text-subtle hover:text-text-strong",
-                )}
-              >
-                <Moon className="h-3.5 w-3.5" />
+                  {PROFILE_NAME_COLORS.map((color) => (
+                    <button
+                      key={color}
+                      type="button"
+                      aria-label={messages.nameStyleUseColor(color)}
+                      aria-pressed={contributorTagColor === color}
+                      onClick={() => onContributorTagColorChange(color)}
+                      className={cn(
+                        "h-8 w-8 rounded-full border-2 transition",
+                        contributorTagColor === color
+                          ? "border-text-strong ring-2 ring-primary ring-offset-2 ring-offset-surface-card"
+                          : "border-transparent",
+                      )}
+                      style={{ backgroundColor: color }}
+                    />
+                  ))}
 
-                <>{messages.dark}</>
-              </button>
-            </div>
-          </section>
+                  <label className="inline-flex items-center gap-2 rounded-full border border-border-soft bg-surface-1 px-3 py-1.5 text-xs text-text-subtle">
+                    {messages.nameStyleOtherColor}
+                    <input
+                      type="color"
+                      value={contributorTagColor ?? CONTRIBUTOR_TAG_PICKER_START}
+                      onChange={(event) => onContributorTagColorChange(event.target.value)}
+                      className="h-6 w-6 cursor-pointer rounded-full border-0 bg-transparent p-0"
+                    />
+                  </label>
+                </div>
 
-          {/* As cores livres valem SEMPRE: sem tema, são o tema; com tema, são
-              camada por cima (destaque e fundo — superfícies ficam do tema). */}
-          <section className="space-y-2">
-            <h3 className="text-xs font-medium text-text-strong">{messages.presets}</h3>
+                <div className="rounded-xl border border-border-soft bg-surface-1 px-4 py-3">
+                  <p className="text-xs text-text-subtle">{messages.contributorTagPreview}</p>
 
-            <PresetRow activeId={activePresetId} onSelect={onSettingsChange} />
-          </section>
-
-          <section className="space-y-3">
-            <div className="space-y-0.5">
-              <h3 className="text-xs font-medium text-text-strong">{messages.accentSection}</h3>
-
-              <p className="text-xs font-normal text-text-subtle">{messages.accentHint}</p>
-            </div>
-
-            <RangeField
-              label={messages.hue}
-              value={settings.accent.hue}
-              min={THEME_LIMITS.hue.min}
-              max={THEME_LIMITS.hue.max}
-              step={1}
-              valueLabel={messages.hueValue(Math.round(settings.accent.hue))}
-              onChange={(hue) => updateAccent({ hue })}
-              hueTrack
-            />
-            <RangeField
-              label={messages.saturation}
-              value={settings.accent.chroma}
-              min={THEME_LIMITS.accentChroma.min}
-              max={THEME_LIMITS.accentChroma.max}
-              step={0.005}
-              valueLabel={percent(settings.accent.chroma, CHROMA_MAX.accent)}
-              onChange={(chroma) => updateAccent({ chroma })}
-            />
-            <RangeField
-              label={messages.brightness}
-              value={settings.accent.lightness}
-              min={THEME_LIMITS.accentLightness.min}
-              max={THEME_LIMITS.accentLightness.max}
-              step={0.005}
-              valueLabel={percent(
-                settings.accent.lightness - THEME_LIMITS.accentLightness.min,
-                THEME_LIMITS.accentLightness.max - THEME_LIMITS.accentLightness.min,
-              )}
-              onChange={(lightness) => updateAccent({ lightness })}
-              hint={messages.brightnessHint}
-            />
-          </section>
-
-          <section className="space-y-3">
-            <div className="space-y-0.5">
-              <h3 className="text-xs font-medium text-text-strong">{messages.backgroundSection}</h3>
-
-              <p className="text-xs font-normal text-text-subtle">{messages.backgroundHint}</p>
-            </div>
-
-            {/* Plano de fundo: automático, cor sólida ou gradiente. Com fundo
-                    escolhido, o tingimento fino não faz sentido e fica fora. */}
-            {/* Cor de widget (o interno dos cartões/painéis) e plano de fundo (a
-                página atrás de tudo) — cada um com cor sólida ou gradiente. */}
-            <div className="space-y-2 border-t border-border-soft pt-3">
-              <p className="text-xs font-medium text-text-strong">{messages.bgStyleTitle}</p>
-
-              <p className="text-xs font-normal text-text-subtle">{messages.bgStyleHint}</p>
-
-              <BackgroundStylePicker value={widgetBackground} onChange={onWidgetBackgroundChange} />
-            </div>
-
-            <div className="space-y-2">
-              <p className="text-xs font-medium text-text-strong">{messages.pageBgTitle}</p>
-
-              <p className="text-xs font-normal text-text-subtle">{messages.pageBgHint}</p>
-
-              <BackgroundStylePicker value={pageBackground} onChange={onPageBackgroundChange} />
-            </div>
-
-            {!activeCollection && !pageBackground && (
-              <>
-                <RangeField
-                  label={messages.hue}
-                  value={settings.background.hue}
-                  min={THEME_LIMITS.hue.min}
-                  max={THEME_LIMITS.hue.max}
-                  step={1}
-                  valueLabel={messages.hueValue(Math.round(settings.background.hue))}
-                  onChange={(hue) => updateBackground({ hue })}
-                  hueTrack
-                />
-                <RangeField
-                  label={messages.backgroundIntensity}
-                  value={settings.background.chroma}
-                  min={THEME_LIMITS.backgroundChroma.min}
-                  max={THEME_LIMITS.backgroundChroma.max}
-                  step={0.001}
-                  valueLabel={percent(settings.background.chroma, CHROMA_MAX.background)}
-                  onChange={(chroma) => updateBackground({ chroma })}
-                />
-              </>
+                  <span
+                    className="mt-1 inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium"
+                    style={{
+                      color: contributorTagColor ?? "var(--primary)",
+                      borderColor: contributorTagColor ?? "var(--primary)",
+                    }}
+                  >
+                    {messages.contributorTagLabel}
+                  </span>
+                </div>
+              </section>
             )}
-          </section>
+          </TabsContent>
+        </Tabs>
 
-          <section className="space-y-2">
-            <h3 className="text-xs font-medium text-text-strong">{messages.preview}</h3>
+        <div className="flex flex-wrap justify-between gap-2 border-t border-border-soft pt-4">
+          <Button
+            type="button"
+            variant="ghost"
+            className="w-auto rounded-full gap-2 text-sm"
+            onClick={onReset}
+          >
+            <RotateCcw className="h-3.5 w-3.5" />
 
-            <ThemePreview />
-            {!activeCollection && <ContrastNotice report={report} />}
-          </section>
+            <>{messages.reset}</>
+          </Button>
 
-          <section className="space-y-2 border-t border-border-soft pt-3">
-            <h3 className="text-xs font-medium text-text-strong">{messages.fileSection}</h3>
-
-            <p className="text-xs font-normal text-text-subtle">{messages.fileHint}</p>
-
-            <div className="flex flex-wrap gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                className="w-auto rounded-full gap-2 text-xs"
-                onClick={onExport}
-              >
-                <Download className="h-3.5 w-3.5" />
-
-                <>{messages.exportTheme}</>
-              </Button>
-
-              <Button
-                type="button"
-                variant="outline"
-                className="w-auto rounded-full gap-2 text-xs"
-                onClick={() => fileInputRef.current?.click()}
-              >
-                <Upload className="h-3.5 w-3.5" />
-
-                <>{messages.importTheme}</>
-              </Button>
-
-              {/* Qualquer aparência (coleção + cores livres + fundos) pode virar tema e ser
-                  vendida: o marketplace deixa de ser só "tema de coleção". */}
-              <Button
-                type="button"
-                variant="outline"
-                className="w-auto rounded-full gap-2 text-xs"
-                onClick={onSell}
-              >
-                <Store className="h-3.5 w-3.5" />
-
-                <>{messages.sellTheme}</>
-              </Button>
-            </div>
-
-            {/* O input fica escondido: quem abre é o botão de importar. */}
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".enois-theme,application/json"
-              className="hidden"
-              onChange={(event) => {
-                const file = event.target.files?.[0];
-                event.target.value = "";
-                if (file) onImport(file);
-              }}
-            />
-
-            {fileStatus && (
-              <p
-                className={cn(
-                  "text-xs",
-                  fileStatus.kind === "ok" ? "text-growth" : "text-destructive",
-                )}
-              >
-                {fileStatus.kind === "ok"
-                  ? messages.fileImported
-                  : messages.fileErrors[fileStatus.reason]}
-              </p>
-            )}
-          </section>
-
-          <div className="flex flex-wrap justify-between gap-2 border-t border-border-soft pt-4">
-            <Button
-              type="button"
-              variant="ghost"
-              className="w-auto rounded-full gap-2 text-sm"
-              onClick={onReset}
-            >
-              <RotateCcw className="h-3.5 w-3.5" />
-
-              <>{messages.reset}</>
-            </Button>
-
-            <Button
-              type="button"
-              className="w-auto rounded-full px-6 text-sm"
-              onClick={() => onOpenChange(false)}
-            >
-              {messages.done}
-            </Button>
-          </div>
+          <Button
+            type="button"
+            className="w-auto rounded-full px-6 text-sm"
+            onClick={() => onOpenChange(false)}
+          >
+            {messages.done}
+          </Button>
         </div>
       </DialogContent>
 

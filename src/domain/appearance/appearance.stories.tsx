@@ -9,6 +9,7 @@ import type { ThemeSettings } from "../../types/lib/theme/theme-settings.js";
 import type { Theme } from "../../types/lib/theme/theme.js";
 
 import { AppearanceDialog } from "./appearance-dialog.js";
+import { PurchasedThemes } from "./purchased-themes.js";
 import { ThemeSellDialog } from "./theme-sell-dialog.js";
 
 const meta: Meta = {
@@ -16,6 +17,11 @@ const meta: Meta = {
 };
 
 export default meta;
+
+const PURCHASED = [
+  { itemId: "theme-1", title: "Roxo profundo" },
+  { itemId: "theme-2", title: null },
+];
 
 export const Dialog: StoryObj = {
   render: function DialogStory() {
@@ -27,6 +33,7 @@ export const Dialog: StoryObj = {
     const [nameStyle, setNameStyle] = useState<ProfileNameStyle | null>(null);
     const [sellOpen, setSellOpen] = useState(false);
     const [tagColor, setTagColor] = useState<string | null>(null);
+    const [applying, setApplying] = useState<string | null>(null);
 
     return (
       <AppearanceDialog
@@ -46,6 +53,14 @@ export const Dialog: StoryObj = {
         collectionId={collectionId}
         activeCollection={null}
         onCollectionSelect={setCollectionId}
+        purchasedThemes={{
+          themes: PURCHASED,
+          applyingItemId: applying,
+          onApply: (itemId) => {
+            setApplying(itemId);
+            setTimeout(() => setApplying(null), 1200);
+          },
+        }}
         widgetBackground={widget}
         onWidgetBackgroundChange={setWidget}
         pageBackground={page}
@@ -70,4 +85,20 @@ export const Dialog: StoryObj = {
       />
     );
   },
+};
+
+export const PurchasedThemesList: StoryObj = {
+  render: () => (
+    <div className="max-w-xl">
+      <PurchasedThemes themes={PURCHASED} applyingItemId="theme-1" onApply={() => {}} />
+    </div>
+  ),
+};
+
+export const PurchasedThemesEmpty: StoryObj = {
+  render: () => (
+    <div className="max-w-xl">
+      <PurchasedThemes themes={[]} onApply={() => {}} />
+    </div>
+  ),
 };

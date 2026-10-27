@@ -5,6 +5,10 @@ export type AppearanceMessages = {
     collectionsTitle: string;
     collectionsHint: string;
     colorsNote: (name: string) => string;
+    tabGlobal: string;
+    tabIdentity: string;
+    themesCollapse: string;
+    themesExpand: string;
     nameStyleTitle: string;
     nameStyleHint: string;
     nameStyleThemesTitle: string;
@@ -16,6 +20,12 @@ export type AppearanceMessages = {
       NEON: string;
       GLITCH: string;
       CANDY: string;
+      RETRO: string;
+      OCEAN: string;
+      SUNSET: string;
+      MATRIX: string;
+      GOLD: string;
+      ICE: string;
     };
     nameStyleFonts: {
       SYSTEM: string;
@@ -25,6 +35,10 @@ export type AppearanceMessages = {
       DISPLAY: string;
       PIXEL: string;
       GOTHIC: string;
+      CURSIVE: string;
+      CONDENSED: string;
+      COMIC: string;
+      SLAB: string;
     };
     nameStyleUseColor: (color: string) => string;
     nameStyleOtherColor: string;
@@ -134,6 +148,13 @@ export type AppearanceMessages = {
       rosa: string;
       grafite: string;
     };
+  };
+  purchasedThemes: {
+    title: string;
+    hint: string;
+    empty: string;
+    /** Rótulo do botão quando a compra não tem título. */
+    apply: string;
   };
   themePreview: {
     previewAvatar: string;
