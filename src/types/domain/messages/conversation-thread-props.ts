@@ -10,6 +10,8 @@ export type ConversationThreadProps = {
   profileHref: string;
   /** Voltar para a lista — só no mobile, onde a tela inteira troca de lista para filão. */
   onBack?: () => void;
+  /** Shown between the header and the messages (e.g. the E2eSetupBanner). */
+  banner?: ReactNode;
   /** Os balões, já montados pelo app, do mais antigo ao mais novo. */
   children?: ReactNode;
   loading: boolean;

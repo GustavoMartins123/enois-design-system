@@ -1,11 +1,16 @@
 export { ContributionForm } from "./contribution-form.js";
+export { ContributorLinkStatus } from "./contributor-link-status.js";
 export { MySupportRequests } from "./my-support-requests.js";
 export { SupportForm } from "./support-form.js";
+export { VerifiedContributorPrompt } from "./verified-contributor-prompt.js";
 export type { ContributionFormInitial } from "../../types/domain/support/contribution-form-initial.js";
 export type { ContributionFormMode } from "../../types/domain/support/contribution-form-mode.js";
 export type { ContributionFormProps } from "../../types/domain/support/contribution-form-props.js";
 export type { ContributionFormValues } from "../../types/domain/support/contribution-form-values.js";
+export type { ContributorLinkStatusProps } from "../../types/domain/support/contributor-link-status-props.js";
+export type { ContributorSyncResult } from "../../types/domain/support/contributor-sync-result.js";
 export type { MySupportRequestsProps } from "../../types/domain/support/my-support-requests-props.js";
 export type { SupportFormProps } from "../../types/domain/support/support-form-props.js";
 export type { SupportFormValues } from "../../types/domain/support/support-form-values.js";
 export type { SupportRequestData } from "../../types/domain/support/support-request-data.js";
+export type { VerifiedContributorPromptProps } from "../../types/domain/support/verified-contributor-prompt-props.js";

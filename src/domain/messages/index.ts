@@ -2,6 +2,7 @@ export { ConversationHeader } from "./conversation-header.js";
 export { ConversationItem } from "./conversation-item.js";
 export { ConversationListSkeletons } from "./conversation-list-skeletons.js";
 export { ConversationThread } from "./conversation-thread.js";
+export { E2eSetupBanner } from "./e2e-setup-banner.js";
 export { MessageBubble } from "./message-bubble.js";
 export { MessageSkeletons } from "./message-skeletons.js";
 export type { ConversationHeaderProps } from "../../types/domain/messages/conversation-header-props.js";
@@ -11,5 +12,6 @@ export type { ConversationPeerData } from "../../types/domain/messages/conversat
 export type { ConversationSendValues } from "../../types/domain/messages/conversation-send-values.js";
 export type { ConversationServiceOption } from "../../types/domain/messages/conversation-service-option.js";
 export type { ConversationThreadProps } from "../../types/domain/messages/conversation-thread-props.js";
+export type { E2eSetupBannerProps } from "../../types/domain/messages/e2e-setup-banner-props.js";
 export type { MessageBubbleData } from "../../types/domain/messages/message-bubble-data.js";
 export type { MessageBubbleProps } from "../../types/domain/messages/message-bubble-props.js";

@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { ContributionForm } from "./contribution-form.js";
+import { ContributorLinkStatus } from "./contributor-link-status.js";
 import { MySupportRequests } from "./my-support-requests.js";
 import { SupportForm } from "./support-form.js";
+import { VerifiedContributorPrompt } from "./verified-contributor-prompt.js";
 
 const meta: Meta = {
   title: "Domain/Support",
@@ -71,6 +73,48 @@ export const ContributionVerified: StoryObj = {
         mode="verified"
         initial={{ name: "Marina Rocha", email: "marina@example.com", github: "marinarocha" }}
       />
+    </div>
+  ),
+};
+
+export const LinkStatus: StoryObj = {
+  render: () => (
+    <div className="max-w-2xl">
+      <ContributorLinkStatus
+        login="marinarocha"
+        syncState="ERROR"
+        syncPending={false}
+        syncResult={{ contributions: 2, issues: 1, rateLimited: false }}
+        syncError={false}
+        onSync={() => {}}
+        securityHref="#"
+      />
+    </div>
+  ),
+};
+
+export const VerifiedPrompt: StoryObj = {
+  render: () => (
+    <div className="max-w-2xl">
+      <VerifiedContributorPrompt
+        confirmed={false}
+        form={
+          <ContributionForm
+            termsHref="#"
+            onSubmit={async () => null}
+            mode="verified"
+            initial={{ name: "Marina Rocha", email: "marina@example.com", github: "marinarocha" }}
+          />
+        }
+      />
+    </div>
+  ),
+};
+
+export const VerifiedConfirmed: StoryObj = {
+  render: () => (
+    <div className="max-w-2xl">
+      <VerifiedContributorPrompt confirmed />
     </div>
   ),
 };

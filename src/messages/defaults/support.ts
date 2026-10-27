@@ -100,4 +100,38 @@ export const supportMessages: SupportMessages = {
     validationEmail: "Informe um e-mail válido.",
     validationTerms: "Para enviar, aceite as regras e os termos.",
   },
+  contributorLinkStatus: {
+    title: "GitHub vinculado, contribuição ainda não verificada",
+    description: (login: string) =>
+      `Vinculado como @${login}. Ainda não encontramos nenhum pull request integrado ou issue qualificada nos repositórios elegíveis. Se você acabou de contribuir, verifique de novo.`,
+    error: "A última verificação falhou; tente de novo agora.",
+    syncNow: "Verificar contribuições",
+    syncing: "Verificando contribuições...",
+    syncFailed: "Não foi possível verificar agora. Tente de novo em alguns minutos.",
+    syncFound: (contributions: number, issues: number) => {
+      const parts: string[] = [];
+      if (contributions > 0) {
+        parts.push(contributions === 1 ? "1 pull request" : `${contributions} pull requests`);
+      }
+      if (issues > 0) {
+        parts.push(issues === 1 ? "1 issue" : `${issues} issues`);
+      }
+      return `Verificação concluída: ${parts.join(" e ")}.`;
+    },
+    syncEmpty:
+      "Nenhuma contribuição encontrada ainda. Se você já teve PR integrado ou issue qualificada, tente de novo em alguns instantes.",
+    settingsLink: "GitHub para selos de contribuição",
+  },
+  verifiedContributorPrompt: {
+    title: "Você tem contribuições verificadas",
+    description:
+      "Confirme seus dados para aparecer no painel de contribuintes. A verificação é o próprio GitHub — não há aprovação manual.",
+    action: "Preencher formulário",
+    close: "Agora não",
+    formTitle: "Confirme seus dados",
+    formHint: "É o mesmo formulário da landing; o GitHub já comprovou a contribuição.",
+    confirmedTitle: "Seus dados de contribuinte já estão confirmados",
+    confirmedDescription:
+      "A contribuição foi verificada pelo GitHub e seus dados já aparecem no painel de contribuintes. Não há mais nada para preencher.",
+  },
 };

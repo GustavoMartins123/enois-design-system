@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ConversationItem } from "./conversation-item.js";
 import { ConversationListSkeletons } from "./conversation-list-skeletons.js";
 import { ConversationThread } from "./conversation-thread.js";
+import { E2eSetupBanner } from "./e2e-setup-banner.js";
 import { MessageBubble } from "./message-bubble.js";
 import { MessageSkeletons } from "./message-skeletons.js";
 
@@ -82,6 +83,55 @@ export const Thread: StoryObj = {
           emojis={emojis}
         />
       </ConversationThread>
+    </div>
+  ),
+};
+
+export const ThreadWithE2eBanner: StoryObj = {
+  render: () => (
+    <div className="flex h-[400px] max-w-lg flex-col">
+      <ConversationThread
+        peer={peer}
+        profileHref="#"
+        banner={
+          <E2eSetupBanner
+            hasPassword
+            onSetupWithPassword={async () => false}
+            onDefinePassword={async () => false}
+          />
+        }
+        loading={false}
+        empty
+        newestMessageId={null}
+        hasOlderMessages={false}
+        loadingOlder={false}
+        onLoadOlder={() => {}}
+        selecting={false}
+        selectedCount={0}
+        onStartSelecting={() => {}}
+        onCancelSelection={() => {}}
+        deletePending={false}
+        onDeleteSelected={() => {}}
+        sendPending={false}
+        onSend={() => Promise.resolve()}
+        servicesOpen={false}
+        onServicesOpenChange={() => {}}
+        servicesLoading={false}
+        services={[]}
+        serviceHref={(id) => `/servicos#oferta-${id}`}
+      />
+    </div>
+  ),
+};
+
+export const E2eBannerDefinePassword: StoryObj = {
+  render: () => (
+    <div className="max-w-lg">
+      <E2eSetupBanner
+        hasPassword={false}
+        onSetupWithPassword={async () => false}
+        onDefinePassword={async () => false}
+      />
     </div>
   ),
 };

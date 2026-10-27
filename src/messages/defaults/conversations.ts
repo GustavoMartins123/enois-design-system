@@ -9,6 +9,21 @@ export const conversationsMessages: ConversationsMessages = {
     react: "Reagir",
     report: "Denunciar mensagem",
   },
+  e2eSetupBanner: {
+    prompt: "Proteja suas mensagens com criptografia ponta a ponta.",
+    activate: "Ativar",
+    loading: "Configurando criptografia...",
+    passwordPrompt: "Digite sua senha para ativar a criptografia:",
+    passwordPlaceholder: "Sua senha",
+    passwordError: "Senha incorreta ou falha ao configurar. Tente de novo.",
+    definePrompt: "Defina uma senha para proteger suas mensagens:",
+    newPasswordPlaceholder: "Nova senha",
+    confirmPasswordPlaceholder: "Confirmar senha",
+    defineAction: "Definir senha e ativar",
+    defineError: "Não foi possível definir a senha. Tente de novo.",
+    validationMinLength: "Mínimo de 8 caracteres.",
+    validationMismatch: "As senhas não coincidem.",
+  },
   conversationThread: {
     selectMessages: "Selecionar mensagens",
     selectedMessages: (count: number) =>

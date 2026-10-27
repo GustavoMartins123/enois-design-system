@@ -7,6 +7,21 @@ export type ConversationsMessages = {
     react: string;
     report: string;
   };
+  e2eSetupBanner: {
+    prompt: string;
+    activate: string;
+    loading: string;
+    passwordPrompt: string;
+    passwordPlaceholder: string;
+    passwordError: string;
+    definePrompt: string;
+    newPasswordPlaceholder: string;
+    confirmPasswordPlaceholder: string;
+    defineAction: string;
+    defineError: string;
+    validationMinLength: string;
+    validationMismatch: string;
+  };
   conversationThread: {
     selectMessages: string;
     selectedMessages: (count: number) => string;

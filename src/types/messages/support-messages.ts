@@ -69,4 +69,25 @@ export type SupportMessages = {
     validationEmail: string;
     validationTerms: string;
   };
+  contributorLinkStatus: {
+    title: string;
+    description: (login: string) => string;
+    error: string;
+    syncNow: string;
+    syncing: string;
+    syncFailed: string;
+    syncFound: (contributions: number, issues: number) => string;
+    syncEmpty: string;
+    settingsLink: string;
+  };
+  verifiedContributorPrompt: {
+    title: string;
+    description: string;
+    action: string;
+    close: string;
+    formTitle: string;
+    formHint: string;
+    confirmedTitle: string;
+    confirmedDescription: string;
+  };
 };

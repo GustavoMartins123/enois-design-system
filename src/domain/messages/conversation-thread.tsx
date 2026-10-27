@@ -24,6 +24,7 @@ export function ConversationThread({
   peer,
   profileHref,
   onBack,
+  banner,
   children,
   loading,
   empty,
@@ -173,6 +174,8 @@ export function ConversationThread({
         profileHref={profileHref}
         onBack={onBack}
       />
+
+      {banner && <div className="px-4 pt-3">{banner}</div>}
 
       <div
         ref={messagesScrollRef}
