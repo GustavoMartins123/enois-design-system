@@ -214,4 +214,44 @@ export type ProfileMessages = {
     saving: string;
     cancel: string;
   };
+  profileSeals: {
+    title: string;
+    grantedAt: string;
+    verified: (count: number) => string;
+    /** Faixa do nível: "10–49", ou "50+" quando não tem teto. */
+    tierRange: (min: number, max: number | null) => string;
+  };
+  sealEvidenceList: {
+    evidence: string;
+    issue: string;
+    pullRequest: string;
+    loadMore: string;
+    loadingEvidence: string;
+    evidenceError: string;
+  };
+  githubImportDialog: {
+    title: string;
+    description: string;
+    reposTitle: string;
+    reposHint: string;
+    loading: string;
+    selectAll: string;
+    clear: string;
+    fork: string;
+    archived: string;
+    open: string;
+    import: (count: number) => string;
+    importing: string;
+    error: string;
+    empty: string;
+    notLinked: string;
+    goToSecurity: string;
+    readmeTitle: string;
+    readmeHint: string;
+    readmeUse: string;
+    readmeUsing: string;
+    readmeMissing: string;
+    readmeError: string;
+    openReadme: string;
+  };
 };

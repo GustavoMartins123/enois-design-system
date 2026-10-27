@@ -6,6 +6,7 @@ import type { ProfileHtmlFrameProps } from "../../types/domain/profile/profile-h
 import { Button } from "../../ui/button.js";
 
 import { EditProfileDialog } from "./edit-profile-dialog.js";
+import { GithubImportDialog } from "./github-import-dialog.js";
 import { ProfileBannerDialog } from "./profile-banner-dialog.js";
 import { ProfileBioDialog } from "./profile-bio-dialog.js";
 import { ProfileCommunityShelf } from "./profile-community-shelf.js";
@@ -16,8 +17,10 @@ import { ProfileNetworkDialog } from "./profile-network-dialog.js";
 import { ProfileProjectsSection } from "./profile-projects-section.js";
 import { ProfileQuickComposer } from "./profile-quick-composer.js";
 import { ProfileResumeDialog } from "./profile-resume-dialog.js";
+import { ProfileSeals } from "./profile-seals.js";
 import { ProjectFormDialog } from "./project-form-dialog.js";
 import { ProjectsManager } from "./projects-manager.js";
+import { SealEvidenceList } from "./seal-evidence-list.js";
 
 const meta: Meta = {
   title: "Domain/Profile",
@@ -207,6 +210,157 @@ export const Dialogs: StoryObj = {
           open={open === "project"}
           onOpenChange={toggle("project")}
           onSave={() => setOpen(null)}
+        />
+      </div>
+    );
+  },
+};
+
+export const Seals: StoryObj = {
+  render: function SealsStory() {
+    const [open, setOpen] = useState(true);
+
+    return (
+      <div className="max-w-2xl">
+        <ProfileSeals
+          seals={[
+            {
+              type: "CODE_CONTRIBUTOR",
+              category: "CODE",
+              name: "Contribuidora de código",
+              categoryName: "Código",
+              description: "PRs aceitos nos repositórios da comunidade.",
+              minCount: 10,
+              maxCount: 49,
+              evidenceCount: 12,
+              grantedAtLabel: "12 out. 2026",
+            },
+            {
+              type: "BUG_HUNTER",
+              category: "ISSUES",
+              name: "Caçadora de bugs",
+              categoryName: "Issues",
+              description: "Issues confirmadas pela equipe.",
+              minCount: 50,
+              maxCount: null,
+              evidenceCount: 0,
+              grantedAtLabel: "3 set. 2026",
+            },
+          ]}
+          renderEvidence={(seal) => (
+            <SealEvidenceList
+              total={seal.evidenceCount}
+              open={open}
+              onOpenChange={setOpen}
+              loading={false}
+              error={false}
+              items={[
+                {
+                  repository: "rede-enois/app",
+                  kind: "PULL_REQUEST",
+                  number: 42,
+                  title: "Perfil com selos",
+                  url: "https://github.com/rede-enois/app/pull/42",
+                },
+                {
+                  repository: "rede-enois/app",
+                  kind: "ISSUE",
+                  number: 7,
+                  title: "Botão some no modo escuro",
+                  url: "https://github.com/rede-enois/app/issues/7",
+                },
+              ]}
+              hasMore
+              loadingMore={false}
+              onLoadMore={() => undefined}
+            />
+          )}
+        />
+      </div>
+    );
+  },
+};
+
+export const GithubImport: StoryObj = {
+  render: function GithubImportStory() {
+    const [open, setOpen] = useState(false);
+    const [notLinked, setNotLinked] = useState(false);
+    const [selected, setSelected] = useState<string[]>(["ana/connect"]);
+    const rows = [
+      {
+        name: "connect",
+        fullName: "ana/connect",
+        description: "Rede de networking com propósito.",
+        language: "TypeScript",
+        stars: 12,
+        forks: 3,
+        fork: false,
+        archived: false,
+        updatedAtLabel: "20 out. 2026",
+        url: "https://github.com/ana/connect",
+      },
+      {
+        name: "dotfiles",
+        fullName: "ana/dotfiles",
+        description: null,
+        language: null,
+        stars: 0,
+        forks: 0,
+        fork: true,
+        archived: true,
+        updatedAtLabel: null,
+        url: "https://github.com/ana/dotfiles",
+      },
+    ];
+
+    return (
+      <div className="flex flex-wrap gap-2">
+        <Button
+          onClick={() => {
+            setNotLinked(false);
+            setOpen(true);
+          }}
+        >
+          Importar do GitHub
+        </Button>
+
+        <Button
+          variant="outline"
+          onClick={() => {
+            setNotLinked(true);
+            setOpen(true);
+          }}
+        >
+          Sem GitHub vinculado
+        </Button>
+
+        <GithubImportDialog
+          open={open}
+          onOpenChange={setOpen}
+          notLinked={notLinked}
+          securityHref="#"
+          repos={{ loading: false, error: false, rows }}
+          selected={selected}
+          onToggle={(fullName) =>
+            setSelected((current) =>
+              current.includes(fullName)
+                ? current.filter((item) => item !== fullName)
+                : [...current, fullName],
+            )
+          }
+          onSelectAll={() => setSelected(rows.map((repo) => repo.fullName))}
+          onClear={() => setSelected([])}
+          importing={false}
+          onImport={() => setSelected([])}
+          readme={{
+            loading: false,
+            missing: false,
+            data: { html: "<h1>Oi, eu sou a Ana</h1>", repoUrl: "https://github.com/ana/ana" },
+            error: false,
+          }}
+          usingReadme={false}
+          onUseReadme={() => undefined}
+          renderHtmlFrame={frame}
         />
       </div>
     );
