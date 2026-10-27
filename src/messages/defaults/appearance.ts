@@ -36,6 +36,12 @@ export const appearanceMessages: AppearanceMessages = {
     nameStyleOtherColor: "Outra cor",
     nameStylePreview: "Prévia",
     nameStylePreviewName: "Seu nome",
+    contributorTagTitle: "Tag de contribuinte",
+    contributorTagHint:
+      "Escolha a cor da tag que aparece abaixo do seu nome. Só quem tem contribuição verificada pelo GitHub vê esta opção.",
+    contributorTagDefault: "Cor padrão",
+    contributorTagPreview: "Prévia da tag",
+    contributorTagLabel: "Contribuinte",
     mode: "Modo",
     light: "Tema claro",
     dark: "Tema escuro",

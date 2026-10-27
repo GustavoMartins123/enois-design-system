@@ -34,6 +34,10 @@ export type AppearanceDialogProps = {
   onImport: (file: File) => void;
   fileStatus: AppearanceFileStatus | null;
   onSell: () => void;
+  /** Cor da tag "Contribuinte"; `null` usa a cor primária. */
+  contributorTagColor?: string | null;
+  /** Só quem tem contribuição verificada escolhe a cor: sem este callback, a seção não aparece. */
+  onContributorTagColorChange?: (color: string | null) => void;
   onReset: () => void;
   /** O diálogo de venda, renderizado junto (o app controla abrir e fechar). */
   sellDialog?: ReactNode;

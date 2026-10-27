@@ -26,6 +26,7 @@ export const Dialog: StoryObj = {
     const [page, setPage] = useState<BackgroundStyle | null>(null);
     const [nameStyle, setNameStyle] = useState<ProfileNameStyle | null>(null);
     const [sellOpen, setSellOpen] = useState(false);
+    const [tagColor, setTagColor] = useState<string | null>(null);
 
     return (
       <AppearanceDialog
@@ -54,6 +55,8 @@ export const Dialog: StoryObj = {
         fileStatus={null}
         onSell={() => setSellOpen(true)}
         onReset={() => setSettings(DEFAULT_THEME_SETTINGS)}
+        contributorTagColor={tagColor}
+        onContributorTagColorChange={setTagColor}
         sellDialog={
           <ThemeSellDialog
             open={sellOpen}

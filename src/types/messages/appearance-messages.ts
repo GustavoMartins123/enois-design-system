@@ -30,6 +30,12 @@ export type AppearanceMessages = {
     nameStyleOtherColor: string;
     nameStylePreview: string;
     nameStylePreviewName: string;
+    contributorTagTitle: string;
+    contributorTagHint: string;
+    contributorTagDefault: string;
+    contributorTagPreview: string;
+    /** O texto da própria tag, mostrado na prévia. */
+    contributorTagLabel: string;
     mode: string;
     light: string;
     dark: string;

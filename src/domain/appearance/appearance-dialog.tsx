@@ -43,6 +43,9 @@ const CHROMA_MAX = {
   background: THEME_LIMITS.backgroundChroma.max,
 } as const;
 
+/** Onde o seletor de cor começa enquanto a tag ainda usa a cor primária. */
+const CONTRIBUTOR_TAG_PICKER_START = "#ff7a18";
+
 function percent(value: number, max: number): string {
   return `${Math.round((value / max) * 100)}%`;
 }
@@ -75,6 +78,8 @@ export function AppearanceDialog({
   onImport,
   fileStatus,
   onSell,
+  contributorTagColor = null,
+  onContributorTagColorChange,
   onReset,
   sellDialog,
 }: AppearanceDialogProps) {
@@ -265,6 +270,77 @@ export function AppearanceDialog({
               </p>
             </div>
           </section>
+
+          {onContributorTagColorChange && (
+            <section className="space-y-3 border-t border-border-soft pt-4">
+              <div className="space-y-0.5">
+                <h3 className="text-xs font-medium text-text-strong">
+                  {messages.contributorTagTitle}
+                </h3>
+
+                <p className="text-xs font-normal text-text-subtle">
+                  {messages.contributorTagHint}
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => onContributorTagColorChange(null)}
+                  aria-pressed={contributorTagColor === null}
+                  className={cn(
+                    "rounded-full border px-3 py-1.5 text-xs transition",
+                    contributorTagColor === null
+                      ? "border-primary bg-primary-soft text-primary"
+                      : "border-border-soft bg-surface-1 text-text-subtle hover:border-primary/60 hover:text-text-strong",
+                  )}
+                >
+                  {messages.contributorTagDefault}
+                </button>
+
+                {PROFILE_NAME_COLORS.map((color) => (
+                  <button
+                    key={color}
+                    type="button"
+                    aria-label={messages.nameStyleUseColor(color)}
+                    aria-pressed={contributorTagColor === color}
+                    onClick={() => onContributorTagColorChange(color)}
+                    className={cn(
+                      "h-8 w-8 rounded-full border-2 transition",
+                      contributorTagColor === color
+                        ? "border-text-strong ring-2 ring-primary ring-offset-2 ring-offset-surface-card"
+                        : "border-transparent",
+                    )}
+                    style={{ backgroundColor: color }}
+                  />
+                ))}
+
+                <label className="inline-flex items-center gap-2 rounded-full border border-border-soft bg-surface-1 px-3 py-1.5 text-xs text-text-subtle">
+                  {messages.nameStyleOtherColor}
+                  <input
+                    type="color"
+                    value={contributorTagColor ?? CONTRIBUTOR_TAG_PICKER_START}
+                    onChange={(event) => onContributorTagColorChange(event.target.value)}
+                    className="h-6 w-6 cursor-pointer rounded-full border-0 bg-transparent p-0"
+                  />
+                </label>
+              </div>
+
+              <div className="rounded-xl border border-border-soft bg-surface-1 px-4 py-3">
+                <p className="text-xs text-text-subtle">{messages.contributorTagPreview}</p>
+
+                <span
+                  className="mt-1 inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium"
+                  style={{
+                    color: contributorTagColor ?? "var(--primary)",
+                    borderColor: contributorTagColor ?? "var(--primary)",
+                  }}
+                >
+                  {messages.contributorTagLabel}
+                </span>
+              </div>
+            </section>
+          )}
 
           <section className="space-y-2">
             <h3 className="text-xs font-medium text-text-strong">{messages.mode}</h3>
