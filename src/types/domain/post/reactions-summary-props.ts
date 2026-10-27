@@ -10,5 +10,7 @@ export type ReactionsSummaryProps<T extends string = string> = {
   clickable: boolean;
   /** Reação em andamento (bloqueia as pílulas). */
   disabled?: boolean;
+  /** Pílulas menores, para o rodapé de um comentário. */
+  compact?: boolean;
   onToggle: (type: T) => void;
 };

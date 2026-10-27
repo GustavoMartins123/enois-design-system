@@ -19,6 +19,7 @@ export function ReactionsSummary<T extends string>({
   activeType,
   clickable,
   disabled = false,
+  compact = false,
   onToggle,
 }: ReactionsSummaryProps<T>) {
   const messages = useMessages().reactionsSummary;
@@ -32,12 +33,15 @@ export function ReactionsSummary<T extends string>({
   if (tabs.length === 0) return null;
 
   return (
-    <div className="mt-3 flex flex-wrap items-center gap-1.5">
+    <div
+      className={cn("flex flex-wrap items-center", compact ? "mt-1 gap-1 px-3" : "mt-3 gap-1.5")}
+    >
       {tabs.map(({ type, count }) => {
         const mine = activeType === type;
         const emoji = emojis[type] ?? type;
         const pillClassName = cn(
-          "inline-flex h-7 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 text-xs leading-none transition-colors",
+          "inline-flex items-center whitespace-nowrap rounded-full border leading-none transition-colors",
+          compact ? "h-6 gap-1 px-2 text-[11px]" : "h-7 gap-1.5 px-2.5 text-xs",
           mine
             ? "border-[#8b5cf6]/40 bg-[#8b5cf6]/15 text-[#c4b5fd] hover:bg-[#8b5cf6]/25"
             : "border-white/10 bg-white/[0.06] text-text-subtle hover:bg-white/10",
@@ -46,7 +50,8 @@ export function ReactionsSummary<T extends string>({
           <>
             <span
               className={cn(
-                "inline-flex h-4 items-center justify-center text-base leading-none",
+                "inline-flex items-center justify-center leading-none",
+                compact ? "h-3.5 text-sm" : "h-4 text-base",
                 !mine && "grayscale-[0.3] opacity-80",
               )}
             >
