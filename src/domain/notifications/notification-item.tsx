@@ -3,6 +3,7 @@ import { useMessages } from "../../messages/messages-context.js";
 import type { NotificationItemProps } from "../../types/domain/notifications/notification-item-props.js";
 import { AppLink } from "../../ui/app-link.js";
 import { UserAvatar } from "../avatar/user-avatar.js";
+import { StyledName } from "../name/styled-name.js";
 
 import { notificationMeta } from "./notification-meta.js";
 
@@ -99,10 +100,18 @@ export function NotificationItem({
                     onClick={markAsRead}
                     className="font-medium hover:underline"
                   >
-                    {notification.actorName}{" "}
+                    <StyledName
+                      name={notification.actorName}
+                      style={notification.actorStyle}
+                    />{" "}
                   </AppLink>
                 ) : (
-                  <span className="font-medium">{notification.actorName} </span>
+                  <span className="font-medium">
+                    <StyledName
+                      name={notification.actorName}
+                      style={notification.actorStyle}
+                    />{" "}
+                  </span>
                 ))}
               <span className="text-text-subtle">{notification.title.toLowerCase()}</span>
             </p>
