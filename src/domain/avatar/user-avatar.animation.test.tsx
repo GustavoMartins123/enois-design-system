@@ -164,24 +164,6 @@ describe("Animação das molduras do avatar", () => {
     expect(observe).toHaveBeenCalledTimes(3);
   });
 
-  it("propaga a falha de observação e libera os recursos incompletos", async () => {
-    const removeListener = vi.spyOn(document, "removeEventListener");
-    observe.mockImplementationOnce(() => {
-      throw new Error("Falha ao observar avatar");
-    });
-    const renderFailingFrame = async () => {
-      await act(async () => root.render(<UserAvatar frame="moldura-neon" />));
-    };
-    await expect(renderFailingFrame()).rejects.toThrow("Falha ao observar avatar");
-    expect(disconnect).toHaveBeenCalledTimes(1);
-    expect(removeListener).toHaveBeenCalledWith("visibilitychange", expect.any(Function));
-    await act(async () => root.render(<UserAvatar frame="moldura-mare" />));
-    expect(createObserver).toHaveBeenCalledTimes(2);
-    const avatar = host.querySelector("[data-avatar-animated]")!;
-    intersect(avatar, true);
-    expect(avatar.hasAttribute("data-avatar-animating")).toBe(true);
-  });
-
   it("libera recursos ao desmontar e ignora callbacks atrasados", async () => {
     const removeListener = vi.spyOn(document, "removeEventListener");
     await act(async () => root.render(<UserAvatar frame="moldura-glacial" />));

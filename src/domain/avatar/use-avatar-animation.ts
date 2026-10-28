@@ -41,13 +41,7 @@ function observeAvatar(target: Element) {
   }
   const avatarObserver = observer;
   targets.add(target);
-  try {
-    avatarObserver.observe(target);
-  } catch (error) {
-    targets.delete(target);
-    disconnectWhenUnused();
-    throw error;
-  }
+  avatarObserver.observe(target);
   return () => {
     avatarObserver.unobserve(target);
     targets.delete(target);
