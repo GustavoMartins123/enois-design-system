@@ -25,6 +25,7 @@ import { Textarea } from "../../ui/textarea.js";
 import { MAX_BADGES } from "../badges/max-badges.js";
 
 import { profileBadges } from "./profile-badges.js";
+import { subListErrors } from "./sub-list-errors.js";
 
 export function EditProfileDialog({
   profile,
@@ -556,8 +557,17 @@ function SubList({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<Record<string, string>>({ ...newItem });
   const [currentlyHere, setCurrentlyHere] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const formRef = useRef<HTMLDivElement>(null);
+
+  const resetMessages = () => {
+    setErrors({});
+    setSubmitError(null);
+  };
 
   const startEdit = (item: EditProfileListItem) => {
+    resetMessages();
     setEditingId(item.id);
     const values: Record<string, string> = {};
     for (const f of fields) {
@@ -570,22 +580,37 @@ function SubList({
   };
 
   const handleSubmit = async () => {
+    // A data impossível só aparece no `validity` do campo: o `value` continua "" e o React não
+    // dispara onChange (vazio para vazio), então a checagem lê o DOM na hora de salvar.
+    const dateInputs = formRef.current?.querySelectorAll<HTMLInputElement>("input[type=date]");
+    const invalidDates = new Set(
+      [...(dateInputs ?? [])].filter((input) => input.validity.badInput).map((input) => input.name),
+    );
+    const found = subListErrors(
+      { fields, form, invalidDates, currentlyHere: currentlyHereKey ? currentlyHere : undefined },
+      messages,
+    );
+    setErrors(found);
+    setSubmitError(null);
+    if (Object.keys(found).length > 0) return;
+
+    // Sem `currentlyHere` no corpo: o backend não lê o campo e deriva "atual" de `endDate == null`.
     const data: Record<string, unknown> = { ...form };
-    if (currentlyHereKey) {
-      data[currentlyHereKey] = currentlyHere;
-      if (currentlyHere) data.endDate = null;
+    if (currentlyHereKey && currentlyHere) data.endDate = null;
+    try {
+      if (editingId && editingId !== "__new__") {
+        await onUpdate(editingId, data);
+      } else {
+        await onCreate(data);
+      }
+    } catch (err) {
+      // O formulário só fecha quando salvou: o erro da API aparece nele.
+      setSubmitError(err instanceof Error && err.message ? err.message : messages.unexpectedError);
+      return;
     }
-    if (editingId && editingId !== "__new__") {
-      await onUpdate(editingId, data);
-      setEditingId(null);
-      setForm({ ...newItem });
-      setCurrentlyHere(false);
-    } else {
-      await onCreate(data);
-      setForm({ ...newItem });
-      setCurrentlyHere(false);
-      setEditingId(null);
-    }
+    setEditingId(null);
+    setForm({ ...newItem });
+    setCurrentlyHere(false);
   };
 
   const showForm = editingId !== null;
@@ -593,9 +618,9 @@ function SubList({
   return (
     <div className="space-y-4">
       {showForm ? (
-        <div className="space-y-3 rounded-xl border border-border-soft p-4">
+        <div ref={formRef} className="space-y-3 rounded-xl border border-border-soft p-4">
           {fields.map((f) => (
-            <Field key={f.key} label={f.label}>
+            <Field key={f.key} label={f.label} error={errors[f.key]}>
               {f.multiline ? (
                 <Textarea
                   value={form[f.key] ?? ""}
@@ -607,9 +632,11 @@ function SubList({
                 />
               ) : (
                 <Input
+                  name={f.key}
                   type={f.type ?? "text"}
                   value={form[f.key] ?? ""}
                   onChange={(e) => setForm((p) => ({ ...p, [f.key]: e.target.value }))}
+                  aria-invalid={Boolean(errors[f.key])}
                   className="h-10 border-border-soft bg-surface-1"
                 />
               )}
@@ -622,6 +649,11 @@ function SubList({
               <>{messages.currentlyHere}</>
             </label>
           )}
+          {submitError && (
+            <p role="alert" className="text-xs text-destructive">
+              {submitError}
+            </p>
+          )}
           <div className="flex gap-2">
             <Button size="sm" onClick={handleSubmit} disabled={pending}>
               {pending ? messages.saving : messages.save}
@@ -631,6 +663,7 @@ function SubList({
               size="sm"
               variant="outline"
               onClick={() => {
+                resetMessages();
                 setEditingId(null);
                 setForm({ ...newItem });
                 setCurrentlyHere(false);
@@ -686,6 +719,7 @@ function SubList({
             variant="outline"
             className="w-full gap-1.5"
             onClick={() => {
+              resetMessages();
               setEditingId("__new__");
               setForm({ ...newItem });
               setCurrentlyHere(false);
