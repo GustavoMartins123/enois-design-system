@@ -7,6 +7,7 @@ import { cn } from "../../lib/utils.js";
 import type { AuthorNameStyle } from "../../types/domain/name/author-name-style.js";
 import type { StyledNameProps } from "../../types/domain/name/styled-name-props.js";
 import { Nameplate } from "../cosmetics/nameplate.js";
+import { NAMEPLATES } from "../cosmetics/nameplates.js";
 
 /**
  * Nome de uma pessoa com a personalização escolhida no perfil (tema, fonte e cor). É o MESMO
@@ -17,7 +18,8 @@ export function StyledName({ name, style, className }: StyledNameProps) {
   if (!style) {
     return <>{name}</>;
   }
-  if (!style.nameplate) {
+  // An unknown plate (removed from the catalog) keeps the plain name, without the plate box.
+  if (!style.nameplate || !Object.hasOwn(NAMEPLATES, style.nameplate)) {
     return <PaintedName name={name} style={style} className={className} />;
   }
   return (
