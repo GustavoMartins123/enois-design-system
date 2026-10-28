@@ -60,7 +60,7 @@ export const cosmeticsMessages: CosmeticsMessages = {
     replay: "Rever efeito",
     reset: "Tirar o que estou provando",
     memberList: "Na lista de membros",
-    effectSample: "Clique pra ver no banner",
+    effectSample: "Clique pra ver no cartão",
     nameSample: "Aa",
     albumTitle: "Álbum",
     albumProgress: (done, total) => `${done} de ${total} coleções completas`,
