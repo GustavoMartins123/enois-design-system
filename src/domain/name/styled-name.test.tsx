@@ -64,4 +64,17 @@ describe("StyledName", () => {
       renderToStaticMarkup(<StyledName name="Mel" style={{ nameplate: "placa-x" }} />),
     ).not.toContain("data-nameplate");
   });
+
+  it("takes the plate ink instead of the name paint on a plate, keeping the font", () => {
+    const html = renderToStaticMarkup(
+      <StyledName
+        name="Mel"
+        style={{ theme: "PIXEL", color: "#22c55e", nameplate: "placa-mata" }}
+      />,
+    );
+
+    expect(html).toContain("Press Start 2P");
+    expect(html).not.toContain("#22c55e");
+    expect(html).not.toContain("background-clip");
+  });
 });

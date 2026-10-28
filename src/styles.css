@@ -2605,7 +2605,8 @@ html:not(.dark) .frame-shop-price {
 /* Inline plate of StyledName: sits in a line of text (comment header, list row) at the text size. */
 .cos-plate--inline {
   gap: 4px;
-  padding: 1px 8px;
+  /* No vertical padding: a row with a plate keeps the height of a row without one. */
+  padding: 0 8px;
   border-radius: 7px;
   font-size: inherit;
   font-weight: inherit;

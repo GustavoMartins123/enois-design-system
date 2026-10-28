@@ -24,14 +24,31 @@ export function StyledName({ name, style, className }: StyledNameProps) {
   }
   return (
     <Nameplate plate={style.nameplate} className="cos-plate--inline">
-      <PaintedName name={name} style={style} className={className} />
+      <PaintedName name={name} style={style} className={className} onPlate />
     </Nameplate>
   );
 }
 
-function PaintedName({ name, style, className }: StyledNameProps & { style: AuthorNameStyle }) {
+function PaintedName({
+  name,
+  style,
+  className,
+  onPlate = false,
+}: StyledNameProps & { style: AuthorNameStyle; onPlate?: boolean }) {
   const theme = profileNameTheme(style.theme);
   const gradient = Boolean(theme.paint) || theme.colors.length > 1;
+  // On a plate the name keeps its font and takes the plate ink: a gradient or color picked for the
+  // page background can vanish on the plate (green on the green Mata plate measured 1.04:1).
+  const paint = onPlate
+    ? {}
+    : gradient
+      ? {
+          backgroundImage: profileNameThemePaint(style.theme, style.color),
+          WebkitBackgroundClip: "text",
+          backgroundClip: "text",
+          color: "transparent",
+        }
+      : { color: style.color ?? undefined };
 
   return (
     <span
@@ -39,14 +56,7 @@ function PaintedName({ name, style, className }: StyledNameProps & { style: Auth
       style={{
         fontFamily: profileNameThemeFontFamily(style.theme, style.font),
         fontSize: theme.fontSize,
-        ...(gradient
-          ? {
-              backgroundImage: profileNameThemePaint(style.theme, style.color),
-              WebkitBackgroundClip: "text",
-              backgroundClip: "text",
-              color: "transparent",
-            }
-          : { color: style.color ?? undefined }),
+        ...paint,
       }}
     >
       {name}
