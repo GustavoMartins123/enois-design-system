@@ -15,6 +15,11 @@ export type PostActionsProps<T extends string = string> = {
   saved: boolean;
   /** Conteúdo de comunidade e os tipos que não viajam não oferecem republicar. */
   canRepost: boolean;
+  /**
+   * Por que este post não pode ser republicado. Com `canRepost` falso e um motivo, o botão
+   * aparece desabilitado e explica o motivo ao tocar, clicar ou focar; sem motivo, ele some.
+   */
+  repostUnavailableReason?: string;
   onShowReactions: () => void;
   /** O que o botão de comentários faz nesta tela: abrir a conversa aqui ou rolar até ela. */
   onComments: () => void;
