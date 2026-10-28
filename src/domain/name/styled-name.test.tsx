@@ -40,4 +40,15 @@ describe("StyledName", () => {
     expect(html).toContain("color:#22c55e");
     expect(html).not.toContain("background-clip");
   });
+
+  it("paints a seasonal theme with its gradient, web font and size", () => {
+    const html = renderToStaticMarkup(
+      <StyledName name="Mel" style={{ theme: "nome-assombrado" }} />,
+    );
+
+    expect(html).toContain("linear-gradient(180deg, #84cc16, #16a34a)");
+    expect(html).toContain("Creepster");
+    expect(html).toContain("font-size:1.04em");
+    expect(html).toContain("background-clip:text");
+  });
 });

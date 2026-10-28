@@ -7,6 +7,7 @@ import { avatarMessages } from "./defaults/avatar.js";
 import { blogMessages } from "./defaults/blog.js";
 import { communitiesMessages } from "./defaults/communities.js";
 import { conversationsMessages } from "./defaults/conversations.js";
+import { cosmeticsMessages } from "./defaults/cosmetics.js";
 import { developersMessages } from "./defaults/developers.js";
 import { editorMessages } from "./defaults/editor.js";
 import { gamesMessages } from "./defaults/games.js";
@@ -56,4 +57,5 @@ export const defaultMessages: Messages = {
   ...blogMessages,
   ...jobsMessages,
   ...moderationMessages,
+  ...cosmeticsMessages,
 };
