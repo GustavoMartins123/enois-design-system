@@ -27,7 +27,7 @@ export function AuthorInfo({
   // O nome leva para a identidade que ASSINOU: post profissional abre o perfil profissional
   // (o @ é de outro namespace e não existe em /perfil). Quem decide o endereço é o app.
   return (
-    <div className="flex items-start gap-3">
+    <div className="flex min-w-0 w-full items-start gap-3 sm:w-auto sm:flex-1">
       <AppLink href={authorHref}>
         <UserAvatar
           frame={authorAvatarFrame}

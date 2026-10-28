@@ -102,7 +102,7 @@ export function PostCard({
         </AppLink>
       )}
 
-      <header className="flex justify-between items-start gap-3">
+      <header className="flex min-w-0 flex-col items-start justify-between gap-3 sm:flex-row sm:flex-wrap">
         <AuthorInfo
           authorName={post.authorName}
           authorStyle={post.authorStyle}
@@ -123,7 +123,7 @@ export function PostCard({
           followPending={followPending}
         />
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex flex-wrap items-center gap-1.5">
           {pinned && (
             <span className="inline-flex items-center gap-1 rounded-full bg-primary-soft px-2.5 py-1 text-xs font-medium text-primary">
               <Pin className="h-3 w-3" aria-hidden />
