@@ -21,28 +21,41 @@ export function AuthorInfo({
   fallbackClassName,
   onFollowCommunity,
   followPending,
+  renderAuthorTrigger,
 }: AuthorInfoProps) {
   const messages = useMessages().authorInfo;
+  const avatar = (
+    <UserAvatar
+      frame={authorAvatarFrame}
+      src={authorAvatar}
+      alt={authorName}
+      fallbackClassName={fallbackClassName}
+      className="h-11 w-11"
+    />
+  );
+  const name = <StyledName name={authorName} style={authorStyle} />;
 
   // O nome leva para a identidade que ASSINOU: post profissional abre o perfil profissional
   // (o @ é de outro namespace e não existe em /perfil). Quem decide o endereço é o app.
   return (
     <div className="flex items-start gap-3">
-      <AppLink href={authorHref}>
-        <UserAvatar
-          frame={authorAvatarFrame}
-          src={authorAvatar}
-          alt={authorName}
-          fallbackClassName={fallbackClassName}
-          className="h-11 w-11"
-        />
-      </AppLink>
+      {renderAuthorTrigger ? (
+        renderAuthorTrigger(avatar, "avatar")
+      ) : (
+        <AppLink href={authorHref}>{avatar}</AppLink>
+      )}
 
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-          <AppLink href={authorHref} className="font-bold hover:underline text-sm">
-            <StyledName name={authorName} style={authorStyle} />
-          </AppLink>
+          {renderAuthorTrigger ? (
+            <span className="font-bold hover:underline text-sm">
+              {renderAuthorTrigger(name, "name")}
+            </span>
+          ) : (
+            <AppLink href={authorHref} className="font-bold hover:underline text-sm">
+              {name}
+            </AppLink>
+          )}
 
           <UserBadges badges={authorBadges} badge={authorBadge} />
 

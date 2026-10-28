@@ -11,6 +11,14 @@ function dark(top: string, bottom: string, accent: string): CardTheme {
     fg: "#f5f3ff",
     muted: "rgba(245,243,255,.7)",
     surface: "rgba(255,255,255,.09)",
+    tokens: {
+      // Every dark-theme accent is bright: dark ink on it as a fill, a lighter tint of it as text.
+      "--primary": accent,
+      "--primary-foreground": "#1c1917",
+      "--primary-text": `color-mix(in srgb, ${accent} 30%, #fff)`,
+      // The dark palette values of styles.css, whatever mode the page is in.
+      "--opportunity-foreground": "oklch(0.94 0.05 60)",
+    },
   };
 }
 
@@ -23,6 +31,8 @@ function light(top: string, bottom: string, accent: string): CardTheme {
     fg: "#1c1917",
     muted: "rgba(28,25,23,.62)",
     surface: "rgba(28,25,23,.07)",
+    // The light palette values of styles.css, whatever mode the page is in.
+    tokens: { "--primary-text": "#5736db", "--opportunity-foreground": "oklch(0.2 0.05 60)" },
   };
 }
 
@@ -59,5 +69,6 @@ export function cardThemeStyle(id: string | null | undefined): CSSProperties | u
     "--p-fg": theme.fg,
     "--p-muted": theme.muted,
     "--p-surface": theme.surface,
+    ...theme.tokens,
   } as CSSProperties;
 }

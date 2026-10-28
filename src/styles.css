@@ -2354,6 +2354,19 @@ html:not(.dark) .frame-shop-price {
     transform 0.4s ease,
     box-shadow 0.5s ease;
 }
+/* A themed card repaints the app tokens inside it: the slots (bio, actions, children) come from the
+   app with page classes (text-text-subtle, bg-surface-1...) made for the page background. */
+.cos-card--themed {
+  --foreground: var(--p-fg);
+  --text-strong: var(--p-fg);
+  --text-subtle: var(--p-muted);
+  --text-date: var(--p-muted);
+  --muted-foreground: var(--p-muted);
+  --surface-1: var(--p-surface);
+  --surface-2: var(--p-surface);
+  --muted: var(--p-surface);
+  --border-soft: color-mix(in srgb, var(--p-fg) 18%, transparent);
+}
 .cos-card::after {
   content: "";
   position: absolute;
@@ -2952,6 +2965,8 @@ html:not(.dark) .frame-shop-price {
   gap: 5px;
 }
 .cos-album__slots li {
+  /* Contains the banner art (absolute): without it an owned slot paints over the page. */
+  position: relative;
   aspect-ratio: 1;
   display: grid;
   place-items: center;
