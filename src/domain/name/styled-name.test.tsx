@@ -51,4 +51,30 @@ describe("StyledName", () => {
     expect(html).toContain("font-size:1.04em");
     expect(html).toContain("background-clip:text");
   });
+
+  it("sits on the inline plate when one is equipped, and skips an unknown plate", () => {
+    const html = renderToStaticMarkup(
+      <StyledName name="Mel" style={{ theme: "NEON", nameplate: "placa-mata" }} />,
+    );
+
+    expect(html).toContain('data-nameplate="placa-mata"');
+    expect(html).toContain("cos-plate--inline");
+    expect(html).toContain("profile-name-theme-neon");
+    expect(
+      renderToStaticMarkup(<StyledName name="Mel" style={{ nameplate: "placa-x" }} />),
+    ).not.toContain("data-nameplate");
+  });
+
+  it("takes the plate ink instead of the name paint on a plate, keeping the font", () => {
+    const html = renderToStaticMarkup(
+      <StyledName
+        name="Mel"
+        style={{ theme: "PIXEL", color: "#22c55e", nameplate: "placa-mata" }}
+      />,
+    );
+
+    expect(html).toContain("Press Start 2P");
+    expect(html).not.toContain("#22c55e");
+    expect(html).not.toContain("background-clip");
+  });
 });

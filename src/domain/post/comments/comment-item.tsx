@@ -72,18 +72,21 @@ export function CommentItem<T extends string>({
 
   // Nome e foto levam ao perfil de quem comentou (quando o perfil existe).
   const profileLink = renderAuthorTrigger ? (
-    <span className="text-xs font-medium text-text-strong hover:underline">
+    <span className="min-w-0 max-w-full text-xs font-medium text-text-strong hover:underline">
       {renderAuthorTrigger(
         <StyledName name={comment.authorName} style={comment.authorStyle} />,
         "name",
       )}
     </span>
   ) : profileHref ? (
-    <AppLink href={profileHref} className="text-xs font-medium text-text-strong hover:underline">
+    <AppLink
+      href={profileHref}
+      className="min-w-0 max-w-full text-xs font-medium text-text-strong hover:underline"
+    >
       <StyledName name={comment.authorName} style={comment.authorStyle} />
     </AppLink>
   ) : (
-    <span className="text-xs font-medium text-text-strong">
+    <span className="min-w-0 max-w-full text-xs font-medium text-text-strong">
       <StyledName name={comment.authorName} style={comment.authorStyle} />
     </span>
   );
