@@ -46,6 +46,7 @@ export function CommentItem<T extends string>({
   renderEditField,
   reportDialog,
   reactionsDialog,
+  renderAuthorTrigger,
 }: CommentItemProps<T>) {
   const messages = useMessages().commentItem;
   const { isOwnMediaUrl } = useAdapters();
@@ -70,7 +71,14 @@ export function CommentItem<T extends string>({
   };
 
   // Nome e foto levam ao perfil de quem comentou (quando o perfil existe).
-  const profileLink = profileHref ? (
+  const profileLink = renderAuthorTrigger ? (
+    <span className="text-xs font-medium text-text-strong hover:underline">
+      {renderAuthorTrigger(
+        <StyledName name={comment.authorName} style={comment.authorStyle} />,
+        "name",
+      )}
+    </span>
+  ) : profileHref ? (
     <AppLink href={profileHref} className="text-xs font-medium text-text-strong hover:underline">
       <StyledName name={comment.authorName} style={comment.authorStyle} />
     </AppLink>
@@ -91,7 +99,9 @@ export function CommentItem<T extends string>({
 
   return (
     <div className="flex gap-3">
-      {profileHref ? (
+      {renderAuthorTrigger ? (
+        <span className="shrink-0">{renderAuthorTrigger(avatar, "avatar")}</span>
+      ) : profileHref ? (
         <AppLink
           href={profileHref}
           className="shrink-0 transition hover:opacity-80"

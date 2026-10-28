@@ -1,6 +1,8 @@
 import type { AuthorContributorTag } from "../name/author-contributor-tag.js";
 import type { AuthorNameStyle } from "../name/author-name-style.js";
 
+import type { RenderAuthorTrigger } from "./render-author-trigger.js";
+
 export type AuthorInfoProps = {
   authorName: string;
   /** Personalização do nome do autor (tema/fonte/cor). */
@@ -20,4 +22,6 @@ export type AuthorInfoProps = {
   /** Chamado quando o leitor aperta "Seguir" na comunidade do post. */
   onFollowCommunity?: () => void;
   followPending?: boolean;
+  /** Avatar e nome abrem o gatilho do app (mini cartão) em vez do link do perfil. */
+  renderAuthorTrigger?: RenderAuthorTrigger;
 };
