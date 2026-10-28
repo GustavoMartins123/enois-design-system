@@ -42,8 +42,12 @@ export type CommentItemProps<T extends string = string> = {
   onCancelEdit: () => void;
   renderRichText: (props: PostRichTextProps) => ReactNode;
   renderMediaGrid: (props: PostMediaGridProps) => ReactNode;
-  /** O campo de edição (com menção) vem do app. */
-  renderEditField: (value: string, onChange: (value: string) => void) => ReactNode;
+  /** O campo de edição (com menção) vem do app; `submit` é o mesmo "Salvar" do botão (Ctrl+Enter). */
+  renderEditField: (
+    value: string,
+    onChange: (value: string) => void,
+    submit: () => void,
+  ) => ReactNode;
   /** Diálogo de denúncia do comentário. */
   reportDialog?: ReactNode;
   /** Diálogo de quem reagiu ao comentário. */
