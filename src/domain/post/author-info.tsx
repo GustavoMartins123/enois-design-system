@@ -37,8 +37,10 @@ export function AuthorInfo({
 
   // O nome leva para a identidade que ASSINOU: post profissional abre o perfil profissional
   // (o @ é de outro namespace e não existe em /perfil). Quem decide o endereço é o app.
+  // min-w-0: inside the post header (a flex row) this box would otherwise grow to the name and push
+  // a long name on a plate out of the card.
   return (
-    <div className="flex items-start gap-3">
+    <div className="flex min-w-0 items-start gap-3">
       {renderAuthorTrigger ? (
         renderAuthorTrigger(avatar, "avatar")
       ) : (
