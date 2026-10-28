@@ -2602,6 +2602,23 @@ html:not(.dark) .frame-shop-price {
 .cos-plate[data-nameplate] {
   padding-right: 58px;
 }
+/* Inline plate of StyledName: sits in a line of text (comment header, list row) at the text size. */
+.cos-plate--inline {
+  gap: 4px;
+  padding: 1px 8px;
+  border-radius: 7px;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  vertical-align: middle;
+}
+.cos-plate--inline[data-nameplate] {
+  padding-right: 34px;
+}
+.cos-plate--inline .cos-plate__icons svg {
+  width: 14px;
+  height: 14px;
+}
 .cos-plate--none {
   padding-inline: 0;
 }

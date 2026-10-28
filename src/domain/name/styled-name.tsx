@@ -4,17 +4,30 @@ import {
   profileNameThemePaint,
 } from "../../lib/theme/profile-name-fonts.js";
 import { cn } from "../../lib/utils.js";
+import type { AuthorNameStyle } from "../../types/domain/name/author-name-style.js";
 import type { StyledNameProps } from "../../types/domain/name/styled-name-props.js";
+import { Nameplate } from "../cosmetics/nameplate.js";
 
 /**
  * Nome de uma pessoa com a personalização escolhida no perfil (tema, fonte e cor). É o MESMO
- * desenho da página de perfil, em todo lugar onde o nome aparece.
+ * desenho da página de perfil, em todo lugar onde o nome aparece — sobre a plaquinha, quando a
+ * pessoa equipou uma.
  */
 export function StyledName({ name, style, className }: StyledNameProps) {
   if (!style) {
     return <>{name}</>;
   }
+  if (!style.nameplate) {
+    return <PaintedName name={name} style={style} className={className} />;
+  }
+  return (
+    <Nameplate plate={style.nameplate} className="cos-plate--inline">
+      <PaintedName name={name} style={style} className={className} />
+    </Nameplate>
+  );
+}
 
+function PaintedName({ name, style, className }: StyledNameProps & { style: AuthorNameStyle }) {
   const theme = profileNameTheme(style.theme);
   const gradient = Boolean(theme.paint) || theme.colors.length > 1;
 
