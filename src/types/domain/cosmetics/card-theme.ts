@@ -6,6 +6,9 @@ export type CardTheme = {
   fg: string;
   muted: string;
   surface: string;
-  /** Dark cards only: the accent becomes the app primary, with dark ink on it. */
-  primary?: { color: string; foreground: string };
+  /**
+   * App tokens that depend on the card tone (light or dark), set inline on the card so the app
+   * content in its slots reads on the theme instead of the page (`--primary-text`, chips...).
+   */
+  tokens: Readonly<Record<string, string>>;
 };

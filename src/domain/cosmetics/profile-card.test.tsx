@@ -40,7 +40,7 @@ describe("ProfileCard", () => {
     expect(html).toContain("--p-top:#1e1b4b");
     // The app content in the slots repaints on the theme colors, not the page ones.
     expect(html).toContain("cos-card--themed");
-    expect(html).toContain("--primary:#f97316;--primary-foreground:#1c1917");
+    expect(html).toContain("--primary-text:color-mix(in srgb, #f97316 30%, #fff)");
     expect(html).toContain("--p-accent:#f97316");
     expect(html).toContain('viewBox="0 0 300 100"');
     expect(html).toContain('data-avatar-frame="moldura-asas-morcego"');
