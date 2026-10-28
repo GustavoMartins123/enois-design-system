@@ -52,13 +52,16 @@ export {
   isGalleryCollectionId,
 } from "../../lib/theme/gallery-collection.js";
 export {
+  FREE_PROFILE_NAME_THEMES,
   PROFILE_NAME_COLORS,
   PROFILE_NAME_FONTS,
   PROFILE_NAME_THEMES,
   profileNameFontFamily,
   profileNameTheme,
+  profileNameThemeFontFamily,
   profileNameThemePaint,
 } from "../../lib/theme/profile-name-fonts.js";
+export { SEASONAL_NAME_THEMES } from "../../lib/theme/seasonal-name-themes.js";
 export { THEME_COLLECTIONS, THEME_COLLECTION_IDS } from "../../lib/theme/theme-collections.js";
 export {
   DEFAULT_THEME_SETTINGS,
@@ -86,6 +89,9 @@ export type { GalleryThemePackage } from "../../types/lib/theme/gallery-theme-pa
 export type { ProfileNameFont } from "../../types/lib/theme/profile-name-font.js";
 export type { ProfileNameStyle } from "../../types/lib/theme/profile-name-style.js";
 export type { ProfileNameTheme } from "../../types/lib/theme/profile-name-theme.js";
+export type { FreeProfileNameTheme } from "../../types/lib/theme/free-profile-name-theme.js";
+export type { SeasonalNameTheme } from "../../types/lib/theme/seasonal-name-theme.js";
+export type { ProfileNameThemeDefinition } from "../../types/lib/theme/profile-name-theme-definition.js";
 export type { RgbColor } from "../../types/lib/theme/rgb-color.js";
 export type { ThemeAccent } from "../../types/lib/theme/theme-accent.js";
 export type { ThemeBackground } from "../../types/lib/theme/theme-background.js";

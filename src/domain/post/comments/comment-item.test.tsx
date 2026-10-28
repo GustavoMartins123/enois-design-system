@@ -47,4 +47,15 @@ describe("CommentItem", () => {
     expect(html).not.toContain("Ver quem reagiu");
     expect(html).toContain('<span class="text-xs tabular-nums">1</span>');
   });
+
+  it("hands avatar and name to the app trigger instead of the profile link", () => {
+    const html = renderItem({
+      profileHref: "/perfil/ana",
+      renderAuthorTrigger: (content, part) => <button data-part={part}>{content}</button>,
+    });
+
+    expect(html).toContain('data-part="avatar"');
+    expect(html).toContain('data-part="name"');
+    expect(html).not.toContain('href="/perfil/ana"');
+  });
 });

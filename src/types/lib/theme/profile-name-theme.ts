@@ -1,13 +1,4 @@
-export type ProfileNameTheme =
-  | "DEFAULT"
-  | "PIXEL"
-  | "GOTHIC"
-  | "NEON"
-  | "GLITCH"
-  | "CANDY"
-  | "RETRO"
-  | "OCEAN"
-  | "SUNSET"
-  | "MATRIX"
-  | "GOLD"
-  | "ICE";
+import type { FreeProfileNameTheme } from "./free-profile-name-theme.js";
+import type { SeasonalNameTheme } from "./seasonal-name-theme.js";
+
+export type ProfileNameTheme = FreeProfileNameTheme | SeasonalNameTheme;

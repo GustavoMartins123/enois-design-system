@@ -4,6 +4,7 @@ import { ChevronDown, Download, Moon, RotateCcw, Store, Sun, Upload } from "luci
 
 import { reportThemeContrast, sameThemeSettings } from "../../lib/theme/build-theme-tokens.js";
 import {
+  FREE_PROFILE_NAME_THEMES,
   PROFILE_NAME_COLORS,
   PROFILE_NAME_FONTS,
   PROFILE_NAME_THEMES,
@@ -418,13 +419,13 @@ export function AppearanceDialog({
                 </p>
 
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                  {Object.entries(PROFILE_NAME_THEMES).map(([theme, definition]) => {
-                    const themeId = theme as typeof selectedNameTheme;
+                  {FREE_PROFILE_NAME_THEMES.map((themeId) => {
+                    const definition = PROFILE_NAME_THEMES[themeId];
                     const themeColors = profileNameThemePaint(themeId);
                     const gradient = definition.colors.length > 1;
                     return (
                       <button
-                        key={theme}
+                        key={themeId}
                         type="button"
                         onClick={() => updateNameStyle({ theme: themeId })}
                         aria-pressed={selectedNameTheme === themeId}
