@@ -1,6 +1,11 @@
 export { CommunityCard } from "./community-card.js";
 export { CommunityCardSkeletons } from "./community-card-skeletons.js";
+export { CommunityChannels } from "./community-channels.js";
 export { CommunityFavoriteButton } from "./community-favorite-button.js";
 export type { CommunityCardData } from "../../types/domain/communities/community-card-data.js";
 export type { CommunityCardProps } from "../../types/domain/communities/community-card-props.js";
+export type { CommunityChannelData } from "../../types/domain/communities/community-channel-data.js";
+export type { CommunityChannelValues } from "../../types/domain/communities/community-channel-values.js";
+export type { CommunityChannelsProps } from "../../types/domain/communities/community-channels-props.js";
 export type { CommunityFavoriteButtonProps } from "../../types/domain/communities/community-favorite-button-props.js";
+export type { CommunityTopicOption } from "../../types/domain/communities/community-topic-option.js";

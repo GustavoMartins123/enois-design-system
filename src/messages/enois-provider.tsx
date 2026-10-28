@@ -6,14 +6,23 @@ import type { EnoisProviderProps } from "../types/messages/enois-provider-props.
 import { mergeMessages } from "./merge-messages.js";
 import { MessagesContext } from "./messages-context.js";
 
-export function EnoisProvider({ messages, Link, resolveMediaUrl, children }: EnoisProviderProps) {
+export function EnoisProvider({
+  messages,
+  Link,
+  resolveMediaUrl,
+  resolveMediaOriginalUrl,
+  isOwnMediaUrl,
+  children,
+}: EnoisProviderProps) {
   const messagesValue = useMemo(() => mergeMessages(messages), [messages]);
   const adaptersValue = useMemo(
     () => ({
       Link: Link ?? defaultAdapters.Link,
       resolveMediaUrl: resolveMediaUrl ?? defaultAdapters.resolveMediaUrl,
+      resolveMediaOriginalUrl: resolveMediaOriginalUrl ?? defaultAdapters.resolveMediaOriginalUrl,
+      isOwnMediaUrl: isOwnMediaUrl ?? defaultAdapters.isOwnMediaUrl,
     }),
-    [Link, resolveMediaUrl],
+    [Link, resolveMediaUrl, resolveMediaOriginalUrl, isOwnMediaUrl],
   );
 
   return (
