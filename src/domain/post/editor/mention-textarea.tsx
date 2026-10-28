@@ -15,6 +15,7 @@ import {
 } from "../../../lib/mentions/list-placement.js";
 import { applyFormat } from "../../../lib/rich-text/apply-format.js";
 import { insertSnippet } from "../../../lib/rich-text/insert-snippet.js";
+import { isSubmitShortcut } from "../../../lib/submit-shortcut.js";
 import { useMessages } from "../../../messages/messages-context.js";
 import { RichTextToolbar } from "../../../patterns/editor/rich-text-toolbar.js";
 import type { MentionTextareaProps } from "../../../types/domain/post/mention-textarea-props.js";
@@ -53,6 +54,7 @@ export function MentionTextarea({
   rows,
   toolbar = false,
   onPasteImages,
+  onSubmitShortcut,
   mentionResults: results,
   onMentionQueryChange,
 }: MentionTextareaProps) {
@@ -238,6 +240,13 @@ export function MentionTextarea({
   };
 
   const handleKey = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    // Antes da lista de menção: com a lista aberta, Enter escolhe a pessoa, mas Ctrl+Enter envia.
+    if (onSubmitShortcut && isSubmitShortcut(e.nativeEvent)) {
+      e.preventDefault();
+      onSubmitShortcut();
+      return;
+    }
+
     if (toolbar && (e.ctrlKey || e.metaKey) && !e.altKey) {
       const shortcut = SHORTCUTS[e.key.toLowerCase()];
       if (shortcut) {

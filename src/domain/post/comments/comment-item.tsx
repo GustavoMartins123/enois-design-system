@@ -147,7 +147,9 @@ export function CommentItem<T extends string>({
 
           {editing ? (
             <div className="mt-1 space-y-2">
-              {renderEditField(editDraft, setEditDraft)}
+              {renderEditField(editDraft, setEditDraft, () => {
+                if (!saving && editDraft.trim()) void saveEdit();
+              })}
 
               {editError && <p className="text-xs text-destructive">{editError}</p>}
 
