@@ -116,6 +116,48 @@ export const Skeletons: StoryObj = {
   render: () => <PostCardSkeletons count={2} />,
 };
 
+// A largura pertence ao contêiner: uma coluna de desktop também pode ter pouco espaço.
+function headerStory(width: number, initiallyPinned: boolean, simple = false): StoryObj {
+  return {
+    render: function HeaderStory() {
+      const [pinned, setPinned] = useState(initiallyPinned);
+
+      return (
+        <div style={{ width, maxWidth: "100%" }}>
+          <PostCard
+            post={{
+              ...post,
+              authorName: simple ? "Ana" : "Perfil de demonstração com nome comprido",
+              community: simple
+                ? null
+                : { name: "Comunidade de demonstração com nome comprido", joined: true },
+              content: "Publicação de demonstração para conferir o cabeçalho do card.",
+            }}
+            hrefs={{ author: "#autor", post: "#post", community: "#comunidade" }}
+            timeLabel="agora"
+            topicLabel={simple ? undefined : "Música"}
+            pinned={pinned}
+            onTogglePin={simple ? undefined : () => setPinned((current) => !current)}
+            isOwner
+            onEdit={() => {}}
+            onDelete={() => {}}
+            mySeals={[]}
+            onShowSeals={() => {}}
+            renderRichText={renderRichText}
+            renderMediaGrid={renderMediaGrid}
+          />
+        </div>
+      );
+    },
+  };
+}
+
+export const HeaderNarrowUnpinned = headerStory(320, false);
+export const HeaderNarrowPinned = headerStory(320, true);
+export const HeaderWideUnpinned = headerStory(800, false);
+export const HeaderWidePinned = headerStory(800, true);
+export const HeaderSimple = headerStory(420, false, true);
+
 const comments = [
   {
     id: "c1",
