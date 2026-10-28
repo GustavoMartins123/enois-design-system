@@ -56,6 +56,11 @@ import { Button, ToastProvider } from "@rede-enois/design-system/ui";
 </EnoisProvider>;
 ```
 
+### Character counters
+
+`MentionTextarea` shows its character counter when `maxLength` is set. Forms that render the same
+`CharCounter` in their own footer can pass `showCounter={false}` while keeping the textarea limit.
+
 ## Migrating components from the front
 
 See [docs/component-migration.md](docs/component-migration.md).
