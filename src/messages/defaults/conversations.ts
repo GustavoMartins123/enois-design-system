@@ -3,6 +3,15 @@ import type { ConversationsMessages } from "../../types/messages/conversations-m
 export const conversationsMessages: ConversationsMessages = {
   conversationHeader: { back: "Voltar", conversationFallback: "Conversa" },
   conversationItem: { conversationFallback: "Conversa" },
+  chatDock: {
+    title: "Mensagens",
+    collapse: "Minimizar mensagens",
+    empty: "Nenhuma conversa ainda.",
+    loading: "Carregando…",
+    loadMore: "Carregar mais conversas",
+    loadingMore: "Carregando…",
+    close: "Fechar",
+  },
   messageBubble: {
     readReceiptSent: "Enviada",
     readReceiptRead: "Lida pela outra pessoa",
@@ -32,6 +41,7 @@ export const conversationsMessages: ConversationsMessages = {
         : `${count} selecionada${count === 1 ? "" : "s"}`,
     deleteSelectedMessages: (count: number) =>
       count === 0 ? "Apagar para mim" : `Apagar ${count} para mim`,
+    e2eRequired: "Ative a criptografia ponta a ponta para enviar e ler mensagens.",
     cancelSelection: "Cancelar",
     noMessages: "Nenhuma mensagem ainda",
     loadOlderMessages: "Ver mensagens anteriores",

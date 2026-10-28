@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import { ChatDockWindow } from "./chat-dock-window.js";
+import { ChatDock } from "./chat-dock.js";
 import { ConversationItem } from "./conversation-item.js";
 import { ConversationListSkeletons } from "./conversation-list-skeletons.js";
 import { ConversationThread } from "./conversation-thread.js";
@@ -33,6 +35,15 @@ export const List: StoryObj = {
         timeLabel="2 h"
         isActive
         onSelect={() => {}}
+      />
+      <ConversationItem
+        conversation={{ lastMessage: "", unread: 1 }}
+        peer={peer}
+        profileHref="#"
+        timeLabel="agora"
+        isActive={false}
+        onSelect={() => {}}
+        previewLoading
       />
     </ul>
   ),
@@ -142,5 +153,30 @@ export const Loading: StoryObj = {
       <ConversationListSkeletons count={3} />
       <MessageSkeletons />
     </div>
+  ),
+};
+
+/** Fixo no canto inferior direito e só no desktop (`lg`): abra o canvas largo para ver. */
+export const Dock: StoryObj = {
+  render: () => (
+    <ChatDock
+      expanded
+      onToggleExpanded={() => {}}
+      unreadCount={3}
+      windows={<ChatDockWindow loading onClose={() => {}} />}
+      empty={false}
+      hasMore
+      loadingMore={false}
+      onLoadMore={() => {}}
+    >
+      <ConversationItem
+        conversation={{ lastMessage: "Bora marcar aquele café?", unread: 2 }}
+        peer={peer}
+        profileHref="#"
+        timeLabel="5 min"
+        isActive={false}
+        onSelect={() => {}}
+      />
+    </ChatDock>
   ),
 };

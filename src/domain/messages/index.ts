@@ -1,3 +1,5 @@
+export { ChatDock } from "./chat-dock.js";
+export { ChatDockWindow } from "./chat-dock-window.js";
 export { ConversationHeader } from "./conversation-header.js";
 export { ConversationItem } from "./conversation-item.js";
 export { ConversationListSkeletons } from "./conversation-list-skeletons.js";
@@ -5,6 +7,8 @@ export { ConversationThread } from "./conversation-thread.js";
 export { E2eSetupBanner } from "./e2e-setup-banner.js";
 export { MessageBubble } from "./message-bubble.js";
 export { MessageSkeletons } from "./message-skeletons.js";
+export type { ChatDockProps } from "../../types/domain/messages/chat-dock-props.js";
+export type { ChatDockWindowProps } from "../../types/domain/messages/chat-dock-window-props.js";
 export type { ConversationHeaderProps } from "../../types/domain/messages/conversation-header-props.js";
 export type { ConversationItemData } from "../../types/domain/messages/conversation-item-data.js";
 export type { ConversationItemProps } from "../../types/domain/messages/conversation-item-props.js";

@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FormEvent, useEffect, useRef, useState } from "react";
+import { type ChangeEvent, type FormEvent, useEffect, useMemo, useRef, useState } from "react";
 
 import { Briefcase, EyeOff, ImageIcon, Send, X } from "lucide-react";
 
@@ -13,6 +13,14 @@ import { SpoilerPreview } from "../post/media/spoiler-preview.js";
 import { ConversationHeader } from "./conversation-header.js";
 import { MessageSkeletons } from "./message-skeletons.js";
 
+/** Preview de arquivo local: gera a blob URL no render e revoga no unmount. Quebra a cadeia de
+ *  taint que o CodeQL via quando a URL passava por state. */
+function BlobPreview({ file, alt, className }: { file: File; alt: string; className: string }) {
+  const url = useMemo(() => URL.createObjectURL(file), [file]);
+  useEffect(() => () => URL.revokeObjectURL(url), [url]);
+  return <img src={url} alt={alt} className={className} />;
+}
+
 /**
  * O filão de uma conversa: cabeçalho, histórico e compositor.
  *
@@ -25,6 +33,7 @@ export function ConversationThread({
   profileHref,
   onBack,
   banner,
+  e2eRequired,
   children,
   loading,
   empty,
@@ -175,217 +184,233 @@ export function ConversationThread({
         onBack={onBack}
       />
 
-      {banner && <div className="px-4 pt-3">{banner}</div>}
+      {e2eRequired
+        ? banner && (
+            <div className="flex flex-1 flex-col items-center justify-center gap-4 bg-muted/30 p-5">
+              {banner}
 
-      <div
-        ref={messagesScrollRef}
-        className="flex-1 overflow-y-auto overscroll-contain bg-muted/30 p-5"
-      >
-        {hasOlderMessages && (
-          <div className="mb-4 flex justify-center">
-            <Button
-              variant="outline"
-              size="sm"
-              className="rounded-full text-xs"
-              disabled={loadingOlder}
-              onClick={onLoadOlder}
-            >
-              {loadingOlder ? messages.loadingOlder : messages.loadOlderMessages}
-            </Button>
-          </div>
-        )}
-        <div className="space-y-3">
-          {loading ? (
-            <MessageSkeletons />
-          ) : empty ? (
-            <p className="py-16 text-center text-sm text-muted-foreground">{messages.noMessages}</p>
-          ) : (
-            children
-          )}
-          <div />
-        </div>
-      </div>
-
-      {selecting ? (
-        <div className="flex flex-wrap items-center gap-2 border-t border-border bg-surface-2 p-3">
-          <span className="text-xs font-normal text-text-subtle">
-            {messages.selectedMessages(selectedCount)}
-          </span>
-
-          <div className="ml-auto flex items-center gap-2">
-            <Button
-              size="sm"
-              variant="outline"
-              className="rounded-full"
-              onClick={onCancelSelection}
-            >
-              {messages.cancelSelection}
-            </Button>
-
-            <Button
-              size="sm"
-              variant="destructive"
-              className="rounded-full"
-              disabled={selectedCount === 0 || deletePending}
-              onClick={onDeleteSelected}
-            >
-              {messages.deleteSelectedMessages(selectedCount)}
-            </Button>
-          </div>
-        </div>
-      ) : (
-        <form
-          onSubmit={handleSubmit}
-          className="border-t border-border px-3 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]"
-        >
-          {media.length > 0 && (
-            <div className="mb-2 flex flex-wrap gap-2">
-              {media.map((item, index) => (
-                <div key={item.preview} className="relative">
-                  <SpoilerPreview
-                    active={mediaSpoiler}
-                    label={messages.mediaSpoilerBadge}
-                    className="h-16 w-16 rounded-lg"
-                  >
-                    <img
-                      src={item.preview}
-                      alt=""
-                      className="h-16 w-16 rounded-lg border border-border-soft object-cover"
-                    />
-                  </SpoilerPreview>
-
-                  <button
-                    type="button"
-                    onClick={() => removeMediaItem(index)}
-                    className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-foreground text-background shadow"
-                    aria-label={messages.removeMedia}
-                    title={messages.removeMedia}
-                  >
-                    <X className="h-3 w-3" />
-                  </button>
-                </div>
-              ))}
-              <button
-                type="button"
-                onClick={() => setMediaSpoiler((active) => !active)}
-                className={`inline-flex h-8 items-center gap-1 rounded-full px-2 text-xs transition ${
-                  mediaSpoiler
-                    ? "bg-primary text-primary-foreground"
-                    : "border border-border-soft text-text-subtle hover:border-primary hover:text-primary"
-                }`}
-                aria-label={mediaSpoiler ? messages.mediaSpoilerActive : messages.mediaSpoiler}
-                title={mediaSpoiler ? messages.mediaSpoilerActive : messages.mediaSpoiler}
-              >
-                <EyeOff className="h-3.5 w-3.5" />
-                {mediaSpoiler ? messages.mediaSpoilerActive : messages.mediaSpoiler}
-              </button>
+              <p className="text-center text-xs text-text-subtle">{messages.e2eRequired}</p>
             </div>
-          )}
+          )
+        : banner && <div className="px-4 pt-3">{banner}</div>}
 
-          {uploadError && <p className="mb-2 text-xs text-destructive">{uploadError}</p>}
-
-          {servicesOpen && (
-            <div className="mb-2 rounded-xl border border-border-soft bg-surface-2 p-2">
-              <p className="px-1 text-xs font-medium">{messages.attachServiceTitle}</p>
-
-              <p className="px-1 pb-2 text-[11px] text-text-subtle">{messages.attachServiceHint}</p>
-
-              {servicesLoading ? (
-                <p className="px-1 py-2 text-xs text-text-subtle">{messages.loadingOlder}</p>
-              ) : services.length === 0 ? (
-                <p className="px-1 py-2 text-xs text-text-subtle">{messages.noServices}</p>
+      {!e2eRequired && (
+        <>
+          <div
+            ref={messagesScrollRef}
+            className="flex-1 overflow-y-auto overscroll-contain bg-muted/30 p-5"
+          >
+            {hasOlderMessages && (
+              <div className="mb-4 flex justify-center">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="rounded-full text-xs"
+                  disabled={loadingOlder}
+                  onClick={onLoadOlder}
+                >
+                  {loadingOlder ? messages.loadingOlder : messages.loadOlderMessages}
+                </Button>
+              </div>
+            )}
+            <div className="space-y-3">
+              {loading ? (
+                <MessageSkeletons />
+              ) : empty ? (
+                <p className="py-16 text-center text-sm text-muted-foreground">
+                  {messages.noMessages}
+                </p>
               ) : (
-                <ul className="max-h-40 space-y-1 overflow-y-auto overscroll-contain">
-                  {services.map((listing) => (
-                    <li key={listing.id}>
+                children
+              )}
+              <div />
+            </div>
+          </div>
+
+          {selecting ? (
+            <div className="flex flex-wrap items-center gap-2 border-t border-border bg-surface-2 p-3">
+              <span className="text-xs font-normal text-text-subtle">
+                {messages.selectedMessages(selectedCount)}
+              </span>
+
+              <div className="ml-auto flex items-center gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="rounded-full"
+                  onClick={onCancelSelection}
+                >
+                  {messages.cancelSelection}
+                </Button>
+
+                <Button
+                  size="sm"
+                  variant="destructive"
+                  className="rounded-full"
+                  disabled={selectedCount === 0 || deletePending}
+                  onClick={onDeleteSelected}
+                >
+                  {messages.deleteSelectedMessages(selectedCount)}
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <form
+              onSubmit={handleSubmit}
+              className="border-t border-border px-3 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]"
+            >
+              {media.length > 0 && (
+                <div className="mb-2 flex flex-wrap gap-2">
+                  {media.map((item, index) => (
+                    <div key={item.preview} className="relative">
+                      <SpoilerPreview
+                        active={mediaSpoiler}
+                        label={messages.mediaSpoilerBadge}
+                        className="h-16 w-16 rounded-lg"
+                      >
+                        <BlobPreview
+                          file={item.file}
+                          alt=""
+                          className="h-16 w-16 rounded-lg border border-border-soft object-cover"
+                        />
+                      </SpoilerPreview>
+
                       <button
                         type="button"
-                        onClick={() => attachService(listing)}
-                        className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-xs transition hover:bg-surface-card"
+                        onClick={() => removeMediaItem(index)}
+                        className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-foreground text-background shadow"
+                        aria-label={messages.removeMedia}
+                        title={messages.removeMedia}
                       >
-                        <span className="min-w-0 flex-1 truncate">{listing.title}</span>
-
-                        <span className="shrink-0 text-text-subtle">{listing.category}</span>
+                        <X className="h-3 w-3" />
                       </button>
-                    </li>
+                    </div>
                   ))}
-                </ul>
+                  <button
+                    type="button"
+                    onClick={() => setMediaSpoiler((active) => !active)}
+                    className={`inline-flex h-8 items-center gap-1 rounded-full px-2 text-xs transition ${
+                      mediaSpoiler
+                        ? "bg-primary text-primary-foreground"
+                        : "border border-border-soft text-text-subtle hover:border-primary hover:text-primary"
+                    }`}
+                    aria-label={mediaSpoiler ? messages.mediaSpoilerActive : messages.mediaSpoiler}
+                    title={mediaSpoiler ? messages.mediaSpoilerActive : messages.mediaSpoiler}
+                  >
+                    <EyeOff className="h-3.5 w-3.5" />
+                    {mediaSpoiler ? messages.mediaSpoilerActive : messages.mediaSpoiler}
+                  </button>
+                </div>
               )}
-            </div>
+
+              {uploadError && <p className="mb-2 text-xs text-destructive">{uploadError}</p>}
+
+              {servicesOpen && (
+                <div className="mb-2 rounded-xl border border-border-soft bg-surface-2 p-2">
+                  <p className="px-1 text-xs font-medium">{messages.attachServiceTitle}</p>
+
+                  <p className="px-1 pb-2 text-[11px] text-text-subtle">
+                    {messages.attachServiceHint}
+                  </p>
+
+                  {servicesLoading ? (
+                    <p className="px-1 py-2 text-xs text-text-subtle">{messages.loadingOlder}</p>
+                  ) : services.length === 0 ? (
+                    <p className="px-1 py-2 text-xs text-text-subtle">{messages.noServices}</p>
+                  ) : (
+                    <ul className="max-h-40 space-y-1 overflow-y-auto overscroll-contain">
+                      {services.map((listing) => (
+                        <li key={listing.id}>
+                          <button
+                            type="button"
+                            onClick={() => attachService(listing)}
+                            className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-xs transition hover:bg-surface-card"
+                          >
+                            <span className="min-w-0 flex-1 truncate">{listing.title}</span>
+
+                            <span className="shrink-0 text-text-subtle">{listing.category}</span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+
+              <div className="flex items-end gap-2">
+                <input
+                  ref={mediaInputRef}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={handleMediaSelect}
+                />
+
+                <button
+                  type="button"
+                  onClick={() => mediaInputRef.current?.click()}
+                  className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-muted hover:text-foreground"
+                  aria-label={messages.attachMedia}
+                  title={messages.attachMedia}
+                >
+                  <ImageIcon className="h-4 w-4" />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => onServicesOpenChange(!servicesOpen)}
+                  className={`grid h-10 w-10 shrink-0 place-items-center rounded-full transition hover:bg-muted hover:text-foreground ${
+                    servicesOpen ? "bg-muted text-primary" : "text-text-subtle"
+                  }`}
+                  aria-label={messages.attachService}
+                  aria-expanded={servicesOpen}
+                  title={messages.attachService}
+                >
+                  <Briefcase className="h-4 w-4" />
+                </button>
+
+                <textarea
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  onKeyDown={(e) => {
+                    // Enter envia; Shift+Enter quebra linha (padrao de chat).
+                    if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
+                      e.preventDefault();
+                      void handleSubmit(e as unknown as FormEvent<HTMLFormElement>);
+                    }
+                  }}
+                  onPaste={(event) => {
+                    const files = Array.from(event.clipboardData?.files ?? []);
+                    if (files.some((file) => file.type.startsWith("image/"))) {
+                      event.preventDefault();
+                      addMediaFiles(files);
+                    }
+                  }}
+                  ref={messageInputRef}
+                  rows={1}
+                  placeholder={messages.inputPlaceholder}
+                  className="max-h-32 min-h-[40px] w-full resize-none rounded-2xl bg-muted px-4 py-2.5 text-sm outline-none"
+                />
+                <EmojiPicker
+                  onPick={insertEmoji}
+                  buttonTitle={messages.emoji}
+                  buttonClassName="grid h-10 w-10 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-muted hover:text-foreground"
+                />
+
+                <button
+                  type="submit"
+                  aria-label={messages.send}
+                  title={messages.send}
+                  disabled={(!text.trim() && media.length === 0) || sendPending}
+                  className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground transition hover:opacity-90 disabled:opacity-50"
+                >
+                  <Send className="h-4 w-4" />
+                </button>
+              </div>
+            </form>
           )}
-
-          <div className="flex items-end gap-2">
-            <input
-              ref={mediaInputRef}
-              type="file"
-              accept="image/*"
-              multiple
-              className="hidden"
-              onChange={handleMediaSelect}
-            />
-
-            <button
-              type="button"
-              onClick={() => mediaInputRef.current?.click()}
-              className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-muted hover:text-foreground"
-              aria-label={messages.attachMedia}
-              title={messages.attachMedia}
-            >
-              <ImageIcon className="h-4 w-4" />
-            </button>
-
-            <button
-              type="button"
-              onClick={() => onServicesOpenChange(!servicesOpen)}
-              className={`grid h-10 w-10 shrink-0 place-items-center rounded-full transition hover:bg-muted hover:text-foreground ${
-                servicesOpen ? "bg-muted text-primary" : "text-text-subtle"
-              }`}
-              aria-label={messages.attachService}
-              aria-expanded={servicesOpen}
-              title={messages.attachService}
-            >
-              <Briefcase className="h-4 w-4" />
-            </button>
-
-            <textarea
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              onKeyDown={(e) => {
-                // Enter envia; Shift+Enter quebra linha (padrao de chat).
-                if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
-                  e.preventDefault();
-                  void handleSubmit(e as unknown as FormEvent<HTMLFormElement>);
-                }
-              }}
-              onPaste={(event) => {
-                const files = Array.from(event.clipboardData?.files ?? []);
-                if (files.some((file) => file.type.startsWith("image/"))) {
-                  event.preventDefault();
-                  addMediaFiles(files);
-                }
-              }}
-              ref={messageInputRef}
-              rows={1}
-              placeholder={messages.inputPlaceholder}
-              className="max-h-32 min-h-[40px] w-full resize-none rounded-2xl bg-muted px-4 py-2.5 text-sm outline-none"
-            />
-            <EmojiPicker
-              onPick={insertEmoji}
-              buttonTitle={messages.emoji}
-              buttonClassName="grid h-10 w-10 shrink-0 place-items-center rounded-full text-text-subtle transition hover:bg-muted hover:text-foreground"
-            />
-
-            <button
-              type="submit"
-              aria-label={messages.send}
-              title={messages.send}
-              disabled={(!text.trim() && media.length === 0) || sendPending}
-              className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground transition hover:opacity-90 disabled:opacity-50"
-            >
-              <Send className="h-4 w-4" />
-            </button>
-          </div>
-        </form>
+        </>
       )}
     </>
   );

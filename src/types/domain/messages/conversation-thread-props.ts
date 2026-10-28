@@ -12,6 +12,11 @@ export type ConversationThreadProps = {
   onBack?: () => void;
   /** Shown between the header and the messages (e.g. the E2eSetupBanner). */
   banner?: ReactNode;
+  /**
+   * Gate E2E: sem a chave local a conversa não abre. Esconde o histórico e o compositor e
+   * centraliza o `banner` com o aviso de que a criptografia é obrigatória.
+   */
+  e2eRequired?: boolean;
   /** Os balões, já montados pelo app, do mais antigo ao mais novo. */
   children?: ReactNode;
   loading: boolean;

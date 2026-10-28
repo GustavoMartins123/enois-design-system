@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { act } from "react";
+import { type ComponentProps, act } from "react";
 
 import { createRoot } from "react-dom/client";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -14,7 +14,10 @@ const root = createRoot(container);
 
 afterEach(() => act(() => root.render(null)));
 
-function renderThread(onSend: () => Promise<void>) {
+function renderThread(
+  onSend: () => Promise<void>,
+  extra: Partial<ComponentProps<typeof ConversationThread>> = {},
+) {
   act(() =>
     root.render(
       <ConversationThread
@@ -38,6 +41,7 @@ function renderThread(onSend: () => Promise<void>) {
         servicesLoading={false}
         services={[]}
         serviceHref={(id) => `/servicos#oferta-${id}`}
+        {...extra}
       />,
     ),
   );
@@ -72,5 +76,14 @@ describe("ConversationThread", () => {
     await typeAndSend("oi");
 
     expect(container.textContent).toContain("Arquivo grande demais");
+  });
+
+  it("o gate E2E esconde o histórico e o compositor e mostra o banner com o aviso", () => {
+    renderThread(() => Promise.resolve(), { e2eRequired: true, banner: <p>banner</p> });
+
+    expect(container.textContent).toContain("banner");
+    expect(container.textContent).toContain("Ative a criptografia ponta a ponta");
+    expect(container.querySelector("form")).toBeNull();
+    expect(container.textContent).not.toContain("Nenhuma mensagem ainda");
   });
 });

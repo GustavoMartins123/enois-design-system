@@ -1,3 +1,5 @@
+import { Loader2 } from "lucide-react";
+
 import { useMessages } from "../../messages/messages-context.js";
 import type { ConversationItemProps } from "../../types/domain/messages/conversation-item-props.js";
 import { AppLink } from "../../ui/app-link.js";
@@ -15,6 +17,7 @@ export function ConversationItem({
   onSelect,
   selecting,
   selected,
+  previewLoading,
 }: ConversationItemProps) {
   const messages = useMessages().conversationItem;
   const title = conversation.title ?? peer?.name ?? messages.conversationFallback;
@@ -55,9 +58,15 @@ export function ConversationItem({
           </div>
 
           <div className="flex items-center justify-between gap-2">
-            <p className="truncate text-xs text-muted-foreground">
-              {conversation.lastMessage ?? ""}
-            </p>
+            {previewLoading ? (
+              <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+                <Loader2 className="h-3 w-3 animate-spin" />
+              </span>
+            ) : (
+              <p className="truncate text-xs text-muted-foreground">
+                {conversation.lastMessage ?? ""}
+              </p>
+            )}
             {conversation.unread > 0 && (
               <span className="grid h-5 min-w-5 shrink-0 place-items-center rounded-full bg-primary px-1.5 text-xs font-semibold text-primary-foreground">
                 {conversation.unread}

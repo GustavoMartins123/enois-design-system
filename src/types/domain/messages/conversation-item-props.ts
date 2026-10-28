@@ -12,4 +12,6 @@ export type ConversationItemProps = {
   /** Modo de seleção em massa. */
   selecting?: boolean;
   selected?: boolean;
+  /** A prévia E2E ainda está sendo decifrada: mostra um spinner no lugar do texto. */
+  previewLoading?: boolean;
 };

@@ -1,6 +1,15 @@
 export type ConversationsMessages = {
   conversationHeader: { back: string; conversationFallback: string };
   conversationItem: { conversationFallback: string };
+  chatDock: {
+    title: string;
+    collapse: string;
+    empty: string;
+    loading: string;
+    loadMore: string;
+    loadingMore: string;
+    close: string;
+  };
   messageBubble: {
     readReceiptSent: string;
     readReceiptRead: string;
@@ -26,6 +35,8 @@ export type ConversationsMessages = {
     selectMessages: string;
     selectedMessages: (count: number) => string;
     deleteSelectedMessages: (count: number) => string;
+    /** Aviso do gate E2E: sem a chave a conversa não abre. */
+    e2eRequired: string;
     cancelSelection: string;
     noMessages: string;
     loadOlderMessages: string;
