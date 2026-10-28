@@ -65,6 +65,10 @@ for a verification code:
 ```tsx
 <Input maxLength={6} showCounter={false} inputMode="numeric" autoComplete="one-time-code" />
 ```
+### Character counters
+
+`MentionTextarea` shows its character counter when `maxLength` is set. Forms that render the same
+`CharCounter` in their own footer can pass `showCounter={false}` while keeping the textarea limit.
 
 ## Migrating components from the front
 

@@ -1,9 +1,9 @@
 import { Award, ChevronRight, CircleDollarSign, Trophy } from "lucide-react";
 
-import { useAdapters } from "../../adapters/adapters-context.js";
 import { useMessages } from "../../messages/messages-context.js";
 import type { ProfileGamificationPanelProps } from "../../types/domain/profile/profile-gamification-panel-props.js";
 import { AppLink } from "../../ui/app-link.js";
+import { UserBadge } from "../badges/user-badge.js";
 
 import { profileBadges } from "./profile-badges.js";
 
@@ -27,7 +27,6 @@ export function ProfileGamificationPanel({
   walletHref,
 }: ProfileGamificationPanelProps) {
   const messages = useMessages().profileGamificationPanel;
-  const { resolveMediaUrl } = useAdapters();
   const badges = profileBadges(profile);
 
   return (
@@ -92,9 +91,9 @@ export function ProfileGamificationPanel({
         {badges.length > 0 ? (
           <div className="mt-4 grid grid-cols-5 gap-2">
             {badges.map((badge) => (
-              <img
+              <UserBadge
                 key={badge}
-                src={resolveMediaUrl(badge)}
+                badge={badge}
                 alt={messages.badgeAlt}
                 className="aspect-square w-full rounded-xl border border-border-soft object-cover shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-primary/50"
               />

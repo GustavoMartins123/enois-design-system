@@ -92,7 +92,7 @@ export function NotificationItem({
 
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
-            <p className="text-sm font-normal leading-tight text-text-strong">
+            <p className="min-w-0 text-sm font-normal leading-tight text-text-strong">
               {notification.actorName &&
                 (notification.actorHref ? (
                   <AppLink

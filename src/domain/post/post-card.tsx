@@ -60,6 +60,7 @@ export function PostCard({
   comments,
   renderRichText,
   renderMediaGrid,
+  renderAuthorTrigger,
 }: PostCardProps) {
   const messages = useMessages().postCard;
   const sealLabels = useMessages().postSeals;
@@ -112,6 +113,7 @@ export function PostCard({
           authorAvatar={post.authorAvatar}
           authorAvatarFrame={post.authorAvatarFrame}
           authorHref={hrefs.author}
+          renderAuthorTrigger={renderAuthorTrigger}
           timeLabel={timeLabel}
           community={
             post.community && hrefs.community
@@ -123,7 +125,7 @@ export function PostCard({
           followPending={followPending}
         />
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex shrink-0 items-center gap-1.5">
           {pinned && (
             <span className="inline-flex items-center gap-1 rounded-full bg-primary-soft px-2.5 py-1 text-xs font-medium text-primary">
               <Pin className="h-3 w-3" aria-hidden />

@@ -19,3 +19,12 @@ export const Badges: StoryObj = {
     </p>
   ),
 };
+
+export const OfficialAndUploaded: StoryObj = {
+  render: () => (
+    <p className="inline-flex items-center gap-1 text-sm">
+      Ana Souza
+      <UserBadges badges={["emblema-carapuca", badge, "emblema-vitoria-saci", "emblema-cafe"]} />
+    </p>
+  ),
+};

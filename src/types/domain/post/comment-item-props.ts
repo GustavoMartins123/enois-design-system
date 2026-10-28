@@ -5,6 +5,7 @@ import type { ReactionCountSummary } from "../../lib/reactions/reaction-count-su
 import type { CommentItemData } from "./comment-item-data.js";
 import type { PostMediaGridProps } from "./post-media-grid-props.js";
 import type { PostRichTextProps } from "./post-rich-text-props.js";
+import type { RenderAuthorTrigger } from "./render-author-trigger.js";
 
 export type CommentItemProps<T extends string = string> = {
   comment: CommentItemData;
@@ -41,10 +42,16 @@ export type CommentItemProps<T extends string = string> = {
   onCancelEdit: () => void;
   renderRichText: (props: PostRichTextProps) => ReactNode;
   renderMediaGrid: (props: PostMediaGridProps) => ReactNode;
-  /** O campo de edição (com menção) vem do app. */
-  renderEditField: (value: string, onChange: (value: string) => void) => ReactNode;
+  /** O campo de edição (com menção) vem do app; `submit` é o mesmo "Salvar" do botão (Ctrl+Enter). */
+  renderEditField: (
+    value: string,
+    onChange: (value: string) => void,
+    submit: () => void,
+  ) => ReactNode;
   /** Diálogo de denúncia do comentário. */
   reportDialog?: ReactNode;
   /** Diálogo de quem reagiu ao comentário. */
   reactionsDialog?: ReactNode;
+  /** Avatar e nome abrem o gatilho do app (mini cartão) em vez do link do perfil. */
+  renderAuthorTrigger?: RenderAuthorTrigger;
 };

@@ -1,19 +1,31 @@
+import type { ComponentType } from "react";
+
 import type { AvatarFrameFxProps } from "../../types/domain/avatar/avatar-frame-fx-props.js";
 
+import { SEASONAL_FX_FRAMES } from "./avatar-frames.js";
 import { BuracoNegroFx } from "./frames/buraco-negro.js";
+import { CircuitoFx } from "./frames/circuito.js";
+import { FliperamaFx } from "./frames/fliperama.js";
 import { GalaxiaFx } from "./frames/galaxia.js";
 import { GlacialFx } from "./frames/glacial.js";
 import { HologramaFx } from "./frames/holograma.js";
 import { InfernoFx } from "./frames/inferno.js";
+import { MareFx } from "./frames/mare.js";
 import { NebulosaFx } from "./frames/nebulosa.js";
+import { NeonFx } from "./frames/neon.js";
 import { OrbitaFx } from "./frames/orbita.js";
 import { PortalFx } from "./frames/portal.js";
+import { RadarFx } from "./frames/radar.js";
+import { SeasonalFrameFx } from "./frames/seasonal/seasonal-frame-fx.js";
 import { SupernovaFx } from "./frames/supernova.js";
 import { TempestadeFx } from "./frames/tempestade.js";
 import { ToxicaFx } from "./frames/toxica.js";
+import { TrepadeiraFx } from "./frames/trepadeira.js";
+import { VagaLumesFx } from "./frames/vaga-lumes.js";
+import { VendavalFx } from "./frames/vendaval.js";
 
 /** As molduras com efeito; a lista de ids vive em FX_FRAMES (lib/avatar-frames). */
-const EFEITOS: Record<string, () => React.JSX.Element> = {
+const EFEITOS: Record<string, ComponentType<AvatarFrameFxProps>> = {
   "moldura-tempestade": TempestadeFx,
   "moldura-inferno": InfernoFx,
   "moldura-buraco-negro": BuracoNegroFx,
@@ -25,6 +37,15 @@ const EFEITOS: Record<string, () => React.JSX.Element> = {
   "moldura-galaxia": GalaxiaFx,
   "moldura-portal": PortalFx,
   "moldura-holograma": HologramaFx,
+  "moldura-mare": MareFx,
+  "moldura-trepadeira": TrepadeiraFx,
+  "moldura-vendaval": VendavalFx,
+  "moldura-vaga-lumes": VagaLumesFx,
+  "moldura-fliperama": FliperamaFx,
+  "moldura-circuito": CircuitoFx,
+  "moldura-neon": NeonFx,
+  "moldura-radar": RadarFx,
+  ...Object.fromEntries(SEASONAL_FX_FRAMES.map((id) => [id, SeasonalFrameFx])),
 };
 
 /**
@@ -37,7 +58,7 @@ export function AvatarFrameFx({ frame }: AvatarFrameFxProps) {
   const Efeito = EFEITOS[frame];
   return (
     <span aria-hidden className="moldura-fx">
-      <Efeito />
+      <Efeito frame={frame} />
     </span>
   );
 }

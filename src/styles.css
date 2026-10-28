@@ -1053,8 +1053,773 @@
   }
 }
 
+/* Maré: o anel é um tubo com água. A maré enche e vaza, a água balança, as duas camadas da
+   superfície correm em sentidos opostos, bolhas sobem e o peixe vai e volta pelo fundo. */
+.moldura-mare__nivel {
+  animation: moldura-mare-nivel 8s ease-in-out infinite alternate;
+}
+.moldura-mare__balanco {
+  animation: moldura-mare-balanco 3.4s ease-in-out infinite alternate;
+}
+.moldura-mare__tras {
+  animation: moldura-mare-onda 2.6s linear infinite;
+}
+.moldura-mare__frente {
+  animation: moldura-mare-onda 1.9s linear infinite;
+}
+.moldura-mare__bolha {
+  animation: moldura-mare-bolha 2.6s ease-in infinite;
+}
+.moldura-mare__nado {
+  animation: moldura-mare-nado 7s ease-in-out infinite;
+}
+.moldura-mare__peixe {
+  animation: moldura-mare-peixe 7s linear infinite;
+}
+@keyframes moldura-mare-nivel {
+  to {
+    transform: translateY(-22px);
+  }
+}
+@keyframes moldura-mare-balanco {
+  from {
+    transform: rotate(-6deg);
+  }
+  to {
+    transform: rotate(6deg);
+  }
+}
+@keyframes moldura-mare-onda {
+  to {
+    transform: translateX(var(--periodo));
+  }
+}
+@keyframes moldura-mare-bolha {
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-12px) scale(1.1);
+    opacity: 0;
+  }
+}
+/* O giro leva o peixe pelo fundo do tubo; o espelhamento vira o peixe nas pontas do caminho. */
+@keyframes moldura-mare-nado {
+  0%,
+  100% {
+    transform: rotate(-40deg);
+  }
+  50% {
+    transform: rotate(40deg);
+  }
+}
+@keyframes moldura-mare-peixe {
+  0%,
+  49.9% {
+    transform: scaleX(-1);
+  }
+  50%,
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+/* Trepadeira: as folhas brotam de baixo para cima, a flor abre no topo e tudo murcha junto. */
+.moldura-trepadeira__folha {
+  transform-origin: 0 0;
+  animation: moldura-trepadeira-folha 9s ease-out infinite;
+}
+.moldura-trepadeira__flor {
+  transform-origin: 0 0;
+  animation: moldura-trepadeira-flor 9s ease-out infinite;
+}
+@keyframes moldura-trepadeira-folha {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  8% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+  12%,
+  62% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  72% {
+    transform: scale(0.8) rotate(20deg);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+@keyframes moldura-trepadeira-flor {
+  0% {
+    transform: scale(0) rotate(-60deg);
+    opacity: 0;
+  }
+  10% {
+    transform: scale(1.15) rotate(0deg);
+    opacity: 1;
+  }
+  14%,
+  52% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  62% {
+    transform: scale(0.6) rotate(30deg);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+/* Vendaval: rajadas em espiral girando em ritmos diferentes, poeira e folhas levadas. */
+.moldura-vendaval__giro {
+  animation: moldura-giro 2.4s linear infinite;
+}
+.moldura-vendaval__risco {
+  animation: moldura-vendaval-risco 1.8s ease-in-out infinite;
+}
+.moldura-vendaval__poeira {
+  animation: moldura-giro 1.4s linear infinite;
+}
+.moldura-vendaval__voo {
+  animation: moldura-giro 2.7s linear infinite;
+}
+.moldura-vendaval__folha {
+  transform-origin: 0 0;
+  animation:
+    moldura-giro 0.9s linear infinite,
+    moldura-vendaval-folha 2.7s ease-in-out infinite;
+}
+@keyframes moldura-vendaval-risco {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.9;
+  }
+  60% {
+    opacity: 0.6;
+  }
+}
+/* A cada 6s uma rajada atravessa a foto, levando uma folha, e a foto (o Avatar, irmão do
+   .moldura-fx no invólucro) balança no mesmo compasso: inclina quando o vento passa no meio e
+   volta oscilando. */
+.moldura-vendaval__rajada {
+  opacity: 0;
+  animation: moldura-vendaval-rajada 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+.moldura-vendaval__rajada-folha {
+  opacity: 0;
+  animation: moldura-vendaval-rajada-folha 6s ease-in-out infinite;
+  animation-delay: 0.12s;
+}
+.moldura-vendaval__rodopio {
+  transform-origin: 0 0;
+  animation: moldura-giro 0.6s linear infinite;
+}
+[data-avatar-frame="moldura-vendaval"] > :not(.moldura-fx) {
+  animation: moldura-vendaval-sopro 6s ease-out infinite;
+}
+@keyframes moldura-vendaval-rajada {
+  0% {
+    transform: translateX(-75px);
+    opacity: 0;
+  }
+  4% {
+    opacity: 0.8;
+  }
+  14% {
+    opacity: 0.7;
+  }
+  19%,
+  100% {
+    transform: translateX(75px);
+    opacity: 0;
+  }
+}
+@keyframes moldura-vendaval-rajada-folha {
+  0% {
+    transform: translate(-70px, 6px);
+    opacity: 0;
+  }
+  5%,
+  16% {
+    opacity: 1;
+  }
+  10% {
+    transform: translate(0, -6px);
+  }
+  20%,
+  100% {
+    transform: translate(72px, 4px);
+    opacity: 0;
+  }
+}
+@keyframes moldura-vendaval-sopro {
+  0%,
+  7% {
+    transform: none;
+  }
+  12% {
+    transform: translateX(1.2%) rotate(7deg);
+  }
+  17% {
+    transform: translateX(-0.4%) rotate(-3deg);
+  }
+  22% {
+    transform: rotate(1.2deg);
+  }
+  27%,
+  100% {
+    transform: none;
+  }
+}
+@keyframes moldura-vendaval-folha {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  15%,
+  65% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0;
+  }
+}
+
+/* Vaga-lumes: noite no campo. Estrelas piscam, o capim balança, os vaga-lumes batem as asas
+   e voam em volta com rastro, e luzes distantes acendem fora de compasso. */
+.moldura-vaga-lumes__estrela {
+  transform-origin: 0 0;
+  animation: moldura-vaga-lumes-estrela 2.4s ease-in-out infinite;
+}
+.moldura-vaga-lumes__distante {
+  animation: moldura-vaga-lumes-distante 3s ease-in-out infinite;
+}
+.moldura-vaga-lumes__capim {
+  transform-origin: 0 0;
+  animation: moldura-vaga-lumes-capim 3.2s ease-in-out infinite alternate;
+}
+.moldura-vaga-lumes__orbita {
+  animation: moldura-giro 16s linear infinite;
+}
+.moldura-vaga-lumes__voo {
+  animation: moldura-vaga-lumes-voo 3s ease-in-out infinite;
+}
+.moldura-vaga-lumes__luz {
+  animation: moldura-vaga-lumes-luz 2s ease-in-out infinite;
+}
+.moldura-vaga-lumes__asa {
+  transform-origin: 0 0;
+  animation: moldura-vaga-lumes-asa 0.12s linear infinite alternate;
+}
+@keyframes moldura-vaga-lumes-estrela {
+  0%,
+  100% {
+    transform: scale(0.4);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes moldura-vaga-lumes-distante {
+  0%,
+  100% {
+    opacity: 0.1;
+  }
+  45% {
+    opacity: 0.15;
+  }
+  60% {
+    opacity: 0.85;
+  }
+  78% {
+    opacity: 0.15;
+  }
+}
+@keyframes moldura-vaga-lumes-capim {
+  from {
+    transform: rotate(-5deg);
+  }
+  to {
+    transform: rotate(5deg);
+  }
+}
+@keyframes moldura-vaga-lumes-voo {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  33% {
+    transform: translate(var(--dx), var(--dy));
+  }
+  66% {
+    transform: translate(calc(var(--dy) * -1), var(--dx));
+  }
+}
+@keyframes moldura-vaga-lumes-luz {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes moldura-vaga-lumes-asa {
+  to {
+    transform: scaleY(0.25);
+  }
+}
+
+.moldura-fliperama__cobra {
+  opacity: 0;
+  animation: moldura-fliperama-cobra 25s step-end infinite;
+}
+.moldura-fliperama__maca {
+  transform: translate(var(--x0), var(--y0));
+  animation: moldura-fliperama-maca 25s step-end infinite;
+}
+.moldura-fliperama__moeda {
+  transform-origin: 0 0;
+  animation: moldura-fliperama-moeda 25s step-end infinite;
+}
+.moldura-fliperama__ponto {
+  opacity: 0;
+  animation: moldura-fliperama-ponto 25s linear infinite;
+}
+.moldura-fliperama__coracao {
+  transform-origin: 0 0;
+  animation: moldura-fliperama-coracao 1s step-end infinite;
+}
+.moldura-fliperama__estrela {
+  animation: moldura-fliperama-estrela 2.2s step-end infinite;
+}
+@keyframes moldura-fliperama-cobra {
+  0%,
+  7.645%,
+  31.85%,
+  56.055%,
+  80.26%,
+  100% {
+    opacity: 0;
+  }
+  6%,
+  29.5%,
+  53%,
+  76.5% {
+    opacity: 1;
+  }
+  6.318%,
+  29.818%,
+  53.318%,
+  76.818% {
+    opacity: 0.65;
+  }
+}
+@keyframes moldura-fliperama-maca {
+  0%,
+  87.9%,
+  100% {
+    transform: translate(var(--x0), var(--y0));
+    opacity: 1;
+  }
+  13.144% {
+    transform: translate(var(--x1), var(--y1));
+    opacity: 0;
+  }
+  24.81% {
+    transform: translate(var(--x1), var(--y1));
+    opacity: 1;
+  }
+  46.162% {
+    transform: translate(var(--x2), var(--y2));
+    opacity: 1;
+  }
+  65.22% {
+    transform: translate(var(--x3), var(--y3));
+    opacity: 1;
+  }
+  79.508% {
+    transform: translate(var(--x0), var(--y0));
+    opacity: 0;
+  }
+}
+@keyframes moldura-fliperama-moeda {
+  0%,
+  14.644%,
+  47.662%,
+  66.72%,
+  81.008%,
+  100% {
+    transform: scaleX(1);
+  }
+  13.144%,
+  14.144%,
+  46.162%,
+  47.162%,
+  65.22%,
+  66.22%,
+  79.508%,
+  80.508% {
+    transform: scaleX(0.55);
+  }
+  13.644%,
+  46.662%,
+  65.72%,
+  80.008% {
+    transform: scaleX(0.15);
+  }
+}
+@keyframes moldura-fliperama-ponto {
+  0%,
+  13.134%,
+  15.654%,
+  46.152%,
+  48.672%,
+  65.21%,
+  67.73%,
+  79.498%,
+  82.018%,
+  100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  13.144%,
+  46.162%,
+  65.22%,
+  79.508% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  15.644%,
+  48.662%,
+  67.72%,
+  82.008% {
+    opacity: 0;
+    transform: translateY(-7px);
+  }
+}
+@keyframes moldura-fliperama-coracao {
+  50% {
+    transform: scale(1.25);
+  }
+}
+@keyframes moldura-fliperama-estrela {
+  50% {
+    opacity: 0.2;
+  }
+  75% {
+    opacity: 0.6;
+  }
+}
+
+/* Circuito: a energia corre pelo anel, pulsos descem as trilhas e acendem o terminal ao chegar,
+   o anel de dados gira com os pacotes correndo ao contrário e o LED do chip pisca. */
+.moldura-circuito__dados {
+  animation: moldura-giro 20s linear infinite;
+}
+.moldura-circuito__energia {
+  animation: moldura-giro 3.2s linear infinite;
+}
+.moldura-circuito__pacotes {
+  animation: moldura-giro 6s linear infinite reverse;
+}
+.moldura-circuito__pulso {
+  opacity: 0;
+  animation: moldura-circuito-pulso 2s ease-in infinite;
+}
+.moldura-circuito__terminal {
+  opacity: 0.25;
+  animation: moldura-circuito-terminal 2s linear infinite;
+}
+.moldura-circuito__led {
+  animation: moldura-circuito-led 1.4s step-end infinite;
+}
+@keyframes moldura-circuito-pulso {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(var(--percurso));
+    opacity: 1;
+  }
+  70%,
+  100% {
+    transform: translateY(var(--percurso));
+    opacity: 0;
+  }
+}
+@keyframes moldura-circuito-terminal {
+  0%,
+  55%,
+  100% {
+    opacity: 0.25;
+  }
+  62% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 0.25;
+  }
+}
+@keyframes moldura-circuito-led {
+  50% {
+    opacity: 0.15;
+  }
+}
+
+/* Radar: o feixe gira; cada contato acende quando ele passa e apaga devagar como fósforo, a
+   trilha do alvo acende um ponto por volta, e um pulso sai da tela a cada volta. Tudo no ritmo
+   da VARREDURA de radar.tsx (4s). */
+.moldura-radar__feixe {
+  animation: moldura-giro 4s linear infinite;
+}
+.moldura-radar__contato {
+  animation: moldura-radar-contato 4s ease-out infinite;
+}
+.moldura-radar__trilha {
+  opacity: 0;
+  animation: moldura-radar-trilha 20s ease-out infinite;
+}
+.moldura-radar__mira {
+  opacity: 0;
+  transform-origin: 0 0;
+  animation: moldura-radar-mira 20s ease-out infinite;
+}
+.moldura-radar__pulso {
+  opacity: 0;
+  animation: moldura-radar-pulso 4s ease-out infinite;
+}
+@keyframes moldura-radar-contato {
+  0% {
+    opacity: 1;
+  }
+  75%,
+  100% {
+    opacity: 0.08;
+  }
+}
+@keyframes moldura-radar-trilha {
+  0% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0.35;
+  }
+  60%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes moldura-radar-mira {
+  0% {
+    transform: scale(1.8) rotate(45deg);
+    opacity: 0;
+  }
+  2% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  9% {
+    opacity: 1;
+  }
+  14%,
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+@keyframes moldura-radar-pulso {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  60%,
+  100% {
+    transform: scale(1.22);
+    opacity: 0;
+  }
+}
+
+/* Neon na chuva: as camadas de chuva descem, os pingos pendem do tubo e caem na poça, a onda
+   abre onde o pingo bate, a chuva respinga no alto do tubo e o neon molhado falha às vezes. De
+   vez em quando relampeja; o cabo balança e as gotas paradas no tubo brilham. */
+.moldura-neon__chuva {
+  animation: moldura-neon-chuva 1s linear infinite;
+}
+.moldura-neon__pingo {
+  transform-origin: 0 0;
+  animation: moldura-neon-pingo 2.6s infinite;
+}
+.moldura-neon__onda {
+  opacity: 0;
+  animation: moldura-neon-onda 2.6s ease-out infinite;
+}
+.moldura-neon__poca {
+  animation: moldura-neon-poca 2.2s ease-in-out infinite alternate;
+}
+.moldura-neon__respingo {
+  opacity: 0;
+  animation: moldura-neon-respingo 1s ease-out infinite;
+}
+.moldura-neon__clarao {
+  opacity: 0;
+  animation: moldura-neon-clarao 9s linear infinite;
+}
+.moldura-neon__cabo {
+  transform-origin: 0 0;
+  animation: moldura-neon-cabo 3.4s ease-in-out infinite alternate;
+}
+/* O LED do transformador pisca no mesmo compasso do LED do chip do circuito. */
+.moldura-neon__led {
+  animation: moldura-circuito-led 1.4s step-end infinite;
+}
+.moldura-neon__gota {
+  animation: moldura-neon-gota 2.4s ease-in-out infinite;
+}
+.moldura-neon__tubo {
+  animation: moldura-neon-falha 6s linear infinite;
+}
+@keyframes moldura-neon-chuva {
+  to {
+    transform: translateY(160px);
+  }
+}
+@keyframes moldura-neon-pingo {
+  0% {
+    transform: translateY(0) scale(0.3);
+    opacity: 0;
+    animation-timing-function: ease-out;
+  }
+  12% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(1px) scale(1);
+    animation-timing-function: ease-in-out;
+  }
+  58% {
+    transform: translateY(2px) scale(0.9, 1.2);
+    animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45);
+  }
+  100% {
+    transform: translateY(var(--queda)) scale(0.8, 1.3);
+    opacity: 0.9;
+  }
+}
+@keyframes moldura-neon-onda {
+  0% {
+    transform: scale(0.2);
+    opacity: 0.9;
+  }
+  45%,
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+@keyframes moldura-neon-poca {
+  from {
+    transform: scaleX(0.94);
+    opacity: 0.75;
+  }
+  to {
+    transform: scaleX(1.05);
+    opacity: 1;
+  }
+}
+@keyframes moldura-neon-respingo {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--dx), var(--dy));
+    opacity: 0;
+  }
+}
+@keyframes moldura-neon-clarao {
+  0%,
+  79%,
+  85%,
+  100% {
+    opacity: 0;
+  }
+  80% {
+    opacity: 1;
+  }
+  81% {
+    opacity: 0.15;
+  }
+  82.5% {
+    opacity: 0.85;
+  }
+}
+@keyframes moldura-neon-cabo {
+  from {
+    transform: rotate(-3deg);
+  }
+  to {
+    transform: rotate(3deg);
+  }
+}
+@keyframes moldura-neon-gota {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes moldura-neon-falha {
+  0%,
+  70%,
+  71.5%,
+  73.5%,
+  100% {
+    opacity: 1;
+  }
+  71% {
+    opacity: 0.35;
+  }
+  72.5% {
+    opacity: 0.55;
+  }
+}
+
 [data-avatar-animated]:not([data-avatar-animating])::after,
-[data-avatar-animated]:not([data-avatar-animating]) .moldura-fx * {
+[data-avatar-animated]:not([data-avatar-animating]) .moldura-fx *,
+[data-avatar-frame="moldura-vendaval"][data-avatar-animated]:not([data-avatar-animating])
+  > :not(.moldura-fx) {
   animation-play-state: paused;
 }
 
@@ -1410,10 +2175,229 @@
   }
 }
 
+/* Seasonal cosmetics motion (frames, ambient sparkles): one shared set of keyframes, used as
+   `cos-anim cos-<name>`. Inside an avatar they pause off screen like the other FX frames; the
+   reduced-motion and lite rules at the end of this file stop them everywhere. SVG nodes turn
+   around their own origin, which every drawing places at the center of the moving part. */
+.cos-spin {
+  animation: cos-spin 8s linear infinite;
+}
+.cos-spin-slow {
+  animation: cos-spin 22s linear infinite;
+}
+.cos-spin-fast {
+  animation: cos-spin 4.5s linear infinite;
+}
+.cos-spin-rev {
+  animation: cos-spin 14s linear infinite reverse;
+}
+.cos-flick {
+  animation: cos-flick 0.7s ease-in-out infinite alternate;
+}
+.cos-ripple {
+  animation: cos-ripple 3.6s ease-out infinite;
+}
+.cos-blink {
+  animation: cos-blink 2.4s ease-in-out infinite;
+}
+.cos-flap {
+  animation: cos-flap 0.5s ease-in-out infinite alternate;
+}
+.cos-sway {
+  animation: cos-sway 2.6s ease-in-out infinite alternate;
+}
+.cos-melt {
+  animation: cos-melt 4s linear infinite;
+}
+.cos-drift {
+  animation: cos-drift 5s ease-in infinite;
+}
+.cos-twinkle {
+  animation: cos-twinkle 1.8s ease-in-out infinite alternate;
+}
+.cos-rise {
+  animation: cos-rise 4s ease-out infinite;
+}
+.cos-pop {
+  animation: cos-pop 2.4s ease-out infinite;
+}
+.cos-bob {
+  animation: cos-bob 2.2s ease-in-out infinite alternate;
+}
+.cos-rock {
+  animation: cos-rock 3s ease-in-out infinite alternate;
+}
+.cos-wobble {
+  animation: cos-wobble 0.6s ease-in-out infinite alternate;
+}
+.cos-shine {
+  animation: cos-shine 2.4s ease-in-out infinite;
+}
+.cos-wing {
+  animation: cos-wing 1.8s ease-in-out infinite alternate;
+}
+@keyframes cos-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes cos-flick {
+  from {
+    transform: scale(1, 0.85);
+  }
+  to {
+    transform: scale(0.92, 1.12);
+  }
+}
+@keyframes cos-ripple {
+  from {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+@keyframes cos-blink {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes cos-flap {
+  to {
+    transform: scaleY(0.35);
+  }
+}
+@keyframes cos-sway {
+  from {
+    transform: rotate(-8deg);
+  }
+  to {
+    transform: rotate(8deg);
+  }
+}
+@keyframes cos-melt {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(78px) scale(0.6);
+    opacity: 0;
+  }
+}
+@keyframes cos-drift {
+  0% {
+    transform: translate(0, 0) rotate(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-18px, 80px) rotate(220deg);
+    opacity: 0;
+  }
+}
+@keyframes cos-twinkle {
+  from {
+    transform: rotate(0) scale(1);
+  }
+  to {
+    transform: rotate(90deg) scale(0.6);
+  }
+}
+@keyframes cos-rise {
+  0% {
+    transform: translateY(0) scale(0.6);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-60px) scale(1.1);
+    opacity: 0;
+  }
+}
+@keyframes cos-pop {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  60% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+}
+@keyframes cos-bob {
+  from {
+    transform: translateY(-3px);
+  }
+  to {
+    transform: translateY(3px);
+  }
+}
+@keyframes cos-rock {
+  from {
+    transform: rotate(-35deg);
+  }
+  to {
+    transform: rotate(35deg);
+  }
+}
+@keyframes cos-wobble {
+  from {
+    transform: rotate(-10deg);
+  }
+  to {
+    transform: rotate(10deg);
+  }
+}
+@keyframes cos-shine {
+  0%,
+  100% {
+    transform: scale(0.85);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+}
+@keyframes cos-wing {
+  from {
+    transform: rotate(-4deg);
+  }
+  to {
+    transform: rotate(12deg);
+  }
+}
+
 /* Sem animação: o desenho fica parado (com dois raios acesos) e as partículas somem. */
 @media (prefers-reduced-motion: reduce) {
   html:not([data-force-motion]) .moldura-fx * {
     animation: none !important;
+  }
+  html:not([data-force-motion]) [data-avatar-frame="moldura-vendaval"] > :not(.moldura-fx) {
+    animation: none !important;
+    transform: none !important;
   }
   html:not([data-force-motion]) .moldura-fx .moldura-fx__particula {
     display: none;
@@ -2114,4 +3098,877 @@ html:not(.dark) .frame-shop-price {
   .frame-shop-dialog {
     padding: 22px !important;
   }
+}
+
+/* ── Seasonal cosmetics: profile card, nameplate, effects, shop ─────────────
+   Ported from the approved prototype (Ateliê Énois). The card reads the `--p-*` colors of a
+   card theme (cardThemeStyle) and falls back to the design system tokens. */
+.cos-card {
+  --p-top: var(--card);
+  --p-bottom: var(--card);
+  --p-accent: var(--primary);
+  --p-fg: var(--foreground);
+  --p-muted: var(--muted-foreground);
+  --p-surface: var(--muted);
+  position: relative;
+  isolation: isolate;
+  border-radius: 20px;
+  overflow: hidden;
+  color: var(--p-fg);
+  background: linear-gradient(180deg, var(--p-top), var(--p-bottom));
+  border: 1px solid color-mix(in srgb, var(--p-accent) 40%, transparent);
+  box-shadow: 0 28px 70px -28px color-mix(in srgb, var(--p-accent) 75%, transparent);
+  transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.5s ease;
+}
+/* A themed card repaints the app tokens inside it: the slots (bio, actions, children) come from the
+   app with page classes (text-text-subtle, bg-surface-1...) made for the page background. */
+.cos-card--themed {
+  --foreground: var(--p-fg);
+  --text-strong: var(--p-fg);
+  --text-subtle: var(--p-muted);
+  --text-date: var(--p-muted);
+  --muted-foreground: var(--p-muted);
+  --surface-1: var(--p-surface);
+  --surface-2: var(--p-surface);
+  --muted: var(--p-surface);
+  --border-soft: color-mix(in srgb, var(--p-fg) 18%, transparent);
+}
+.cos-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 6;
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 0%),
+    rgba(255, 255, 255, 0.16),
+    transparent 45%
+  );
+  opacity: var(--sheen, 0);
+  transition: opacity 0.4s;
+}
+.cos-card__banner {
+  position: relative;
+  height: 122px;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--p-accent) 45%, var(--p-top)),
+    var(--p-top)
+  );
+}
+.cos-card__banner > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.cos-card__head {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin-top: -54px;
+  padding-inline: 24px 14px;
+}
+.cos-card__avatar {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  flex: none;
+}
+.cos-card__avatar-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: var(--p-top);
+}
+.cos-card__status {
+  position: relative;
+  z-index: 3;
+  margin: 0 0 34px 14px;
+  padding: 8px 12px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--p-bottom) 72%, var(--p-fg) 16%);
+  border: 1px solid color-mix(in srgb, var(--p-fg) 16%, transparent);
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  min-width: 0;
+}
+.cos-card__status::before,
+.cos-card__status::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: inherit;
+  border: inherit;
+}
+.cos-card__status::before {
+  left: -8px;
+  bottom: -6px;
+  width: 11px;
+  height: 11px;
+}
+.cos-card__status::after {
+  left: -16px;
+  bottom: -13px;
+  width: 6px;
+  height: 6px;
+}
+.cos-card__status svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+.cos-card__status > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cos-card__body {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 10px;
+  padding: 10px 20px 18px;
+}
+.cos-card__title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+}
+.cos-card__name {
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--p-accent) 55%, transparent));
+}
+.cos-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: var(--p-muted);
+  font-size: 13.5px;
+}
+.cos-card__badges {
+  display: inline-flex;
+  padding: 3px 8px;
+  border-radius: 10px;
+  background: var(--p-surface);
+}
+.cos-card__badges svg,
+.cos-card__badges img {
+  width: 19px;
+  height: 19px;
+}
+.cos-card__bio {
+  font-size: 14px;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+.cos-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.cos-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--p-fg) 12%, transparent);
+  font-size: 13px;
+  font-weight: 700;
+}
+.cos-card__ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+.cos-card__ambient > span {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  opacity: 0.4;
+}
+.cos-card__ambient svg {
+  width: 100%;
+  height: 100%;
+}
+.cos-card--compact .cos-card__banner {
+  height: 72px;
+}
+.cos-card--compact .cos-card__head {
+  margin-top: -34px;
+  padding-inline: 16px 12px;
+}
+.cos-card--compact .cos-card__avatar {
+  width: 64px;
+  height: 64px;
+}
+.cos-card--compact .cos-card__avatar-ring {
+  inset: -4px;
+}
+.cos-card--compact .cos-card__status {
+  margin-bottom: 20px;
+  font-size: 12px;
+}
+.cos-card--compact .cos-card__body {
+  gap: 8px;
+  padding: 8px 16px 14px;
+}
+.cos-card--compact .cos-card__name {
+  font-size: 18px;
+}
+.cos-card--compact .cos-card__bio {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 13px;
+}
+
+/* Profile effect: particles positioned by the Web Animations API over the whole container. */
+.cos-fx-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  overflow: hidden;
+  pointer-events: none;
+}
+.cos-fx-layer__particle {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Nameplate: the name over the plate, its icons at the right edge. */
+.cos-plate {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 6px 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  font-weight: 700;
+  font-size: 14px;
+}
+.cos-plate[data-nameplate] {
+  padding-right: 58px;
+}
+/* Inline plate of StyledName: sits in a line of text (comment header, list row) at the text size. */
+.cos-plate--inline {
+  gap: 4px;
+  /* No vertical padding: a row with a plate keeps the height of a row without one. */
+  padding: 0 8px;
+  border-radius: 7px;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  vertical-align: middle;
+}
+.cos-plate--inline[data-nameplate] {
+  padding-right: 34px;
+}
+.cos-plate--inline .cos-plate__icons svg {
+  width: 14px;
+  height: 14px;
+}
+.cos-plate--none {
+  padding-inline: 0;
+}
+.cos-plate__name {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cos-plate__badges {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+}
+.cos-plate__badges svg,
+.cos-plate__badges img {
+  width: 16px;
+  height: 16px;
+}
+.cos-plate__icons {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 2px;
+  opacity: 0.9;
+}
+.cos-plate__icons svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Shop pictures stay still until hovered, focused or tried on. */
+.cos-still:not(:hover):not(:focus-within) .cos-anim,
+.cos-still:not(:hover):not(:focus-within) .moldura-fx *,
+.cos-still:not(:hover):not(:focus-within) [data-avatar-frame]::after {
+  animation-play-state: paused !important;
+}
+
+.cos-shop {
+  display: grid;
+  gap: 28px;
+}
+.cos-shop__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.cos-shop__head h2 {
+  font-size: 22px;
+  font-weight: 800;
+}
+.cos-shop__head p,
+.cos-shop__collection p,
+.cos-shop__count,
+.cos-shop__empty {
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
+.cos-shop__look-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+.cos-look {
+  --lt: var(--card);
+  --lb: var(--muted);
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+}
+.cos-look.is-on {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+.cos-look__stage {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  min-width: 0;
+  width: 100%;
+  padding: 26px 8px 12px;
+  background: linear-gradient(180deg, var(--lt), var(--lb));
+  color: inherit;
+}
+.cos-look__avatar {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 14px;
+}
+.cos-look__name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 800;
+  font-size: 16px;
+}
+.cos-look__badges svg,
+.cos-look__badges img {
+  width: 15px;
+  height: 15px;
+}
+.cos-look__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 8px 10px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.cos-shop__main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 370px;
+  gap: 28px;
+  align-items: start;
+}
+.cos-shop__catalog {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+.cos-shop__toolbar {
+  display: grid;
+  gap: 10px;
+}
+.cos-shop__search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--muted-foreground);
+}
+.cos-shop__search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--foreground);
+}
+.cos-shop__chips {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.cos-shop__chips button {
+  flex: none;
+  border: 1px solid var(--border);
+  background: var(--card);
+  padding: 7px 13px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 13.5px;
+  white-space: nowrap;
+}
+.cos-shop__chips button[aria-pressed="true"] {
+  background: var(--foreground);
+  color: var(--background);
+  border-color: var(--foreground);
+}
+.cos-shop__chips button:focus-visible,
+.cos-look__stage:focus-visible,
+.cos-item__stage:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.cos-shop__date {
+  margin-left: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.65;
+}
+.cos-shop__chips--kinds button {
+  padding: 5px 11px;
+  font-size: 13px;
+}
+.cos-shop__chips--kinds button span {
+  margin-left: 4px;
+  opacity: 0.6;
+  font-variant-numeric: tabular-nums;
+}
+.cos-shop__collection h2 {
+  font-size: 20px;
+  font-weight: 800;
+}
+.cos-shop__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+.cos-item {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+.cos-item.is-trying {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+.cos-item__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  background: var(--muted);
+}
+.cos-item__kind,
+.cos-item__tag {
+  position: absolute;
+  top: 8px;
+  z-index: 2;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: var(--card);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted-foreground);
+}
+.cos-item__kind {
+  left: 8px;
+}
+.cos-item__tag {
+  right: 8px;
+}
+.cos-item__tag.is-owned {
+  color: var(--growth);
+}
+.cos-item__body {
+  display: grid;
+  align-content: start;
+  gap: 5px;
+  padding: 11px 13px 13px;
+}
+.cos-item__body h3 {
+  font-size: 14.5px;
+  font-weight: 700;
+}
+.cos-item__body p {
+  font-size: 12.5px;
+  color: var(--muted-foreground);
+}
+.cos-item__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+.cos-shop__price {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.cos-shop__price svg {
+  color: var(--primary);
+}
+.cos-shop__note {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted-foreground);
+}
+.cos-shop__owned {
+  font-weight: 800;
+  color: var(--growth);
+}
+.cos-shop__side {
+  position: sticky;
+  top: 12px;
+  display: grid;
+  gap: 14px;
+}
+.cos-shop__panel {
+  display: grid;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+.cos-shop__trying {
+  font-size: 12.5px;
+  color: var(--muted-foreground);
+}
+.cos-shop__panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.cos-shop__member {
+  display: grid;
+  gap: 8px;
+}
+.cos-shop__member > span {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+.cos-shop__member > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.cos-album > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+.cos-album h3 {
+  font-size: 15px;
+  font-weight: 700;
+}
+.cos-album > header span {
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.cos-album__page {
+  display: grid;
+  gap: 7px;
+}
+.cos-album__page > p {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+}
+.cos-album__page > p span {
+  font-weight: 500;
+  color: var(--muted-foreground);
+  font-variant-numeric: tabular-nums;
+}
+.cos-album__slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+  gap: 5px;
+}
+.cos-album__slots li {
+  /* Contains the banner art (absolute): without it an owned slot paints over the page. */
+  position: relative;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1.5px dashed var(--border);
+  border-radius: 9px;
+}
+.cos-album__slots li.is-got {
+  border-style: solid;
+  border-color: transparent;
+  background: var(--muted);
+}
+.cos-album__slots li:not(.is-got) > * {
+  opacity: 0.2;
+  filter: grayscale(1);
+}
+.cos-album__done {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--growth);
+}
+
+/* Pictures of the items (shop card stage and album thumb). */
+.cos-art-frame {
+  width: 70px;
+  height: 70px;
+}
+.cos-art-frame-thumb {
+  width: 22px;
+  height: 22px;
+}
+.cos-art-badge {
+  width: 58px;
+  height: 58px;
+}
+.cos-art-icon {
+  width: 86%;
+  height: 86%;
+}
+.cos-art-name {
+  max-width: 100%;
+  padding-inline: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+.cos-art-name-thumb {
+  font-size: 14px;
+  font-weight: 800;
+}
+.cos-art-plate {
+  width: 86%;
+}
+.cos-art-banner {
+  position: absolute;
+  inset: 0;
+}
+.cos-art-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.cos-art-effect {
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted-foreground);
+}
+.cos-art-effect svg {
+  width: 44px;
+  height: 44px;
+}
+.cos-art-theme {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 4px;
+  width: 110px;
+  height: 110px;
+  border-radius: 16px;
+  font-weight: 800;
+  box-shadow: 0 12px 30px -12px var(--cos-accent);
+}
+.cos-art-theme i {
+  width: 34px;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--cos-accent);
+}
+
+/* Events: the Saci × Halloween duel and the hidden Saci of the hunt. */
+.cos-event {
+  padding: 16px 18px;
+  border-radius: var(--radius);
+  background: var(--muted);
+}
+.cos-event__tag {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--growth);
+}
+.cos-event h3 {
+  margin-top: 2px;
+  font-size: 16px;
+  font-weight: 700;
+}
+.cos-event p {
+  max-width: 64ch;
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--muted-foreground);
+}
+.cos-duel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.cos-duel__team {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  font-weight: 700;
+}
+.cos-duel__team svg {
+  width: 24px;
+  height: 24px;
+}
+.cos-duel__team[aria-pressed="true"],
+.cos-duel__team.is-winner {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+.cos-duel__team:disabled:not([aria-pressed="true"]) {
+  opacity: 0.6;
+}
+.cos-duel__tally {
+  flex: 1 1 180px;
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.cos-duel__bar {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: #f97316;
+}
+.cos-duel__bar i {
+  display: block;
+  height: 100%;
+  background: #16a34a;
+}
+.cos-event .cos-duel__state {
+  margin-top: 10px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+.cos-hidden-saci {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.cos-hidden-saci svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.cos-hidden-saci:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.cos-hidden-saci.is-found {
+  cursor: default;
+  opacity: 0.45;
+  filter: grayscale(0.6);
+}
+
+@media (max-width: 960px) {
+  .cos-shop__main {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cos-shop__side {
+    position: static;
+    order: -1;
+  }
+}
+
+/* Decorative cosmetics motion stops under reduced motion and in lite mode (the lite rule above
+   only shortens animations, which would leave falling or rising icons faded out). */
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-force-motion]) .cos-anim {
+    animation: none !important;
+  }
+  html:not([data-force-motion]) .cos-card {
+    transition: none;
+  }
+}
+html[data-lite] .cos-anim {
+  animation: none !important;
 }

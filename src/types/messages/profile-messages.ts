@@ -70,6 +70,11 @@ export type ProfileMessages = {
     emptyEducation: string;
     emptyCertification: string;
     currentlyHere: string;
+    requiredField: string;
+    invalidDate: string;
+    endDateRequired: string;
+    /** Falha ao salvar um item da sub-lista sem mensagem da API. */
+    unexpectedError: string;
   };
   profileBannerDialog: {
     title: string;

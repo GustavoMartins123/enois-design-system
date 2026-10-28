@@ -79,6 +79,10 @@ export const profileMessages: ProfileMessages = {
     emptyEducation: "Nenhuma formação adicionada",
     emptyCertification: "Nenhuma certificação adicionada",
     currentlyHere: "Atualmente aqui",
+    requiredField: "Preencha este campo.",
+    invalidDate: "Data inválida. Confira o dia, o mês e o ano.",
+    endDateRequired: "Informe quando terminou ou marque “Atualmente aqui”.",
+    unexpectedError: "Erro inesperado. Tente novamente.",
   },
   profileBannerDialog: {
     title: "Capa do perfil",
