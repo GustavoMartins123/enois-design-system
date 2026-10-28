@@ -6,7 +6,8 @@ import { defaultMessages } from "./default-messages.js";
 /** Overrides replace single keys, so the app can change one label without restating the rest. */
 export function mergeMessages(overrides: MessagesOverride = {}): Messages {
   return Object.fromEntries(
-    Object.entries(defaultMessages).map(([component, messages]) => [
+    // Entries typed as unknown: the union of every component's messages is too large to compare.
+    Object.entries(defaultMessages).map(([component, messages]): [string, unknown] => [
       component,
       { ...messages, ...overrides[component as keyof Messages] },
     ]),

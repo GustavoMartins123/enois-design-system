@@ -5,6 +5,7 @@ import type { AvatarMessages } from "./avatar-messages.js";
 import type { BlogMessages } from "./blog-messages.js";
 import type { CommunitiesMessages } from "./communities-messages.js";
 import type { ConversationsMessages } from "./conversations-messages.js";
+import type { CosmeticsMessages } from "./cosmetics-messages.js";
 import type { DevelopersMessages } from "./developers-messages.js";
 import type { EditorMessages } from "./editor-messages.js";
 import type { GamesMessages } from "./games-messages.js";
@@ -57,4 +58,5 @@ export type Messages = UiMessages &
   ConversationsMessages &
   SupportMessages &
   DevelopersMessages &
-  ModerationMessages;
+  ModerationMessages &
+  CosmeticsMessages;
