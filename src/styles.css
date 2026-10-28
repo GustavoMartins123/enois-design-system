@@ -2366,7 +2366,6 @@ html:not(.dark) .frame-shop-price {
   --surface-2: var(--p-surface);
   --muted: var(--p-surface);
   --border-soft: color-mix(in srgb, var(--p-fg) 18%, transparent);
-  --primary: var(--p-accent);
 }
 .cos-card::after {
   content: "";

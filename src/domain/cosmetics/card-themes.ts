@@ -11,6 +11,8 @@ function dark(top: string, bottom: string, accent: string): CardTheme {
     fg: "#f5f3ff",
     muted: "rgba(245,243,255,.7)",
     surface: "rgba(255,255,255,.09)",
+    // Every dark-theme accent is bright: dark ink on it reads, the page purple on the dark card doesn't.
+    primary: { color: accent, foreground: "#1c1917" },
   };
 }
 
@@ -59,5 +61,9 @@ export function cardThemeStyle(id: string | null | undefined): CSSProperties | u
     "--p-fg": theme.fg,
     "--p-muted": theme.muted,
     "--p-surface": theme.surface,
+    ...(theme.primary && {
+      "--primary": theme.primary.color,
+      "--primary-foreground": theme.primary.foreground,
+    }),
   } as CSSProperties;
 }

@@ -6,4 +6,6 @@ export type CardTheme = {
   fg: string;
   muted: string;
   surface: string;
+  /** Dark cards only: the accent becomes the app primary, with dark ink on it. */
+  primary?: { color: string; foreground: string };
 };

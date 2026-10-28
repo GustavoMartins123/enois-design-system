@@ -20,5 +20,7 @@ describe("cosmetics styles", () => {
     for (const token of ["--text-strong", "--text-subtle", "--surface-1", "--border-soft"]) {
       expect(themed).toContain(`${token}:`);
     }
+    // The primary depends on the theme tone, so it comes inline from cardThemeStyle.
+    expect(themed).not.toContain("--primary:");
   });
 });
