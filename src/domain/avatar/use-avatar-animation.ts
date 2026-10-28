@@ -14,6 +14,13 @@ function onVisibilityChange() {
   targets.forEach(syncVisibility);
 }
 
+function disconnectWhenUnused() {
+  if (targets.size !== 0 || !observer) return;
+  observer.disconnect();
+  observer = null;
+  document.removeEventListener("visibilitychange", onVisibilityChange);
+}
+
 /** Um observer e um listener para todas as molduras, sem render React por quadro. */
 function observeAvatar(target: Element) {
   if (typeof IntersectionObserver === "undefined") return;
@@ -34,17 +41,19 @@ function observeAvatar(target: Element) {
   }
   const avatarObserver = observer;
   targets.add(target);
-  avatarObserver.observe(target);
+  try {
+    avatarObserver.observe(target);
+  } catch (error) {
+    targets.delete(target);
+    disconnectWhenUnused();
+    throw error;
+  }
   return () => {
     avatarObserver.unobserve(target);
     targets.delete(target);
     visible.delete(target);
     target.removeAttribute("data-avatar-animating");
-    if (targets.size === 0) {
-      avatarObserver.disconnect();
-      observer = null;
-      document.removeEventListener("visibilitychange", onVisibilityChange);
-    }
+    disconnectWhenUnused();
   };
 }
 

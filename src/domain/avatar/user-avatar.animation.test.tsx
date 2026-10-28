@@ -1,10 +1,11 @@
 // @vitest-environment jsdom
 import { act } from "react";
 
-import { type Root, createRoot } from "react-dom/client";
+import { type Root, createRoot, hydrateRoot } from "react-dom/client";
+import { renderToString } from "react-dom/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { ANIMATED_FRAMES } from "./avatar-frames.js";
+import { ANIMATED_FRAMES, FX_FRAMES } from "./avatar-frames.js";
 import { UserAvatar } from "./user-avatar.js";
 
 describe("Animação das molduras do avatar", () => {
@@ -41,6 +42,28 @@ describe("Animação das molduras do avatar", () => {
   function intersect(target: Element, isIntersecting: boolean) {
     callback([{ target, isIntersecting } as IntersectionObserverEntry], {} as IntersectionObserver);
   }
+
+  it("hidrata as molduras antigas e novas com os mesmos desenhos e IDs do servidor", async () => {
+    const avatars = (
+      <>
+        {FX_FRAMES.map((frame) => (
+          <UserAvatar key={frame} frame={frame} fallback="EN" />
+        ))}
+      </>
+    );
+    await act(async () => root.unmount());
+    host.innerHTML = renderToString(avatars);
+    const errorLog = vi.spyOn(console, "error").mockImplementation(() => {});
+    const recoverableError = vi.fn();
+    await act(async () => {
+      root = hydrateRoot(host, avatars, { onRecoverableError: recoverableError });
+    });
+    expect(recoverableError).not.toHaveBeenCalled();
+    expect(errorLog).not.toHaveBeenCalled();
+    expect(host.querySelectorAll(".moldura-fx")).toHaveLength(FX_FRAMES.length);
+    const ids = [...host.querySelectorAll("[id]")].map((element) => element.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
 
   it("não observa avatares sem animação", async () => {
     const addListener = vi.spyOn(document, "addEventListener");
@@ -108,6 +131,55 @@ describe("Animação das molduras do avatar", () => {
 
     intersect(first, false);
     expect(first.hasAttribute("data-avatar-animating")).toBe(false);
+  });
+
+  it.each(ANIMATED_FRAMES)("%s: pausa fora da tela e na aba oculta", async (frame) => {
+    await act(async () => root.render(<UserAvatar frame={frame} />));
+    const avatar = host.querySelector("[data-avatar-animated]")!;
+    expect(avatar).not.toBeNull();
+    expect(avatar.hasAttribute("data-avatar-animating")).toBe(false);
+    intersect(avatar, true);
+    expect(avatar.hasAttribute("data-avatar-animating")).toBe(true);
+    hidden = true;
+    document.dispatchEvent(new Event("visibilitychange"));
+    expect(avatar.hasAttribute("data-avatar-animating")).toBe(false);
+    hidden = false;
+    document.dispatchEvent(new Event("visibilitychange"));
+    expect(avatar.hasAttribute("data-avatar-animating")).toBe(true);
+    intersect(avatar, false);
+    expect(avatar.hasAttribute("data-avatar-animating")).toBe(false);
+  });
+
+  it("compartilha o observer entre uma moldura antiga e as duas novas coleções", async () => {
+    await act(async () =>
+      root.render(
+        <>
+          <UserAvatar frame="moldura-tempestade" />
+          <UserAvatar frame="moldura-mare" />
+          <UserAvatar frame="moldura-radar" />
+        </>,
+      ),
+    );
+    expect(createObserver).toHaveBeenCalledTimes(1);
+    expect(observe).toHaveBeenCalledTimes(3);
+  });
+
+  it("propaga a falha de observação e libera os recursos incompletos", async () => {
+    const removeListener = vi.spyOn(document, "removeEventListener");
+    observe.mockImplementationOnce(() => {
+      throw new Error("Falha ao observar avatar");
+    });
+    const renderFailingFrame = async () => {
+      await act(async () => root.render(<UserAvatar frame="moldura-neon" />));
+    };
+    await expect(renderFailingFrame()).rejects.toThrow("Falha ao observar avatar");
+    expect(disconnect).toHaveBeenCalledTimes(1);
+    expect(removeListener).toHaveBeenCalledWith("visibilitychange", expect.any(Function));
+    await act(async () => root.render(<UserAvatar frame="moldura-mare" />));
+    expect(createObserver).toHaveBeenCalledTimes(2);
+    const avatar = host.querySelector("[data-avatar-animated]")!;
+    intersect(avatar, true);
+    expect(avatar.hasAttribute("data-avatar-animating")).toBe(true);
   });
 
   it("libera recursos ao desmontar e ignora callbacks atrasados", async () => {
