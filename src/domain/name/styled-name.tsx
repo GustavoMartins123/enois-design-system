@@ -1,6 +1,6 @@
 import {
-  profileNameFontFamily,
   profileNameTheme,
+  profileNameThemeFontFamily,
   profileNameThemePaint,
 } from "../../lib/theme/profile-name-fonts.js";
 import { cn } from "../../lib/utils.js";
@@ -16,13 +16,14 @@ export function StyledName({ name, style, className }: StyledNameProps) {
   }
 
   const theme = profileNameTheme(style.theme);
-  const gradient = theme.colors.length > 1;
+  const gradient = Boolean(theme.paint) || theme.colors.length > 1;
 
   return (
     <span
       className={cn(theme.className, className)}
       style={{
-        fontFamily: profileNameFontFamily(style.font ?? theme.font),
+        fontFamily: profileNameThemeFontFamily(style.theme, style.font),
+        fontSize: theme.fontSize,
         ...(gradient
           ? {
               backgroundImage: profileNameThemePaint(style.theme, style.color),
