@@ -1,30 +1,124 @@
-import { useState } from "react";
+import { type ChangeEvent, useEffect, useRef, useState } from "react";
 
-import { FilePenLine, Image, Send, Video } from "lucide-react";
+import { EyeOff, FilePenLine, Image, Send, Video, X } from "lucide-react";
 
 import { useAdapters } from "../../adapters/adapters-context.js";
 import { useMessages } from "../../messages/messages-context.js";
 import type { ProfileQuickComposerProps } from "../../types/domain/profile/profile-quick-composer-props.js";
 import { Button } from "../../ui/button.js";
 import { Textarea } from "../../ui/textarea.js";
+import { SpoilerPreview } from "../post/media/spoiler-preview.js";
 import { UserAvatar } from "../avatar/user-avatar.js";
+
+type MediaItem = { type: "image" | "video"; file: File; preview: string };
 
 export function ProfileQuickComposer({
   profile,
   publishPending = false,
+  uploadProgress,
   onPublish,
 }: ProfileQuickComposerProps) {
   const messages = useMessages().profileQuickComposer;
   const { resolveMediaUrl } = useAdapters();
   const [content, setContent] = useState("");
   const [isComposerOpen, setIsComposerOpen] = useState(false);
+  const [media, setMedia] = useState<MediaItem[]>([]);
+  const [mediaSpoiler, setMediaSpoiler] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const addMediaFiles = (files: File[], filter?: "image" | "video") => {
+    for (const file of files) {
+      const isVideo = file.type.startsWith("video/");
+      const isImage = file.type.startsWith("image/");
+      if (!isVideo && !isImage) continue;
+      if (filter === "video" && !isVideo) continue;
+      if (filter === "image" && !isImage) continue;
+
+      const hasImages = media.some((m) => m.type === "image");
+      const hasVideo = media.some((m) => m.type === "video");
+
+      if (isVideo && (hasImages || hasVideo || media.length >= 1)) break;
+      if (isImage && hasVideo) break;
+      if (isImage && media.length >= 4) break;
+
+      const preview = URL.createObjectURL(file);
+      setMedia((prev) => [...prev, { type: isVideo ? "video" : "image", file, preview }]);
+    }
+  };
+
+  const handleMediaSelect = (event: ChangeEvent<HTMLInputElement>) => {
+    addMediaFiles(Array.from(event.target.files ?? []));
+    event.target.value = "";
+  };
+
+  const removeMedia = (index: number) => {
+    setMedia((prev) => {
+      URL.revokeObjectURL(prev[index].preview);
+      const next = prev.filter((_, i) => i !== index);
+      if (next.length === 0) setMediaSpoiler(false);
+      return next;
+    });
+  };
+
+  /** Guarda o tipo de midia que o proximo clique no file input deve filtrar. */
+  const pendingAccept = useRef<"image" | "video" | null>(null);
+
+  const openWithMedia = (accept: "image" | "video") => {
+    if (!isComposerOpen) {
+      // Primeiro render precisa montar o compositor antes de abrir o picker.
+      pendingAccept.current = accept;
+      setIsComposerOpen(true);
+    } else {
+      if (fileRef.current) {
+        fileRef.current.accept = accept === "video" ? "video/*" : "image/*";
+        fileRef.current.multiple = accept !== "video";
+        fileRef.current.click();
+      }
+    }
+  };
+
+  // Abre o file picker quando o compositor monta com um tipo pendente.
+  useEffect(() => {
+    if (!isComposerOpen || !pendingAccept.current || !fileRef.current) return;
+    const accept = pendingAccept.current;
+    pendingAccept.current = null;
+    fileRef.current.accept = accept === "video" ? "video/*" : "image/*";
+    fileRef.current.multiple = accept !== "video";
+    fileRef.current.click();
+  }, [isComposerOpen]);
 
   const publish = async () => {
-    if (await onPublish(content.trim())) setContent("");
+    const ok = await onPublish({
+      content: content.trim(),
+      files: media.map((m) => m.file),
+      mediaSpoiler,
+    });
+    if (ok) {
+      setContent("");
+      media.forEach((m) => URL.revokeObjectURL(m.preview));
+      setMedia([]);
+      setMediaSpoiler(false);
+      setIsComposerOpen(false);
+    }
+  };
+
+  const reset = () => {
+    setContent("");
+    media.forEach((m) => URL.revokeObjectURL(m.preview));
+    setMedia([]);
+    setMediaSpoiler(false);
+    setIsComposerOpen(false);
   };
 
   return (
     <section className="rounded-2xl border border-primary/20 bg-surface-card p-4 shadow-[0_20px_60px_-44px_color-mix(in_oklab,var(--primary)_95%,transparent)] sm:p-5">
+      <input
+        ref={fileRef}
+        type="file"
+        accept="image/*,video/*"
+        className="hidden"
+        onChange={handleMediaSelect}
+      />
       {!isComposerOpen ? (
         <>
           <div className="flex items-center gap-3">
@@ -34,7 +128,6 @@ export function ProfileQuickComposer({
               alt={profile.name}
               className="h-10 w-10 shrink-0"
             />
-
             <button
               type="button"
               onClick={() => setIsComposerOpen(true)}
@@ -43,26 +136,23 @@ export function ProfileQuickComposer({
               {messages.start}
             </button>
           </div>
-
           <div className="mt-3 grid grid-cols-3 divide-x divide-border-soft border-t border-border-soft pt-3">
             <button
               type="button"
-              onClick={() => setIsComposerOpen(true)}
+              onClick={() => openWithMedia("video")}
               className="flex items-center justify-center gap-2 rounded-lg px-2 py-2 text-sm font-medium text-text-subtle transition hover:bg-surface-2 hover:text-text-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               <Video className="h-4 w-4 text-primary" />
               {messages.video}
             </button>
-
             <button
               type="button"
-              onClick={() => setIsComposerOpen(true)}
+              onClick={() => openWithMedia("image")}
               className="flex items-center justify-center gap-2 rounded-lg px-2 py-2 text-sm font-medium text-text-subtle transition hover:bg-surface-2 hover:text-text-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               <Image className="h-4 w-4 text-primary" />
               {messages.photo}
             </button>
-
             <button
               type="button"
               onClick={() => setIsComposerOpen(true)}
@@ -84,31 +174,70 @@ export function ProfileQuickComposer({
             autoFocus
             className="min-h-[7rem] resize-none border-border-soft bg-surface-1 text-sm leading-relaxed shadow-inner"
           />
-
-          <div className="mt-3 flex items-center justify-between gap-3 border-t border-border-soft pt-3">
-            <p className="text-xs text-text-subtle">{messages.hint}</p>
-
-            <div className="flex items-center gap-2">
-              <Button
-                size="sm"
-                variant="ghost"
-                className="rounded-full"
-                onClick={() => {
-                  setContent("");
-                  setIsComposerOpen(false);
-                }}
+          {media.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {media.map((item, i) => (
+                <div key={item.preview} className="relative">
+                  <SpoilerPreview active={mediaSpoiler} label="Spoiler" className="h-20 w-20 rounded-lg">
+                    {item.type === "video" ? (
+                      <video src={item.preview} muted className="h-20 w-20 rounded-lg border border-border-soft object-cover bg-surface-1" />
+                    ) : (
+                      <img src={item.preview} alt="" className="h-20 w-20 rounded-lg border border-border-soft object-cover" />
+                    )}
+                  </SpoilerPreview>
+                  <button
+                    type="button"
+                    onClick={() => removeMedia(i)}
+                    className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-foreground text-background shadow"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => setMediaSpoiler((v) => !v)}
+                className={`inline-flex h-8 items-center gap-1 self-end rounded-full px-2 text-xs transition ${
+                  mediaSpoiler
+                    ? "bg-primary text-primary-foreground"
+                    : "border border-border-soft text-text-subtle hover:border-primary hover:text-primary"
+                }`}
               >
+                <EyeOff className="h-3.5 w-3.5" />
+                {mediaSpoiler ? messages.mediaSpoilerActive ?? "Spoiler ativo" : messages.mediaSpoiler ?? "Spoiler"}
+              </button>
+            </div>
+          )}
+          <div className="mt-3 flex items-center justify-between gap-3 border-t border-border-soft pt-3">
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={() => {
+                  if (fileRef.current) {
+                    fileRef.current.accept = "image/*,video/*";
+                    fileRef.current.multiple = true;
+                    fileRef.current.click();
+                  }
+                }}
+                className="grid h-8 w-8 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-primary"
+              >
+                <Image className="h-4 w-4" />
+              </button>
+              {uploadProgress && (
+                <span className="text-xs text-text-subtle">{uploadProgress}</span>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              <Button size="sm" variant="ghost" className="rounded-full" onClick={reset}>
                 {messages.cancel}
               </Button>
-
               <Button
                 size="sm"
                 className="shrink-0 gap-1.5 rounded-full"
                 onClick={() => void publish()}
-                disabled={!content.trim() || publishPending}
+                disabled={(!content.trim() && media.length === 0) || publishPending}
               >
                 <Send className="h-3.5 w-3.5" />
-
                 <>{publishPending ? messages.sending : messages.action}</>
               </Button>
             </div>
