@@ -188,6 +188,8 @@ export const profileMessages: ProfileMessages = {
     action: "Publicar",
     cancel: "Cancelar",
     sending: "Enviando...",
+    mediaSpoiler: "Spoiler",
+    mediaSpoilerActive: "Spoiler ativo",
   },
   profileProjectsSection: {
     title: "Projetos",

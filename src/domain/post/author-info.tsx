@@ -40,7 +40,7 @@ export function AuthorInfo({
   // min-w-0: inside the post header (a flex row) this box would otherwise grow to the name and push
   // a long name on a plate out of the card.
   return (
-    <div className="flex min-w-0 items-start gap-3">
+    <div className="flex min-w-0 flex-[1_1_16rem] items-start gap-3">
       {renderAuthorTrigger ? (
         renderAuthorTrigger(avatar, "avatar")
       ) : (
