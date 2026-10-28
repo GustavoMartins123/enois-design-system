@@ -1410,6 +1410,221 @@
   }
 }
 
+/* Seasonal cosmetics motion (frames, ambient sparkles): one shared set of keyframes, used as
+   `cos-anim cos-<name>`. Inside an avatar they pause off screen like the other FX frames; the
+   reduced-motion and lite rules at the end of this file stop them everywhere. SVG nodes turn
+   around their own origin, which every drawing places at the center of the moving part. */
+.cos-spin {
+  animation: cos-spin 8s linear infinite;
+}
+.cos-spin-slow {
+  animation: cos-spin 22s linear infinite;
+}
+.cos-spin-fast {
+  animation: cos-spin 4.5s linear infinite;
+}
+.cos-spin-rev {
+  animation: cos-spin 14s linear infinite reverse;
+}
+.cos-flick {
+  animation: cos-flick 0.7s ease-in-out infinite alternate;
+}
+.cos-ripple {
+  animation: cos-ripple 3.6s ease-out infinite;
+}
+.cos-blink {
+  animation: cos-blink 2.4s ease-in-out infinite;
+}
+.cos-flap {
+  animation: cos-flap 0.5s ease-in-out infinite alternate;
+}
+.cos-sway {
+  animation: cos-sway 2.6s ease-in-out infinite alternate;
+}
+.cos-melt {
+  animation: cos-melt 4s linear infinite;
+}
+.cos-drift {
+  animation: cos-drift 5s ease-in infinite;
+}
+.cos-twinkle {
+  animation: cos-twinkle 1.8s ease-in-out infinite alternate;
+}
+.cos-rise {
+  animation: cos-rise 4s ease-out infinite;
+}
+.cos-pop {
+  animation: cos-pop 2.4s ease-out infinite;
+}
+.cos-bob {
+  animation: cos-bob 2.2s ease-in-out infinite alternate;
+}
+.cos-rock {
+  animation: cos-rock 3s ease-in-out infinite alternate;
+}
+.cos-wobble {
+  animation: cos-wobble 0.6s ease-in-out infinite alternate;
+}
+.cos-shine {
+  animation: cos-shine 2.4s ease-in-out infinite;
+}
+.cos-wing {
+  animation: cos-wing 1.8s ease-in-out infinite alternate;
+}
+@keyframes cos-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes cos-flick {
+  from {
+    transform: scale(1, 0.85);
+  }
+  to {
+    transform: scale(0.92, 1.12);
+  }
+}
+@keyframes cos-ripple {
+  from {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+@keyframes cos-blink {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes cos-flap {
+  to {
+    transform: scaleY(0.35);
+  }
+}
+@keyframes cos-sway {
+  from {
+    transform: rotate(-8deg);
+  }
+  to {
+    transform: rotate(8deg);
+  }
+}
+@keyframes cos-melt {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(78px) scale(0.6);
+    opacity: 0;
+  }
+}
+@keyframes cos-drift {
+  0% {
+    transform: translate(0, 0) rotate(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-18px, 80px) rotate(220deg);
+    opacity: 0;
+  }
+}
+@keyframes cos-twinkle {
+  from {
+    transform: rotate(0) scale(1);
+  }
+  to {
+    transform: rotate(90deg) scale(0.6);
+  }
+}
+@keyframes cos-rise {
+  0% {
+    transform: translateY(0) scale(0.6);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-60px) scale(1.1);
+    opacity: 0;
+  }
+}
+@keyframes cos-pop {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  60% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+}
+@keyframes cos-bob {
+  from {
+    transform: translateY(-3px);
+  }
+  to {
+    transform: translateY(3px);
+  }
+}
+@keyframes cos-rock {
+  from {
+    transform: rotate(-35deg);
+  }
+  to {
+    transform: rotate(35deg);
+  }
+}
+@keyframes cos-wobble {
+  from {
+    transform: rotate(-10deg);
+  }
+  to {
+    transform: rotate(10deg);
+  }
+}
+@keyframes cos-shine {
+  0%,
+  100% {
+    transform: scale(0.85);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+}
+@keyframes cos-wing {
+  from {
+    transform: rotate(-4deg);
+  }
+  to {
+    transform: rotate(12deg);
+  }
+}
+
 /* Sem animação: o desenho fica parado (com dois raios acesos) e as partículas somem. */
 @media (prefers-reduced-motion: reduce) {
   html:not([data-force-motion]) .moldura-fx * {
