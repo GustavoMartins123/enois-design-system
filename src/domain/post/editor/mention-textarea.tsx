@@ -49,6 +49,7 @@ export function MentionTextarea({
   placeholder,
   className = "",
   maxLength,
+  showCounter = true,
   rows,
   toolbar = false,
   onPasteImages,
@@ -301,7 +302,9 @@ export function MentionTextarea({
 
       {/* Mesmo contador de todo campo com limite (Input/Textarea usam o CharCounter via withCounter):
           um so lugar decide o aviso de "perto do limite" e o "limite atingido". */}
-      {maxLength !== undefined && <CharCounter length={value.length} max={maxLength} />}
+      {showCounter && maxLength !== undefined && (
+        <CharCounter length={value.length} max={maxLength} />
+      )}
 
       {/* `bottom-full` fixo cobria a busca do /feed: o composer fica sob o header. */}
       {listOpen && (

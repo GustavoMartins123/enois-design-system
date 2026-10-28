@@ -36,6 +36,9 @@ npm install @rede-enois/design-system
 `react`, `react-dom`, `lucide-react` and `tailwindcss` are peer dependencies: the app provides them, so the
 app and the design system share one copy (two `lucide-react` copies would ship two icon sets).
 
+`MentionTextarea` shows its character counter when `maxLength` is set. Forms that render the same
+`CharCounter` in their own footer can pass `showCounter={false}` while keeping the textarea limit.
+
 App stylesheet:
 
 ```css
