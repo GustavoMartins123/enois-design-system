@@ -1,10 +1,5 @@
 import type { ProfileQuickComposerData } from "./profile-quick-composer-data.js";
-
-export type ProfileQuickComposerPublishPayload = {
-  content: string;
-  files: File[];
-  mediaSpoiler: boolean;
-};
+import type { ProfileQuickComposerPublishPayload } from "./profile-quick-composer-publish-payload.js";
 
 export type ProfileQuickComposerProps = {
   profile: ProfileQuickComposerData;

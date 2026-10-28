@@ -42,10 +42,8 @@ export type { ProfileNetworkPerson } from "../../types/domain/profile/profile-ne
 export type { ProfileProject } from "../../types/domain/profile/profile-project.js";
 export type { ProfileProjectsSectionProps } from "../../types/domain/profile/profile-projects-section-props.js";
 export type { ProfileQuickComposerData } from "../../types/domain/profile/profile-quick-composer-data.js";
-export type {
-  ProfileQuickComposerProps,
-  ProfileQuickComposerPublishPayload,
-} from "../../types/domain/profile/profile-quick-composer-props.js";
+export type { ProfileQuickComposerProps } from "../../types/domain/profile/profile-quick-composer-props.js";
+export type { ProfileQuickComposerPublishPayload } from "../../types/domain/profile/profile-quick-composer-publish-payload.js";
 export type { ProfileResumeDialogProps } from "../../types/domain/profile/profile-resume-dialog-props.js";
 export type { ProfileSeal } from "../../types/domain/profile/profile-seal.js";
 export type { ProfileSealsProps } from "../../types/domain/profile/profile-seals-props.js";
