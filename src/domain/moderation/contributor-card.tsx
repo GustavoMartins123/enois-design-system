@@ -1,0 +1,175 @@
+import { BadgeCheck, Mail } from "lucide-react";
+
+import { cn } from "../../lib/utils.js";
+import { useMessages } from "../../messages/messages-context.js";
+import type { ContributorCardProps } from "../../types/domain/moderation/contributor-card-props.js";
+import { Button } from "../../ui/button.js";
+import { GithubIcon } from "../../ui/github-icon.js";
+
+const STATUS_BADGE: Record<string, string> = {
+  NEW: "bg-primary-soft text-primary-text",
+  REVIEWING: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
+  APPROVED: "bg-growth/10 text-growth",
+  REJECTED: "bg-destructive/10 text-destructive",
+};
+
+/** Card de uma candidatura de contribuição na fila do painel. */
+export function ContributorCard({
+  application,
+  pending,
+  saveError,
+  onReview,
+  onApprove,
+  onReject,
+}: ContributorCardProps) {
+  const messages = useMessages().contributorsSection;
+  const status = application.status;
+  const canDecide = !application.githubVerified && application.id !== null;
+  const decidida = status === "APPROVED" || status === "REJECTED";
+
+  return (
+    <li className="space-y-3 rounded-2xl border border-border-soft bg-surface-card p-4">
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="min-w-0 break-words text-sm font-semibold text-text-strong">
+              {application.name}
+            </p>
+
+            {application.githubVerified ? (
+              <span className="inline-flex items-center gap-1 rounded-full bg-primary-soft px-2 py-0.5 text-[11px] font-semibold text-primary-text">
+                <BadgeCheck className="h-3 w-3" aria-hidden />
+                {messages.verifiedByGithub}
+              </span>
+            ) : (
+              <span className="rounded-full bg-surface-2 px-2 py-0.5 text-[11px] font-semibold text-text-subtle">
+                {messages.landingSource}
+              </span>
+            )}
+          </div>
+
+          <p className="text-xs text-text-subtle">{application.createdAtLabel}</p>
+        </div>
+
+        <span
+          className={cn("rounded-full px-2 py-0.5 text-[11px] font-semibold", STATUS_BADGE[status])}
+        >
+          {messages.status[status]}
+        </span>
+      </div>
+
+      <div>
+        <p className="text-xs font-medium uppercase tracking-wide text-text-subtle">
+          {messages.contact}
+        </p>
+
+        <div className="flex flex-wrap items-center gap-3 text-xs">
+          {/*
+           * Login do GitHub e e-mail são texto do usuário e não têm espaço: sem `break-all` o item
+           * de flex nasce com o min-content do e-mail e a página passa a rolar de lado no celular
+           * (medido em 2026-10-27, Chrome headless a 390px: 40px de transbordo com e-mail real).
+           */}
+          <a
+            href={`https://github.com/${application.github}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-w-0 items-center gap-1 break-all text-primary hover:underline"
+          >
+            <GithubIcon className="h-3.5 w-3.5 shrink-0" />@{application.github}
+          </a>
+
+          {application.email && (
+            <a
+              href={`mailto:${application.email}`}
+              className="inline-flex min-w-0 items-center gap-1 break-all text-text-subtle hover:text-primary"
+            >
+              <Mail className="h-3.5 w-3.5 shrink-0" />
+              {application.email}
+            </a>
+          )}
+        </div>
+      </div>
+
+      {application.sealName && (
+        <p className="text-xs text-text-subtle">
+          {messages.seal(application.sealName)}
+          {application.evidenceCount != null
+            ? ` · ${messages.evidence(application.evidenceCount)}`
+            : ""}
+        </p>
+      )}
+
+      <div className="flex flex-wrap gap-2 text-xs">
+        {application.area && (
+          <span className="rounded-full bg-primary-soft px-2 py-0.5 text-primary-text">
+            {messages.area}: {application.area}
+          </span>
+        )}
+
+        {application.experience && (
+          <span className="rounded-full bg-surface-2 px-2 py-0.5 text-text-subtle">
+            {messages.experience}: {application.experience}
+          </span>
+        )}
+
+        {application.acceptedTermsAtLabel && (
+          <span className="text-text-subtle">
+            {messages.acceptedAt}: {application.acceptedTermsAtLabel}
+          </span>
+        )}
+      </div>
+
+      {application.message && (
+        <div>
+          <p className="text-xs font-medium uppercase tracking-wide text-text-subtle">
+            {messages.title}
+          </p>
+
+          <p className="whitespace-pre-wrap text-sm leading-relaxed text-text-strong">
+            {application.message}
+          </p>
+        </div>
+      )}
+
+      {application.formPending ? (
+        <p className="rounded-xl bg-primary-soft px-3 py-2 text-xs text-primary-text">
+          {messages.formPending}
+        </p>
+      ) : canDecide && !decidida ? (
+        <div className="flex flex-wrap gap-2">
+          {status === "NEW" && (
+            <Button
+              size="sm"
+              variant="outline"
+              className="rounded-full"
+              disabled={pending}
+              onClick={onReview}
+            >
+              {messages.review}
+            </Button>
+          )}
+
+          <Button size="sm" className="rounded-full" disabled={pending} onClick={onApprove}>
+            {messages.approve}
+          </Button>
+
+          <Button
+            size="sm"
+            variant="destructive"
+            className="rounded-full"
+            disabled={pending}
+            onClick={onReject}
+          >
+            {messages.reject}
+          </Button>
+        </div>
+      ) : (
+        <p className="text-xs text-text-subtle">
+          {application.githubVerified ? messages.githubOnly : messages.done}
+        </p>
+      )}
+
+      {saveError && <p className="text-xs text-destructive">{messages.saveError}</p>}
+    </li>
+  );
+}

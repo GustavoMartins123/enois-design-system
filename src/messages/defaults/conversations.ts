@@ -1,0 +1,65 @@
+import type { ConversationsMessages } from "../../types/messages/conversations-messages.js";
+
+export const conversationsMessages: ConversationsMessages = {
+  conversationHeader: { back: "Voltar", conversationFallback: "Conversa" },
+  conversationItem: { conversationFallback: "Conversa" },
+  chatDock: {
+    title: "Mensagens",
+    collapse: "Minimizar mensagens",
+    empty: "Nenhuma conversa ainda.",
+    loading: "Carregando…",
+    loadMore: "Carregar mais conversas",
+    loadingMore: "Carregando…",
+    close: "Fechar",
+  },
+  messageBubble: {
+    readReceiptSent: "Enviada",
+    readReceiptRead: "Lida pela outra pessoa",
+    react: "Reagir",
+    report: "Denunciar mensagem",
+  },
+  e2eSetupBanner: {
+    prompt: "Proteja suas mensagens com criptografia ponta a ponta.",
+    activate: "Ativar",
+    loading: "Configurando criptografia...",
+    passwordPrompt: "Digite sua senha para ativar a criptografia:",
+    passwordPlaceholder: "Sua senha",
+    passwordError: "Senha incorreta ou falha ao configurar. Tente de novo.",
+    definePrompt: "Defina uma senha para proteger suas mensagens:",
+    newPasswordPlaceholder: "Nova senha",
+    confirmPasswordPlaceholder: "Confirmar senha",
+    defineAction: "Definir senha e ativar",
+    defineError: "Não foi possível definir a senha. Tente de novo.",
+    validationMinLength: "Mínimo de 8 caracteres.",
+    validationMismatch: "As senhas não coincidem.",
+  },
+  conversationThread: {
+    selectMessages: "Selecionar mensagens",
+    selectedMessages: (count: number) =>
+      count === 0
+        ? "Toque nas mensagens para escolher"
+        : `${count} selecionada${count === 1 ? "" : "s"}`,
+    deleteSelectedMessages: (count: number) =>
+      count === 0 ? "Apagar para mim" : `Apagar ${count} para mim`,
+    e2eRequired: "Ative a criptografia ponta a ponta para enviar e ler mensagens.",
+    cancelSelection: "Cancelar",
+    noMessages: "Nenhuma mensagem ainda",
+    loadOlderMessages: "Ver mensagens anteriores",
+    loadingOlder: "Carregando...",
+    inputPlaceholder: "Escreva uma mensagem...",
+    send: "Enviar mensagem",
+    attachMedia: "Anexar imagem",
+    removeMedia: "Remover mídia",
+    mediaLimit: "Anexe no máximo 4 imagens por mensagem.",
+    mediaError: "Não foi possível enviar a imagem.",
+    mediaSpoiler: "Marcar mídias como spoiler",
+    mediaSpoilerActive: "Mídias marcadas como spoiler",
+    mediaSpoilerBadge: "SPOILER",
+    attachService: "Anexar o serviço que você presta",
+    attachServiceTitle: "Seu serviço",
+    attachServiceHint: "Escolha o serviço para mandar o link na conversa.",
+    serviceAttachment: "Serviço:",
+    noServices: "Você ainda não publicou nenhum serviço.",
+    emoji: "Emoji",
+  },
+};
