@@ -60,6 +60,7 @@ export function PostCard({
   comments,
   renderRichText,
   renderMediaGrid,
+  renderAuthorTrigger,
 }: PostCardProps) {
   const messages = useMessages().postCard;
   const sealLabels = useMessages().postSeals;
@@ -112,6 +113,7 @@ export function PostCard({
           authorAvatar={post.authorAvatar}
           authorAvatarFrame={post.authorAvatarFrame}
           authorHref={hrefs.author}
+          renderAuthorTrigger={renderAuthorTrigger}
           timeLabel={timeLabel}
           community={
             post.community && hrefs.community

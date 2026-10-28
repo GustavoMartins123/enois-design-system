@@ -9,7 +9,7 @@ import { UserAvatar } from "../avatar/user-avatar.js";
 import { UserBadges } from "../badges/user-badges.js";
 import { StyledName } from "../name/styled-name.js";
 
-import { cardThemeStyle } from "./card-themes.js";
+import { cardTheme, cardThemeStyle } from "./card-themes.js";
 import { CosmeticIcon } from "./cosmetic-icon.js";
 import { motionAllowed } from "./motion-allowed.js";
 import { OfficialBanner } from "./official-banner.js";
@@ -98,7 +98,12 @@ export function ProfileCard({
   return (
     <article
       ref={cardRef}
-      className={cn("cos-card", compact && "cos-card--compact", className)}
+      className={cn(
+        "cos-card",
+        compact && "cos-card--compact",
+        cardTheme(profile.cardTheme) && "cos-card--themed",
+        className,
+      )}
       style={cardThemeStyle(profile.cardTheme)}
       aria-label={messages.label(profile.name)}
     >

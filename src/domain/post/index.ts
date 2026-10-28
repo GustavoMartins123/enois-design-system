@@ -76,6 +76,7 @@ export type { PostActionsProps } from "../../types/domain/post/post-actions-prop
 export type { PostCardData } from "../../types/domain/post/post-card-data.js";
 export type { PostCardHrefs } from "../../types/domain/post/post-card-hrefs.js";
 export type { PostCardProps } from "../../types/domain/post/post-card-props.js";
+export type { RenderAuthorTrigger } from "../../types/domain/post/render-author-trigger.js";
 export type { PostCommentNode } from "../../types/domain/post/post-comment-node.js";
 export type { PostCommentsProps } from "../../types/domain/post/post-comments-props.js";
 export type { PostEditDialogProps } from "../../types/domain/post/post-edit-dialog-props.js";

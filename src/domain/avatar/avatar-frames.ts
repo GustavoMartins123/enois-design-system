@@ -87,6 +87,14 @@ export const FX_FRAMES = [
   "moldura-galaxia",
   "moldura-portal",
   "moldura-holograma",
+  "moldura-mare",
+  "moldura-trepadeira",
+  "moldura-vendaval",
+  "moldura-vaga-lumes",
+  "moldura-fliperama",
+  "moldura-circuito",
+  "moldura-neon",
+  "moldura-radar",
   ...SEASONAL_FX_FRAMES,
 ] as const;
 
