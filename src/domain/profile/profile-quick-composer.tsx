@@ -218,9 +218,7 @@ export function ProfileQuickComposer({
               >
                 <EyeOff className="h-3.5 w-3.5" />
 
-                {mediaSpoiler
-                  ? (messages.mediaSpoilerActive ?? "Spoiler ativo")
-                  : (messages.mediaSpoiler ?? "Spoiler")}
+                {mediaSpoiler ? messages.mediaSpoilerActive : messages.mediaSpoiler}
               </button>
             </div>
           )}

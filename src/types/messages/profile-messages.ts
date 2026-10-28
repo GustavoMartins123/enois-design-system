@@ -164,6 +164,8 @@ export type ProfileMessages = {
     action: string;
     cancel: string;
     sending: string;
+    mediaSpoiler: string;
+    mediaSpoilerActive: string;
   };
   profileProjectsSection: {
     title: string;
