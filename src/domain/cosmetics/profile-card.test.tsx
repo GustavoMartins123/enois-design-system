@@ -28,6 +28,7 @@ describe("ProfileCard", () => {
     expect(html).toContain("@ana · ela/dela");
     expect(html).toContain("Front-end.");
     expect(html).not.toContain("--p-top");
+    expect(html).not.toContain("cos-card--themed");
     expect(html).not.toContain("cos-card__status");
     expect(html).not.toContain("cos-card__ambient");
     expect(html).not.toContain("cos-card__badges");
@@ -37,6 +38,8 @@ describe("ProfileCard", () => {
     const html = renderToStaticMarkup(<ProfileCard profile={dressed} />);
 
     expect(html).toContain("--p-top:#1e1b4b");
+    // The app content in the slots repaints on the theme colors, not the page ones.
+    expect(html).toContain("cos-card--themed");
     expect(html).toContain("--p-accent:#f97316");
     expect(html).toContain('viewBox="0 0 300 100"');
     expect(html).toContain('data-avatar-frame="moldura-asas-morcego"');
