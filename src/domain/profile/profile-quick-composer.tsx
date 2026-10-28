@@ -241,9 +241,7 @@ export function ProfileQuickComposer({
                 <Image className="h-4 w-4" />
               </button>
 
-              {uploadProgress && (
-                <span className="text-xs text-text-subtle">{uploadProgress}</span>
-              )}
+              {uploadProgress && <span className="text-xs text-text-subtle">{uploadProgress}</span>}
             </div>
 
             <div className="flex items-center gap-2">
