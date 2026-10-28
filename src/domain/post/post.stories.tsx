@@ -112,6 +112,33 @@ export const Card: StoryObj = {
   },
 };
 
+/** Página, artigo e blog não viajam no repost: o botão fica, desabilitado, e diz por quê. */
+export const RepostUnavailable: StoryObj = {
+  render: () => (
+    <div className="max-w-xl pt-28">
+      <PostActions
+        emojis={emojis}
+        reactionStatus={null}
+        onReact={() => {}}
+        reactionPending={false}
+        motionAllowed={() => true}
+        reactionCount={3}
+        commentsCount={1}
+        savesCount={0}
+        saved={false}
+        canRepost={false}
+        repostUnavailableReason="Páginas ainda não podem ser republicadas: a cópia perderia o conteúdo da página. Use Compartilhar para mandar o link."
+        onShowReactions={() => {}}
+        onComments={() => {}}
+        onRepost={() => {}}
+        onShare={() => {}}
+        onReport={() => {}}
+        onSave={() => {}}
+      />
+    </div>
+  ),
+};
+
 export const Skeletons: StoryObj = {
   render: () => <PostCardSkeletons count={2} />,
 };
