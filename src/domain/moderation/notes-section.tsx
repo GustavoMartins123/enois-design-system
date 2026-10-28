@@ -85,7 +85,7 @@ function NoteRow({
         </AppLink>
       </div>
 
-      <p className="text-xs text-text-subtle">
+      <p className="break-words text-xs text-text-subtle">
         {note.authorUsername ? `@${note.authorUsername}` : (note.authorName ?? note.authorId)}
       </p>
 

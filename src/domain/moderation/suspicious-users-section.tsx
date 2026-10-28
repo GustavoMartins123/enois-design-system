@@ -162,7 +162,9 @@ export function SuspiciousUsersSection({
                           {item.name}
                         </span>
 
-                        <span className="text-xs text-text-subtle">@{item.username}</span>
+                        <span className="min-w-0 break-words text-xs text-text-subtle">
+                          @{item.username}
+                        </span>
 
                         <span className="rounded-full bg-primary-soft px-2 py-0.5 text-[11px] font-semibold text-primary-text">
                           {messages.risk(item.riskScore)}
