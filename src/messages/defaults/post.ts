@@ -108,6 +108,7 @@ export const postMessages: PostMessages = {
     seeWho: (count) => `Ver quem reagiu (${count} ${count === 1 ? "reação" : "reações"})`,
     comments: "Comentários",
     repost: "Republicar",
+    repostUnavailable: "Republicar indisponível",
     share: "Compartilhar",
     report: "Denunciar post",
     save: "Salvar publicação",

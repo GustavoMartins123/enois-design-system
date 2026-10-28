@@ -4,6 +4,7 @@ import { Bookmark, Flag, Heart, MessageSquare, Repeat2, Share2 } from "lucide-re
 
 import { useMessages } from "../../../messages/messages-context.js";
 import type { PostActionsProps } from "../../../types/domain/post/post-actions-props.js";
+import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover.js";
 
 import { ReactionPicker } from "./reaction-picker.js";
 
@@ -27,6 +28,7 @@ export function PostActions<T extends string>({
   savesCount,
   saved,
   canRepost,
+  repostUnavailableReason,
   onShowReactions,
   onComments,
   onRepost,
@@ -115,6 +117,30 @@ export function PostActions<T extends string>({
             >
               <Repeat2 className="h-4 w-4" />
             </button>
+          )}
+
+          {/* Sumir sem aviso deixava a pessoa procurando o botão: aqui ele fica e diz por quê.
+              `aria-disabled` em vez de `disabled` para continuar focável e abrir no toque. */}
+          {!canRepost && repostUnavailableReason && (
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  aria-disabled="true"
+                  aria-label={messages.repostUnavailable}
+                  title={repostUnavailableReason}
+                  className="flex cursor-not-allowed items-center rounded-lg px-2.5 py-2.5 opacity-40 transition"
+                >
+                  <Repeat2 className="h-4 w-4" />
+                </button>
+              </PopoverTrigger>
+
+              <PopoverContent side="top" className="w-64 p-3 text-xs leading-relaxed">
+                <p className="font-medium text-foreground">{messages.repostUnavailable}</p>
+
+                <p className="mt-1 text-muted-foreground">{repostUnavailableReason}</p>
+              </PopoverContent>
+            </Popover>
           )}
 
           <button

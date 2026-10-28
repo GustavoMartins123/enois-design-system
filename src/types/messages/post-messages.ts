@@ -74,6 +74,7 @@ export type PostMessages = {
     seeWho: (count: number) => string;
     comments: string;
     repost: string;
+    repostUnavailable: string;
     share: string;
     report: string;
     save: string;
