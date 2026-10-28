@@ -346,7 +346,6 @@ export function ConversationThread({
                   className="hidden"
                   onChange={handleMediaSelect}
                 />
-
                 <textarea
                   value={text}
                   onChange={(e) => setText(e.target.value)}
