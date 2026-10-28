@@ -56,6 +56,16 @@ import { Button, ToastProvider } from "@rede-enois/design-system/ui";
 </EnoisProvider>;
 ```
 
+### Input counter
+
+`Input` shows a character counter by default when `maxLength` is set. Use
+`showCounter={false}` to hide the counter while keeping the native length limit, for example
+for a verification code:
+
+```tsx
+<Input maxLength={6} showCounter={false} inputMode="numeric" autoComplete="one-time-code" />
+```
+
 ## Migrating components from the front
 
 See [docs/component-migration.md](docs/component-migration.md).
