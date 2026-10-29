@@ -13,6 +13,11 @@ export type NotificationData = {
   actorHref: string | null;
   title: string;
   body: string;
+  /**
+   * Short excerpt of the post the notification is about, already trimmed by the app. Shown under
+   * `body`; absent or empty means the row looks exactly as before.
+   */
+  preview?: string | null;
   /** Already formatted relative time ("há 2 horas"). */
   timeLabel: string;
   read: boolean;
