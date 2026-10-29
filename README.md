@@ -10,8 +10,8 @@ Each layer has its own entrypoint and may only import from the layers below it.
 | -------------------------------------- | -------------------------------------------------- | ------- |
 | `@rede-enois/design-system/styles.css` | Theme, palettes, base resets and component CSS     | shipped |
 | `@rede-enois/design-system/ui`         | Primitives (button, dialog, input, toast...)       | shipped |
-| `@rede-enois/design-system/patterns`   | Generic compositions (layouts, infinite scroll...) | planned |
-| `@rede-enois/design-system/domain`     | Énois views (post card, notifications, games...)   | planned |
+| `@rede-enois/design-system/patterns`   | Generic compositions (layouts, infinite scroll...) | shipped |
+| `@rede-enois/design-system/domain`     | Énois views (post card, notifications, games...)   | shipped |
 | `@rede-enois/design-system`            | `EnoisProvider`, `useMessages`, messages types     | shipped |
 
 Rules:
@@ -65,6 +65,7 @@ for a verification code:
 ```tsx
 <Input maxLength={6} showCounter={false} inputMode="numeric" autoComplete="one-time-code" />
 ```
+
 ### Character counters
 
 `MentionTextarea` shows its character counter when `maxLength` is set. Forms that render the same
