@@ -195,7 +195,7 @@ export type GamesMessages = {
     gridLabel: string;
     emptyTile: string;
     won: (attempts: number) => string;
-    lost: (word: string) => string;
+    lost: string;
     shareResult: string;
     viewStats: string;
     keyboardLabel: string;
