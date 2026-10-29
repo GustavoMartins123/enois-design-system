@@ -128,6 +128,16 @@ export function NotificationItem({
             {notification.body}
           </button>
 
+          {notification.preview ? (
+            <button
+              type="button"
+              onClick={handleNavigate}
+              className="mt-1.5 block w-full rounded-lg border-l-2 border-border-soft bg-surface-2 px-2.5 py-1.5 text-left text-xs font-normal leading-snug text-text-subtle transition hover:text-text-strong"
+            >
+              <span className="line-clamp-2 break-words">{notification.preview}</span>
+            </button>
+          ) : null}
+
           <div className="mt-3 flex items-center justify-between gap-2">
             <span className="text-xs font-normal text-text-subtle">{notification.timeLabel}</span>
 
