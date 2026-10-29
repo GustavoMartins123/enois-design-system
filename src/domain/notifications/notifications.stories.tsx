@@ -37,7 +37,8 @@ const notifications: NotificationData[] = [
     kind: "NEW_COMMENT",
     title: "Comentou no seu post",
     body: "Concordo demais.",
-    preview: "Hoje aprendi a usar query factories no TanStack Query e o cache ficou muito mais claro…",
+    preview:
+      "Hoje aprendi a usar query factories no TanStack Query e o cache ficou muito mais claro…",
     read: true,
   },
 ];
