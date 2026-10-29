@@ -267,9 +267,7 @@ export function DailyWord({
           {isFinished && (
             <div className="flex flex-col items-center gap-3 text-center" role="status">
               <p className="text-lg font-semibold">
-                {state.status === "WON"
-                  ? messages.won(confirmedGuesses.length)
-                  : messages.lost(confirmedGuesses.at(-1)?.word ?? "—")}
+                {state.status === "WON" ? messages.won(confirmedGuesses.length) : messages.lost}
               </p>
 
               <div className="flex flex-wrap items-center justify-center gap-2">
