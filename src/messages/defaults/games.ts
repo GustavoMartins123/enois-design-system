@@ -236,7 +236,7 @@ export const gamesMessages: GamesMessages = {
     gridLabel: "Grade de palpites",
     emptyTile: "vazio",
     won: (attempts) => `🎉 Você acertou em ${attempts} tentativa${attempts === 1 ? "" : "s"}!`,
-    lost: (word) => `😔 Não foi dessa vez. A palavra era ${word}.`,
+    lost: "😔 Não foi dessa vez.",
     shareResult: "Compartilhar resultado",
     viewStats: "Ver estatísticas",
     keyboardLabel: "Teclado virtual",
