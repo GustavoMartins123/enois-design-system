@@ -2958,6 +2958,48 @@
   }
 }
 
+/* Lacraia: frame-by-frame drawings in an animated WebP. The loop plays only while the avatar
+   animates (on screen, tab visible); off screen, with reduced motion, in lite mode and in still
+   shop pictures the still frame stands in. The image is 120% of the FX box, so raised antennae and
+   legs are never cut, and the contact shadow is CSS instead of pixels in every frame. */
+.moldura-lacraia {
+  position: absolute;
+  inset: -10%;
+  filter: drop-shadow(0.9cqw 1.4cqw 1.1cqw rgb(0 0 0 / 0.35));
+}
+.moldura-lacraia > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}
+.moldura-lacraia__crawl {
+  display: none;
+}
+[data-avatar-animating] .moldura-lacraia__crawl {
+  display: block;
+}
+[data-avatar-animating] .moldura-lacraia__still {
+  visibility: hidden;
+}
+.cos-still:not(:hover):not(:focus-within) .moldura-lacraia__crawl,
+html[data-lite] [data-avatar-animating] .moldura-lacraia__crawl {
+  display: none;
+}
+.cos-still:not(:hover):not(:focus-within) .moldura-lacraia__still,
+html[data-lite] [data-avatar-animating] .moldura-lacraia__still {
+  visibility: visible;
+}
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-force-motion]) [data-avatar-animating] .moldura-lacraia__crawl {
+    display: none;
+  }
+  html:not([data-force-motion]) [data-avatar-animating] .moldura-lacraia__still {
+    visibility: visible;
+  }
+}
+
 /* Seasonal cosmetics motion (frames, ambient sparkles): one shared set of keyframes, used as
    `cos-anim cos-<name>`. Inside an avatar they pause off screen like the other FX frames; the
    reduced-motion and lite rules at the end of this file stop them everywhere. SVG nodes turn

@@ -12,6 +12,7 @@ import { GalaxiaFx } from "./frames/galaxia.js";
 import { GlacialFx } from "./frames/glacial.js";
 import { HologramaFx } from "./frames/holograma.js";
 import { InfernoFx } from "./frames/inferno.js";
+import { LacraiaFx } from "./frames/lacraia.js";
 import { LanternaFx } from "./frames/lanterna.js";
 import { MareFx } from "./frames/mare.js";
 import { NebulosaFx } from "./frames/nebulosa.js";
@@ -53,6 +54,7 @@ const EFEITOS: Record<string, ComponentType<AvatarFrameFxProps>> = {
   "moldura-bruxa": BruxaFx,
   "moldura-lanterna": LanternaFx,
   "moldura-uivo": UivoFx,
+  "moldura-lacraia": LacraiaFx,
   ...Object.fromEntries(SEASONAL_FX_FRAMES.map((id) => [id, SeasonalFrameFx])),
 };
 

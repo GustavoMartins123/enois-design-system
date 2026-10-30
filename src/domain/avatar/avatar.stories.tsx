@@ -59,6 +59,7 @@ export const Halloween: StoryObj<typeof UserAvatar> = {
         ["moldura-bruxa", "Voo da bruxa"],
         ["moldura-lanterna", "Lanterna de abóbora"],
         ["moldura-uivo", "Lua de lobisomem"],
+        ["moldura-lacraia", "Lacraia"],
       ].map(([frame, label]) => (
         <div key={frame} className="flex flex-col items-center gap-10">
           <UserAvatar {...args} frame={frame} />
