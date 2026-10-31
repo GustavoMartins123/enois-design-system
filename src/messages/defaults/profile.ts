@@ -270,6 +270,8 @@ export const profileMessages: ProfileMessages = {
     titleField: "Título do projeto",
     stackField: "Stack (separe por vírgula)",
     repoField: "Link do repositório (https)",
+    bannerField: "Banner do projeto (URL https, opcional)",
+    iconField: "Ícone do projeto (URL https, opcional)",
     statusField: "Status",
     descriptionField: "Descrição do projeto",
     descriptionPlaceholder: "Uma frase sobre o que o projeto faz",

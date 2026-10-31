@@ -181,6 +181,51 @@ describe("StudyPairsView", () => {
     expect(onEndPair).toHaveBeenCalledWith("p1");
   });
 
+  it("searches open goals by text and fills the form from a result", async () => {
+    vi.useFakeTimers();
+    const onRequest = vi.fn();
+    const onSearchGoals = vi.fn().mockResolvedValue([
+      { goal: "Aprender Rust", topic: "prog" },
+      { goal: "Rust avançado", topic: null },
+    ]);
+    render({
+      onRequest,
+      onSearchGoals,
+      topics: [{ value: "prog", label: "Programação" }],
+    });
+
+    act(() => type(container.querySelector<HTMLInputElement>('input[type="search"]')!, "rust"));
+    await act(async () => {
+      vi.advanceTimersByTime(400);
+    });
+
+    expect(onSearchGoals).toHaveBeenCalledWith("rust");
+    expect(text()).toContain("Aprender Rust");
+
+    const result = [...container.querySelectorAll("button")].find((b) =>
+      b.textContent?.includes("Aprender Rust"),
+    )!;
+    act(() => result.click());
+    act(() => button("Procurar um par").click());
+
+    expect(onRequest).toHaveBeenCalledWith({ goal: "Aprender Rust", topic: "prog" });
+    vi.useRealTimers();
+  });
+
+  it("does not search with fewer than two letters", async () => {
+    vi.useFakeTimers();
+    const onSearchGoals = vi.fn().mockResolvedValue([]);
+    render({ onSearchGoals });
+
+    act(() => type(container.querySelector<HTMLInputElement>('input[type="search"]')!, "r"));
+    await act(async () => {
+      vi.advanceTimersByTime(400);
+    });
+
+    expect(onSearchGoals).not.toHaveBeenCalled();
+    vi.useRealTimers();
+  });
+
   it("shows a retry notice when loading fails", () => {
     const onRetry = vi.fn();
     render({ loadError: true, onRetry });

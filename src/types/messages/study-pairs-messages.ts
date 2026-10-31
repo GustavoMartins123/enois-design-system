@@ -14,6 +14,12 @@ export type StudyPairsMessages = {
     topicNone: string;
     submit: string;
     submitting: string;
+    searchLabel: string;
+    searchPlaceholder: string;
+    searchHint: string;
+    searchResultsTitle: string;
+    searchEmpty: string;
+    searchError: string;
     popularTitle: string;
     popularCount: (count: number) => string;
     popularChipLabel: (count: number, goal: string) => string;

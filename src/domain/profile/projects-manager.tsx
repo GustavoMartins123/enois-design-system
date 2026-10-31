@@ -23,6 +23,8 @@ const STATUS_PRESETS = ["ideia", "em andamento", "pausado", "concluído"] as con
 const vazio = (): ProjectInput => ({
   title: "",
   description: "",
+  banner: null,
+  icon: null,
   stack: [],
   repoUrl: null,
   status: "em andamento",
@@ -62,6 +64,8 @@ export function ProjectsManager({
     const input: ProjectInput = {
       title: editando.title.trim(),
       description: editando.description?.trim() || null,
+      banner: editando.banner?.trim() || null,
+      icon: editando.icon?.trim() || null,
       stack: stackTexto
         .split(",")
         .map((item) => item.trim())
@@ -109,7 +113,14 @@ export function ProjectsManager({
                     size="sm"
                     variant="outline"
                     className="rounded-full"
-                    onClick={() => setEditando({ ...project, html: project.html ?? null })}
+                    onClick={() =>
+                      setEditando({
+                        ...project,
+                        html: project.html ?? null,
+                        banner: project.banner ?? null,
+                        icon: project.icon ?? null,
+                      })
+                    }
                   >
                     {messages.edit}
                   </Button>
@@ -219,6 +230,30 @@ export function ProjectsManager({
                     placeholder="Java, React, Postgres"
                     onChange={(event) => setStackTexto(event.target.value)}
                   />
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="space-y-1.5">
+                    <Label className="text-xs text-muted-foreground">{messages.bannerField}</Label>
+
+                    <Input
+                      value={editando.banner ?? ""}
+                      maxLength={500}
+                      placeholder="https://…"
+                      onChange={(event) => setEditando({ ...editando, banner: event.target.value })}
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Label className="text-xs text-muted-foreground">{messages.iconField}</Label>
+
+                    <Input
+                      value={editando.icon ?? ""}
+                      maxLength={500}
+                      placeholder="https://…"
+                      onChange={(event) => setEditando({ ...editando, icon: event.target.value })}
+                    />
+                  </div>
                 </div>
 
                 <div className="space-y-1.5">

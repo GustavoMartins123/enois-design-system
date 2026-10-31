@@ -1,8 +1,9 @@
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 import { Info, Search } from "lucide-react";
 
 import { useMessages } from "../../messages/messages-context.js";
+import type { StudyPairSearchGoal } from "../../types/domain/study-pairs/study-pair-search-goal.js";
 import type { StudyPairsErrorCode } from "../../types/domain/study-pairs/study-pairs-error-code.js";
 import type { StudyPairsViewProps } from "../../types/domain/study-pairs/study-pairs-view-props.js";
 import { AppLink } from "../../ui/app-link.js";
@@ -28,6 +29,7 @@ export function StudyPairsView({
   maxPairs = 2,
   topics = [],
   popularGoals = [],
+  onSearchGoals,
   onRequest,
   requesting = false,
   requestError = null,
@@ -172,6 +174,7 @@ export function StudyPairsView({
         <RequestForm
           topics={topics}
           popularGoals={popularGoals}
+          onSearchGoals={onSearchGoals}
           onRequest={onRequest}
           requesting={requesting}
           requestError={requestError}
@@ -187,6 +190,7 @@ export function StudyPairsView({
 function RequestForm({
   topics,
   popularGoals,
+  onSearchGoals,
   onRequest,
   requesting,
   requestError,
@@ -194,7 +198,8 @@ function RequestForm({
   verifyEmailHref,
   errorAction,
 }: Required<Pick<StudyPairsViewProps, "topics" | "popularGoals" | "onRequest" | "requesting">> &
-  Pick<StudyPairsViewProps, "requestError" | "birthDateHref" | "verifyEmailHref" | "errorAction">) {
+  Pick<StudyPairsViewProps, "requestError" | "birthDateHref" | "verifyEmailHref" | "errorAction"> &
+  Pick<StudyPairsViewProps, "onSearchGoals">) {
   const messages = useMessages().studyPairs;
   const id = useId();
   const [goal, setGoal] = useState("");
@@ -299,6 +304,17 @@ function RequestForm({
         </Button>
       </form>
 
+      {onSearchGoals && (
+        <GoalSearch
+          onSearch={onSearchGoals}
+          onPick={(item) => {
+            setGoal(item.goal);
+            setMissingGoal(false);
+            setTopic(item.topic && topics.some((t) => t.value === item.topic) ? item.topic : "");
+          }}
+        />
+      )}
+
       {popularGoals.length > 0 && (
         <div className="space-y-2 border-t border-border-soft pt-4">
           <h3 className="text-xs font-medium text-text-subtle">{messages.popularTitle}</h3>
@@ -330,5 +346,122 @@ function RequestForm({
         </div>
       )}
     </section>
+  );
+}
+
+const SEARCH_MIN = 2;
+const SEARCH_DEBOUNCE = 300;
+
+/**
+ * Busca por texto nos objetivos abertos. O resultado é anônimo (objetivo e tema); clicar preenche
+ * o formulário, que continua sendo o caminho para pedir o par.
+ */
+function GoalSearch({
+  onSearch,
+  onPick,
+}: {
+  onSearch: (term: string) => Promise<StudyPairSearchGoal[]>;
+  onPick: (item: StudyPairSearchGoal) => void;
+}) {
+  const messages = useMessages().studyPairs;
+  const id = useId();
+  const [term, setTerm] = useState("");
+  const [results, setResults] = useState<StudyPairSearchGoal[] | null>(null);
+  const [searching, setSearching] = useState(false);
+  const [failed, setFailed] = useState(false);
+  // Resposta fora de ordem (busca anterior chegando depois) não pode sobrescrever a atual.
+  const requestId = useRef(0);
+
+  useEffect(() => {
+    const trimmed = term.trim();
+    if (trimmed.length < SEARCH_MIN) {
+      requestId.current += 1;
+      setResults(null);
+      setSearching(false);
+      setFailed(false);
+      return;
+    }
+    const current = ++requestId.current;
+    setSearching(true);
+    setFailed(false);
+    const timer = setTimeout(() => {
+      onSearch(trimmed)
+        .then((items) => {
+          if (requestId.current !== current) return;
+          setResults(items);
+        })
+        .catch(() => {
+          if (requestId.current !== current) return;
+          setFailed(true);
+          setResults(null);
+        })
+        .finally(() => {
+          if (requestId.current !== current) return;
+          setSearching(false);
+        });
+    }, SEARCH_DEBOUNCE);
+    return () => clearTimeout(timer);
+  }, [term, onSearch]);
+
+  const trimmed = term.trim();
+
+  return (
+    <div className="space-y-2 border-t border-border-soft pt-4">
+      <label htmlFor={`${id}-search`} className="text-sm font-medium text-text-strong">
+        {messages.searchLabel}
+      </label>
+
+      <div className="relative">
+        <Search
+          aria-hidden
+          className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-text-subtle"
+        />
+        <Input
+          id={`${id}-search`}
+          type="search"
+          value={term}
+          maxLength={80}
+          placeholder={messages.searchPlaceholder}
+          className="pl-9"
+          onChange={(event) => setTerm(event.target.value)}
+        />
+      </div>
+
+      <div role="status" aria-live="polite" className="text-xs text-text-subtle">
+        {trimmed.length < SEARCH_MIN
+          ? messages.searchHint
+          : searching
+            ? messages.loading
+            : failed
+              ? messages.searchError
+              : results && results.length === 0
+                ? messages.searchEmpty
+                : ""}
+      </div>
+
+      {!failed && results && results.length > 0 && (
+        <div className="space-y-2">
+          <h3 className="text-xs font-medium text-text-subtle">{messages.searchResultsTitle}</h3>
+
+          <ul className="flex flex-wrap gap-2">
+            {results.map((item, index) => (
+              <li key={`${item.goal}-${index}`} className="min-w-0 max-w-full">
+                <button
+                  type="button"
+                  onClick={() => onPick(item)}
+                  className="flex max-w-full items-baseline gap-1.5 rounded-full border border-border-soft bg-surface-card px-3 py-1.5 text-left text-sm text-text-strong transition-colors hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                >
+                  <span className="min-w-0 truncate">{item.goal}</span>
+
+                  {item.topic && (
+                    <span className="shrink-0 text-xs text-text-subtle">{item.topic}</span>
+                  )}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
   );
 }
