@@ -23,6 +23,7 @@ export const HealthyUsage: StoryObj = {
         enabled: true,
         minutes: 30,
         forceMotion: false,
+        cardTilt: true,
         reducedMotion: true,
       })}
       personalization={{

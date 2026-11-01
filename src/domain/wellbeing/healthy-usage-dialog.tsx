@@ -35,6 +35,7 @@ export function HealthyUsageDialog({
   const [nightRestReminder, setNightRestReminder] = useState(true);
   const [liteMode, setLiteMode] = useState(false);
   const [forceMotion, setForceMotion] = useState(false);
+  const [cardTilt, setCardTilt] = useState(true);
   // Só aparece para quem o sistema está pedindo menos movimento: nas outras pessoas a chave
   // não teria efeito nenhum e só faria volume.
   const [reducedMotionDevice, setReducedMotionDevice] = useState(false);
@@ -45,6 +46,7 @@ export function HealthyUsageDialog({
     setEnabled(device.enabled);
     setMinutes(device.minutes);
     setForceMotion(device.forceMotion);
+    setCardTilt(device.cardTilt);
     setReducedMotionDevice(device.reducedMotion);
     // Seeds only when the dialog opens, like the device reads it did before.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -177,6 +179,20 @@ export function HealthyUsageDialog({
             </label>
           )}
 
+          <label className="flex items-start justify-between gap-3 rounded-2xl border border-border-soft bg-surface-card p-3">
+            <span className="min-w-0">
+              <span className="block text-sm font-medium text-text-strong">
+                {messages.cardTiltTitle}
+              </span>
+
+              <span className="mt-0.5 block text-xs text-text-subtle">
+                {messages.cardTiltDescription}
+              </span>
+            </span>
+
+            <Switch checked={cardTilt} onCheckedChange={setCardTilt} />
+          </label>
+
           <section className="space-y-2 border-t border-border-soft pt-4">
             <h3 className="text-sm font-semibold text-text-strong">{messages.likeTitle}</h3>
 
@@ -256,6 +272,7 @@ export function HealthyUsageDialog({
                   nightRestReminder,
                   liteMode,
                   forceMotion,
+                  cardTilt,
                 })
               }
             >

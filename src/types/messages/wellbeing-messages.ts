@@ -14,6 +14,8 @@ export type WellbeingMessages = {
     liteWhy: string;
     forceMotionTitle: string;
     forceMotionDescription: string;
+    cardTiltTitle: string;
+    cardTiltDescription: string;
     nightRestTitle: string;
     nightRestDescription: string;
     likeTitle: string;
