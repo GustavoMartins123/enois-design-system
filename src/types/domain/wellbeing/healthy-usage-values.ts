@@ -8,4 +8,6 @@ export type HealthyUsageValues = {
   nightRestReminder: boolean;
   liteMode: boolean;
   forceMotion: boolean;
+  /** 3D tilt and sheen of the profile card; a device choice, on by default. */
+  cardTilt: boolean;
 };

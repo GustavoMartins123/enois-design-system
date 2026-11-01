@@ -25,6 +25,9 @@ export const wellbeingMessages: WellbeingMessages = {
     forceMotionTitle: "Manter as animações neste aparelho",
     forceMotionDescription:
       "Seu sistema está pedindo pra reduzir movimento e a gente respeita: as molduras animadas e os efeitos ficam parados. Ligue aqui pra ver as animações mesmo assim.",
+    cardTiltTitle: "Efeito 3D no cartão de perfil",
+    cardTiltDescription:
+      "O cartão se inclina e ganha um brilho conforme o mouse passa por cima. Desligue se preferir o cartão parado.",
     nightRestTitle: "Lembrete de descanso durante a madrugada",
     nightRestDescription:
       "Receba uma mensagem de cuidado ao acessar o feed entre meia-noite e cinco da manhã.",
