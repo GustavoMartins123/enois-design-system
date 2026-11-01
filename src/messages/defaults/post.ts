@@ -113,6 +113,7 @@ export const postMessages: PostMessages = {
     seeWho: (count) => `Ver quem reagiu (${count} ${count === 1 ? "reação" : "reações"})`,
     comments: "Comentários",
     repost: "Republicar",
+    reposted: "Republicado",
     repostUnavailable: "Republicar indisponível",
     share: "Compartilhar",
     report: "Denunciar post",
@@ -172,6 +173,8 @@ export const postMessages: PostMessages = {
     opinionCount: (length) => `${length}/600`,
     back: "Voltar",
     publish: "Publicar",
+    undo: "Desfazer republicação",
+    undoHint: "Remove a republicação do seu perfil.",
   },
   gifPickerDialog: {
     title: "Adicionar GIF",

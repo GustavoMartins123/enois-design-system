@@ -79,6 +79,7 @@ export type PostMessages = {
     seeWho: (count: number) => string;
     comments: string;
     repost: string;
+    reposted: string;
     repostUnavailable: string;
     share: string;
     report: string;
@@ -118,6 +119,8 @@ export type PostMessages = {
     opinionCount: (length: number) => string;
     back: string;
     publish: string;
+    undo: string;
+    undoHint: string;
   };
   gifPickerDialog: {
     title: string;
