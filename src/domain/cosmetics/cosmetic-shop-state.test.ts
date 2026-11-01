@@ -9,6 +9,7 @@ import {
   isTryingOn,
   lookMissing,
   previewProfile,
+  shopTabs,
   toggleTryItem,
   tryLook,
 } from "./cosmetic-shop-state.js";
@@ -145,5 +146,18 @@ describe("album and tabs", () => {
     expect(defaultCollection(SHOP_COLLECTIONS, undefined)).toBe("saci");
     expect(defaultCollection(SHOP_COLLECTIONS, "dev")).toBe("dev");
     expect(defaultCollection([], undefined)).toBeNull();
+  });
+});
+
+describe("shopTabs", () => {
+  it("puts what can be bought first: collections in season, then the classics, then the rest", () => {
+    const tabs = shopTabs(SHOP_COLLECTIONS, true).map((c) => c?.id ?? null);
+    const inSeason = SHOP_COLLECTIONS.filter((c) => c.available).map((c) => c.id);
+    expect(tabs.slice(0, inSeason.length + 1)).toEqual([...inSeason, null]);
+    expect(tabs).toHaveLength(SHOP_COLLECTIONS.length + 1);
+  });
+
+  it("has no classics tab when the catalog has no classic item", () => {
+    expect(shopTabs(SHOP_COLLECTIONS, false)).not.toContain(null);
   });
 });
