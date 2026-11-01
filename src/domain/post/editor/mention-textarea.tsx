@@ -44,6 +44,12 @@ const SHORTCUTS: Record<string, RichTextFormat> = {
   k: "link",
 };
 
+/** Grows with the text up to 240px; past that it scrolls inside. */
+function fitHeight(el: HTMLTextAreaElement): void {
+  el.style.height = "auto";
+  el.style.height = `${Math.min(el.scrollHeight, 240)}px`;
+}
+
 export function MentionTextarea({
   value,
   onChange,
@@ -53,6 +59,7 @@ export function MentionTextarea({
   showCounter = true,
   rows,
   toolbar = false,
+  toolbarVisible = true,
   onPasteImages,
   onSubmitShortcut,
   mentionResults: results,
@@ -70,10 +77,18 @@ export function MentionTextarea({
   // Layout, não effect: a altura tem de estar aplicada antes da medida da lista, no mesmo frame.
   useLayoutEffect(() => {
     const el = textareaRef.current;
-    if (!el) return;
-    el.style.height = "auto";
-    el.style.height = `${Math.min(el.scrollHeight, 240)}px`;
+    if (el) fitHeight(el);
   }, [value]);
+  // The first measure can run before the field is laid out for good (final width, web font):
+  // an empty field then stays several lines tall. Measure again whenever the box changes; the
+  // second pass sets the same height, so it settles.
+  useEffect(() => {
+    const el = textareaRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(() => fitHeight(el));
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [mentionedIds, setMentionedIds] = useState<string[]>([]);
 
@@ -273,6 +288,8 @@ export function MentionTextarea({
       return;
     }
     if (e.key === "Escape") {
+      // Closing the list is all Esc does here: an inline reply around the field must not close.
+      e.preventDefault();
       setMentionQuery("");
       setMentionIndex(-1);
     }
@@ -280,7 +297,7 @@ export function MentionTextarea({
 
   return (
     <div ref={rootRef} className="relative min-w-0 flex-1">
-      {toolbar && (
+      {toolbar && toolbarVisible && (
         <RichTextToolbar
           label={messages.toolbar}
           onFormat={formatSelection}

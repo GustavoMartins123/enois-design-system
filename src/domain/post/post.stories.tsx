@@ -209,6 +209,7 @@ const comments = [
 export const Comments: StoryObj = {
   render: function CommentsStory() {
     const [draft, setDraft] = useState("");
+    const [replyTo, setReplyTo] = useState<string | null>(null);
 
     return (
       <div className="max-w-xl">
@@ -236,7 +237,7 @@ export const Comments: StoryObj = {
               onReact={() => {}}
               reactionSummary={comment.id === "c1" ? { LOVE: 3, LIKE: 1 } : undefined}
               onShowReactions={() => {}}
-              onReply={() => {}}
+              onReply={() => setReplyTo(comment.id)}
               onTogglePin={() => {}}
               onDelete={() => {}}
               onReport={() => {}}
@@ -249,8 +250,8 @@ export const Comments: StoryObj = {
               )}
             />
           )}
-          replyToId={null}
-          onCancelReply={() => {}}
+          replyToId={replyTo}
+          onCancelReply={() => setReplyTo(null)}
           media={[]}
           mediaSpoiler={false}
           onToggleMediaSpoiler={() => {}}
@@ -259,18 +260,21 @@ export const Comments: StoryObj = {
           onAddImages={() => {}}
           onAddAudio={() => {}}
           onErrorChange={() => {}}
-          composerField={
+          composerField={({ toolsOpen }) => (
             <MentionTextarea
               value={draft}
               onChange={(value) => setDraft(value)}
               placeholder="Comente com contexto, dúvida ou referência..."
               className="w-full resize-none border-0 bg-transparent px-2 py-1 text-sm font-normal outline-none"
               maxLength={800}
+              showCounter={draft.length >= 700}
+              rows={1}
               toolbar
+              toolbarVisible={toolsOpen}
               mentionResults={[]}
               onMentionQueryChange={() => {}}
             />
-          }
+          )}
           canSend={draft.trim() !== ""}
           sending={false}
           onSubmit={async () => true}
