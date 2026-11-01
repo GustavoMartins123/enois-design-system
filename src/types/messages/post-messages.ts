@@ -174,6 +174,11 @@ export type PostMessages = {
     mediaSpoilerActive: string;
     attachMedia: string;
     recordAudio: string;
+    /** The "+" that opens attachments and formatting. */
+    moreTools: string;
+    closeTools: string;
+    photo: string;
+    audio: string;
     stopRecording: string;
     recording: (minutes: number, seconds: number) => string;
     gif: string;
