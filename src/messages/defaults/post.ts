@@ -58,6 +58,7 @@ export const postMessages: PostMessages = {
     momentExpiryTitle: "Momento se apaga sozinho em 24 horas",
     sealSeeWho: "Ver quem marcou",
     repostedWithOpinion: "Republicou com opinião",
+    repostedBy: (name) => (name ? `${name} republicou` : "Republicado"),
     repostedFrom: (username) => (username ? `Republicado de @${username}` : "Republicado"),
     quotedFrom: (username) =>
       username ? `Publicação original de @${username}` : "Publicação original",
@@ -162,13 +163,15 @@ export const postMessages: PostMessages = {
   },
   repostDialog: {
     title: "Republicar",
-    description:
-      "Publique no seu feed direto, ou escreva uma opinião de até 600 caracteres para aparecer junto com o post original citado.",
-    opinionLabel: "Sua opinião (opcional)",
+    description: "Escolha como compartilhar esta publicação no seu feed.",
+    plain: "Republicar",
+    plainHint: "Aparece no seu feed com crédito ao autor original.",
+    withOpinion: "Comentar e republicar",
+    withOpinionHint: "Escreva seu comentário e cite a publicação original.",
     opinionPlaceholder: "O que você achou deste post?",
     opinionCount: (length) => `${length}/600`,
-    plain: "Só republicar",
-    withOpinion: "Republicar com opinião",
+    back: "Voltar",
+    publish: "Publicar",
   },
   gifPickerDialog: {
     title: "Adicionar GIF",

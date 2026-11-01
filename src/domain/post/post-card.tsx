@@ -9,6 +9,8 @@ import type { PostCardProps } from "../../types/domain/post/post-card-props.js";
 import { AppLink } from "../../ui/app-link.js";
 import { Badge } from "../../ui/badge.js";
 
+import { UserAvatar } from "../avatar/user-avatar.js";
+
 import { AuthorInfo } from "./author-info.js";
 import { LinkPreviews } from "./media/link-previews.js";
 import { SpoilerMedia } from "./media/spoiler-media.js";
@@ -89,7 +91,22 @@ export function PostCard({
           : ""
       }`}
     >
-      {post.repostOf && hrefs.repostOf && (
+      {/* Repost puro (ponteiro): mostra quem repostou com mini avatar no topo, estilo Twitter. */}
+      {post.repostedByName && !post.repostWithOpinion && hrefs.repostedBy && (
+        <AppLink
+          href={hrefs.repostedBy}
+          className="mb-3 flex items-center gap-2 text-xs text-text-subtle transition hover:text-primary"
+        >
+          <UserAvatar src={post.repostedByAvatar} alt={post.repostedByName} className="h-4 w-4" />
+
+          <Repeat2 className="h-3 w-3 shrink-0" />
+
+          <span className="min-w-0 truncate">{messages.repostedBy(post.repostedByName)}</span>
+        </AppLink>
+      )}
+
+      {/* Repost com opinião ou repost legado (post-cópia). */}
+      {post.repostOf && hrefs.repostOf && !post.repostedByName && (
         <AppLink
           href={hrefs.repostOf}
           className="mb-2 inline-flex items-center gap-1.5 text-xs text-text-subtle transition hover:text-primary"

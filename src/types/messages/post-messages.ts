@@ -40,6 +40,7 @@ export type PostMessages = {
     momentExpiryTitle: string;
     sealSeeWho: string;
     repostedWithOpinion: string;
+    repostedBy: (name: string | null | undefined) => string;
     repostedFrom: (username: string | null | undefined) => string;
     quotedFrom: (username: string | null | undefined) => string;
     viewOriginal: string;
@@ -109,11 +110,14 @@ export type PostMessages = {
   repostDialog: {
     title: string;
     description: string;
-    opinionLabel: string;
+    plain: string;
+    plainHint: string;
+    withOpinion: string;
+    withOpinionHint: string;
     opinionPlaceholder: string;
     opinionCount: (length: number) => string;
-    plain: string;
-    withOpinion: string;
+    back: string;
+    publish: string;
   };
   gifPickerDialog: {
     title: string;
