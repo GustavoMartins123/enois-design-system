@@ -102,6 +102,9 @@ export const profileMessages: ProfileMessages = {
     remove: "Voltar para a foto",
     cancel: "Cancelar",
     saving: "Salvando...",
+    shopBanner: (name) =>
+      `Agora aparece o banner ${name}, da loja, por cima da sua capa. Ao trocar a capa ele sai, e continua seu.`,
+    useOwnCover: "Voltar para a minha capa",
   },
   profileBioDialog: {
     action: "Bio em HTML",

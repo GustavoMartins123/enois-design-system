@@ -219,6 +219,8 @@ export const Dialogs: StoryObj = {
           onPickPhoto={() => undefined}
           maxLength={20000}
           onSave={() => setOpen(null)}
+          shopBanner="Cemitério"
+          onUseOwnCover={() => setOpen(null)}
           renderHtmlFrame={frame}
         />
         <ProfileBioDialog

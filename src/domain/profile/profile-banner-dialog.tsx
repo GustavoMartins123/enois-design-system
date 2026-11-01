@@ -23,6 +23,8 @@ export function ProfileBannerDialog({
   maxLength,
   savePending = false,
   onSave,
+  shopBanner = null,
+  onUseOwnCover,
   renderHtmlFrame,
 }: ProfileBannerDialogProps) {
   const messages = useMessages().profileBannerDialog;
@@ -45,6 +47,25 @@ export function ProfileBannerDialog({
         <DialogHeader>
           <DialogTitle>{messages.title}</DialogTitle>
         </DialogHeader>
+
+        {shopBanner && (
+          <div className="space-y-2 rounded-2xl border border-border-soft bg-surface-1 p-3">
+            <p className="text-[12px] font-normal text-text-subtle">
+              {messages.shopBanner(shopBanner)}
+            </p>
+
+            {onUseOwnCover && (
+              <Button
+                variant="outline"
+                className="rounded-full"
+                disabled={savePending}
+                onClick={onUseOwnCover}
+              >
+                {messages.useOwnCover}
+              </Button>
+            )}
+          </div>
+        )}
 
         <p className="text-[12px] font-normal text-text-subtle">{messages.choiceHint}</p>
 

@@ -94,6 +94,9 @@ export type ProfileMessages = {
     remove: string;
     cancel: string;
     saving: string;
+    /** An equipped shop banner draws over the own cover. */
+    shopBanner: (name: string) => string;
+    useOwnCover: string;
   };
   profileBioDialog: {
     action: string;
