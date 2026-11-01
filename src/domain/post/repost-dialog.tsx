@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { MessageSquareText, Repeat2 } from "lucide-react";
+import { MessageSquareText, Repeat2, Undo2 } from "lucide-react";
 
 import { useMessages } from "../../messages/messages-context.js";
 import type { RepostDialogProps } from "../../types/domain/post/repost-dialog-props.js";
@@ -27,7 +27,9 @@ export function RepostDialog({
   open,
   onOpenChange,
   pending = false,
+  reposted = false,
   onRepost,
+  onUndoRepost,
 }: RepostDialogProps) {
   const messages = useMessages().repostDialog;
   const [step, setStep] = useState<"choose" | "opinion">("choose");
@@ -70,20 +72,37 @@ export function RepostDialog({
 
         {step === "choose" ? (
           <div className="flex flex-col gap-2 pt-1">
-            <button
-              type="button"
-              disabled={pending}
-              onClick={() => onRepost(undefined)}
-              className="flex items-center gap-3 rounded-xl border border-border-soft px-4 py-3 text-left transition hover:bg-surface-2"
-            >
-              <Repeat2 className="h-5 w-5 shrink-0 text-primary" />
+            {reposted && onUndoRepost ? (
+              <button
+                type="button"
+                disabled={pending}
+                onClick={onUndoRepost}
+                className="flex items-center gap-3 rounded-xl border border-destructive/30 px-4 py-3 text-left transition hover:bg-destructive/5"
+              >
+                <Undo2 className="h-5 w-5 shrink-0 text-destructive" />
 
-              <div className="min-w-0">
-                <p className="text-sm font-medium text-text-strong">{messages.plain}</p>
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-destructive">{messages.undo}</p>
 
-                <p className="text-xs text-text-subtle">{messages.plainHint}</p>
-              </div>
-            </button>
+                  <p className="text-xs text-text-subtle">{messages.undoHint}</p>
+                </div>
+              </button>
+            ) : (
+              <button
+                type="button"
+                disabled={pending}
+                onClick={() => onRepost(undefined)}
+                className="flex items-center gap-3 rounded-xl border border-border-soft px-4 py-3 text-left transition hover:bg-surface-2"
+              >
+                <Repeat2 className="h-5 w-5 shrink-0 text-primary" />
+
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-text-strong">{messages.plain}</p>
+
+                  <p className="text-xs text-text-subtle">{messages.plainHint}</p>
+                </div>
+              </button>
+            )}
 
             <button
               type="button"
