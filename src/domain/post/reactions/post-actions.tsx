@@ -28,6 +28,7 @@ export function PostActions<T extends string>({
   savesCount,
   saved,
   canRepost,
+  repostsCount,
   repostUnavailableReason,
   onShowReactions,
   onComments,

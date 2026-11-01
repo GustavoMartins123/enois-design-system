@@ -95,6 +95,7 @@ export const Card: StoryObj = {
               motionAllowed={() => true}
               reactionCount={6}
               commentsCount={2}
+              repostsCount={0}
               savesCount={1}
               saved={false}
               canRepost
@@ -128,6 +129,7 @@ export const RepostUnavailable: StoryObj = {
         motionAllowed={() => true}
         reactionCount={3}
         commentsCount={1}
+              repostsCount={0}
         savesCount={0}
         saved={false}
         canRepost={false}

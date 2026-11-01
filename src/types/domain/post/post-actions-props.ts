@@ -11,6 +11,7 @@ export type PostActionsProps<T extends string = string> = {
   motionAllowed: () => boolean;
   reactionCount: number;
   commentsCount: number;
+  repostsCount: number;
   savesCount: number;
   saved: boolean;
   /** Conteúdo de comunidade e os tipos que não viajam não oferecem republicar. */

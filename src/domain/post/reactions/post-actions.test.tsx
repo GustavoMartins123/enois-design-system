@@ -22,6 +22,7 @@ function props(overrides: Partial<PostActionsProps<"LOVE">> = {}): PostActionsPr
     motionAllowed: () => false,
     reactionCount: 0,
     commentsCount: 0,
+    repostsCount: 0,
     savesCount: 0,
     saved: false,
     canRepost: true,
