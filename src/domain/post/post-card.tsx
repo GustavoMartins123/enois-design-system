@@ -37,6 +37,7 @@ export function PostCard({
   topicLabel,
   anchored = false,
   fullPost = false,
+  virtualized = false,
   pinned = false,
   onTogglePin,
   pinPending = false,
@@ -82,10 +83,11 @@ export function PostCard({
         // arredondamento do card recortava os cantos da página e era o que sobrava de "rounding".
         post.pageHtml ? "rounded-none" : "overflow-hidden rounded-2xl"
       } ${
-        // Na lista, o navegador pula layout e pintura dos cards fora da tela; `auto` no tamanho
-        // guarda a altura real depois da primeira vez, para a barra de rolagem não pular. Fica de
-        // fora o post de página (o iframe dele mede a própria altura) e a página do post.
-        !fullPost && post.type !== "PAGE"
+        // In a list the browser skips layout and paint for offscreen cards; `auto` in the size
+        // keeps the real height after the first paint so the scrollbar does not jump. Left out:
+        // page posts (their iframe measures itself), the post page, and a virtualized list, which
+        // already unmounts far cards and must measure the real height.
+        !fullPost && !virtualized && post.type !== "PAGE"
           ? "[contain-intrinsic-size:auto_360px] [content-visibility:auto]"
           : ""
       }`}

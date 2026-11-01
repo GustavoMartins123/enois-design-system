@@ -23,6 +23,12 @@ export type PostCardProps = {
    * mais" — o link levaria para a página em que a pessoa já está.
    */
   fullPost?: boolean;
+  /**
+   * The list virtualizes (mounts only the cards near the viewport and measures each one). The
+   * card then drops `content-visibility: auto`: a skipped card reports the 360px placeholder, the
+   * virtualizer stores that size and the list jumps when the real height paints.
+   */
+  virtualized?: boolean;
   /** É o post fixado no topo da comunidade (mostra o selo "Fixado"). */
   pinned?: boolean;
   /** Presente para quem administra a comunidade: mostra o botão de fixar/desafixar. */
