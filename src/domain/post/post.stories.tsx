@@ -129,7 +129,7 @@ export const RepostUnavailable: StoryObj = {
         motionAllowed={() => true}
         reactionCount={3}
         commentsCount={1}
-              repostsCount={0}
+        repostsCount={0}
         savesCount={0}
         saved={false}
         canRepost={false}
