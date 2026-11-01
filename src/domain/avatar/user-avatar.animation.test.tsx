@@ -63,7 +63,8 @@ describe("Animação das molduras do avatar", () => {
     expect(host.querySelectorAll(".moldura-fx")).toHaveLength(FX_FRAMES.length);
     const ids = [...host.querySelectorAll("[id]")].map((element) => element.id);
     expect(new Set(ids).size).toBe(ids.length);
-  });
+    // Hidratar as ~100 molduras passa do padrão de 5 s quando a suíte roda inteira em paralelo.
+  }, 20_000);
 
   it("não observa avatares sem animação", async () => {
     const addListener = vi.spyOn(document, "addEventListener");

@@ -4,6 +4,7 @@ import type { StudyPairOpenRequest } from "./study-pair-open-request.js";
 import type { StudyPairPopularGoal } from "./study-pair-popular-goal.js";
 import type { StudyPairRequestInput } from "./study-pair-request-input.js";
 import type { StudyPairSaveStatus } from "./study-pair-save-status.js";
+import type { StudyPairSearchGoal } from "./study-pair-search-goal.js";
 import type { StudyPairTopicOption } from "./study-pair-topic-option.js";
 import type { StudyPair } from "./study-pair.js";
 import type { StudyPairsErrorCode } from "./study-pairs-error-code.js";
@@ -23,6 +24,8 @@ export type StudyPairsViewProps = {
   topics?: StudyPairTopicOption[];
   /** Chips that fill the form. Hidden when empty. */
   popularGoals?: StudyPairPopularGoal[];
+  /** Text search over open goals (2+ letters). Without it, the search field does not render. */
+  onSearchGoals?: (term: string) => Promise<StudyPairSearchGoal[]>;
   onRequest: (input: StudyPairRequestInput) => void;
   requesting?: boolean;
   requestError?: StudyPairsErrorCode | null;

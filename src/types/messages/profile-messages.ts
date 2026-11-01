@@ -240,6 +240,8 @@ export type ProfileMessages = {
     titleField: string;
     stackField: string;
     repoField: string;
+    bannerField: string;
+    iconField: string;
     statusField: string;
     descriptionField: string;
     descriptionPlaceholder: string;
