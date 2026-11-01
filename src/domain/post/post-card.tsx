@@ -8,7 +8,6 @@ import { useMessages } from "../../messages/messages-context.js";
 import type { PostCardProps } from "../../types/domain/post/post-card-props.js";
 import { AppLink } from "../../ui/app-link.js";
 import { Badge } from "../../ui/badge.js";
-
 import { UserAvatar } from "../avatar/user-avatar.js";
 
 import { AuthorInfo } from "./author-info.js";
@@ -98,7 +97,6 @@ export function PostCard({
           className="mb-3 flex items-center gap-2 text-xs text-text-subtle transition hover:text-primary"
         >
           <UserAvatar src={post.repostedByAvatar} alt={post.repostedByName} className="h-4 w-4" />
-
           <Repeat2 className="h-3 w-3 shrink-0" />
 
           <span className="min-w-0 truncate">{messages.repostedBy(post.repostedByName)}</span>
