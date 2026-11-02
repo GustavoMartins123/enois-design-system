@@ -31,7 +31,7 @@ const hrefs: AccountMenuHrefs = {
   apoie: "#",
 };
 
-function render(menuHrefs: AccountMenuHrefs) {
+function render(menuHrefs: AccountMenuHrefs, withAccountCallbacks = true) {
   const noop = () => {};
   act(() =>
     root.render(
@@ -40,11 +40,11 @@ function render(menuHrefs: AccountMenuHrefs) {
         hrefs={menuHrefs}
         open
         onOpenChange={noop}
-        onChangeEmail={noop}
-        onChangePassword={noop}
-        onOpenLinkedAccounts={noop}
+        onChangeEmail={withAccountCallbacks ? noop : undefined}
+        onChangePassword={withAccountCallbacks ? noop : undefined}
+        onOpenLinkedAccounts={withAccountCallbacks ? noop : undefined}
         onOpenHealthyUsage={noop}
-        onDeleteAccount={noop}
+        onDeleteAccount={withAccountCallbacks ? noop : undefined}
         onLogout={noop}
         loggingOut={false}
       />,
@@ -82,5 +82,50 @@ describe("AccountMenu: notification preferences item", () => {
 
     expect(document.body.textContent).toContain("Ver perfil");
     expect(preferencesItem()).toBeUndefined();
+  });
+});
+
+describe("AccountMenu: account items on their own page (#562)", () => {
+  const ACCOUNT_ITEMS = [
+    "Alterar e-mail",
+    "Segurança e verificação",
+    "Usuários bloqueados",
+    "Minhas denúncias",
+    "Penalidades",
+    "Trocar senha",
+    "Contas vinculadas",
+    "Excluir conta",
+  ];
+
+  it("shows one entry for the page and none of the account items", () => {
+    const { profile, corporateProfile, wallet, marketplace, support, guardian, moderator, apoie } =
+      hrefs;
+    render(
+      {
+        profile,
+        corporateProfile,
+        wallet,
+        marketplace,
+        support,
+        guardian,
+        moderator,
+        apoie,
+        account: "/conta",
+      },
+      false,
+    );
+
+    const entry = [...document.body.querySelectorAll("a")].find(
+      (a) => a.textContent === "Conta e segurança",
+    );
+    expect(entry?.getAttribute("href")).toBe("/conta");
+    for (const label of ACCOUNT_ITEMS) expect(document.body.textContent).not.toContain(label);
+  });
+
+  it("keeps every item when the app still passes them", () => {
+    render(hrefs);
+
+    for (const label of ACCOUNT_ITEMS) expect(document.body.textContent).toContain(label);
+    expect(document.body.textContent).not.toContain("Conta e segurança");
   });
 });

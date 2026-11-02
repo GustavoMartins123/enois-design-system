@@ -8,11 +8,12 @@ export type AccountMenuProps = {
   hrefs: AccountMenuHrefs;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onChangeEmail: () => void;
-  onChangePassword: () => void;
-  onOpenLinkedAccounts: () => void;
+  /** Each account item only shows when its callback or href is given (see `hrefs.account`). */
+  onChangeEmail?: () => void;
+  onChangePassword?: () => void;
+  onOpenLinkedAccounts?: () => void;
   onOpenHealthyUsage: () => void;
-  onDeleteAccount: () => void;
+  onDeleteAccount?: () => void;
   onLogout: () => void;
   loggingOut: boolean;
   /** Push notifications item slot. */

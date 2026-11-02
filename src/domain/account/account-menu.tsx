@@ -15,6 +15,7 @@ import {
   Store,
   Trash2,
   User,
+  UserCog,
   Zap,
 } from "lucide-react";
 
@@ -119,11 +120,21 @@ export function AccountMenu({
             <>{messages.marketplace}</>
           </AppLink>
 
-          <button type="button" onClick={onChangeEmail} className={ITEM_CLASS}>
-            <Mail className="h-4 w-4" />
+          {hrefs.account && (
+            <AppLink href={hrefs.account} onClick={close} className={ITEM_CLASS}>
+              <UserCog className="h-4 w-4" />
 
-            <>{messages.changeEmail}</>
-          </button>
+              <>{messages.account}</>
+            </AppLink>
+          )}
+
+          {onChangeEmail && (
+            <button type="button" onClick={onChangeEmail} className={ITEM_CLASS}>
+              <Mail className="h-4 w-4" />
+
+              <>{messages.changeEmail}</>
+            </button>
+          )}
 
           <AppLink href={hrefs.support} onClick={close} className={ITEM_CLASS}>
             <LifeBuoy className="h-4 w-4" />
@@ -131,41 +142,53 @@ export function AccountMenu({
             <>{messages.support}</>
           </AppLink>
 
-          <AppLink href={hrefs.security} onClick={close} className={ITEM_CLASS}>
-            <ShieldCheck className="h-4 w-4" />
+          {hrefs.security && (
+            <AppLink href={hrefs.security} onClick={close} className={ITEM_CLASS}>
+              <ShieldCheck className="h-4 w-4" />
 
-            <>{messages.security}</>
-          </AppLink>
+              <>{messages.security}</>
+            </AppLink>
+          )}
 
-          <AppLink href={hrefs.blockedUsers} onClick={close} className={ITEM_CLASS}>
-            <ShieldOff className="h-4 w-4" />
+          {hrefs.blockedUsers && (
+            <AppLink href={hrefs.blockedUsers} onClick={close} className={ITEM_CLASS}>
+              <ShieldOff className="h-4 w-4" />
 
-            <>{messages.blockedUsers}</>
-          </AppLink>
+              <>{messages.blockedUsers}</>
+            </AppLink>
+          )}
 
-          <AppLink href={hrefs.myReports} onClick={close} className={ITEM_CLASS}>
-            <Flag className="h-4 w-4" />
+          {hrefs.myReports && (
+            <AppLink href={hrefs.myReports} onClick={close} className={ITEM_CLASS}>
+              <Flag className="h-4 w-4" />
 
-            <>{messages.myReports}</>
-          </AppLink>
+              <>{messages.myReports}</>
+            </AppLink>
+          )}
 
-          <AppLink href={hrefs.sanctions} onClick={close} className={ITEM_CLASS}>
-            <ShieldAlert className="h-4 w-4" />
+          {hrefs.sanctions && (
+            <AppLink href={hrefs.sanctions} onClick={close} className={ITEM_CLASS}>
+              <ShieldAlert className="h-4 w-4" />
 
-            <>{messages.sanctions}</>
-          </AppLink>
+              <>{messages.sanctions}</>
+            </AppLink>
+          )}
 
-          <button type="button" onClick={onChangePassword} className={ITEM_CLASS}>
-            <KeyRound className="h-4 w-4" />
+          {onChangePassword && (
+            <button type="button" onClick={onChangePassword} className={ITEM_CLASS}>
+              <KeyRound className="h-4 w-4" />
 
-            <>{messages.changePassword}</>
-          </button>
+              <>{messages.changePassword}</>
+            </button>
+          )}
 
-          <button type="button" onClick={onOpenLinkedAccounts} className={ITEM_CLASS}>
-            <Link2 className="h-4 w-4" />
+          {onOpenLinkedAccounts && (
+            <button type="button" onClick={onOpenLinkedAccounts} className={ITEM_CLASS}>
+              <Link2 className="h-4 w-4" />
 
-            <>{messages.linkedAccounts}</>
-          </button>
+              <>{messages.linkedAccounts}</>
+            </button>
+          )}
 
           <button type="button" onClick={onOpenHealthyUsage} className={ITEM_CLASS}>
             <HeartPulse className="h-4 w-4" />
@@ -202,17 +225,19 @@ export function AccountMenu({
           </AppLink>
         </div>
 
-        <div className="shrink-0 border-t border-border-soft py-1">
-          <button
-            type="button"
-            onClick={onDeleteAccount}
-            className={cn(ITEM_CLASS, "text-destructive hover:text-destructive")}
-          >
-            <Trash2 className="h-4 w-4" />
+        {onDeleteAccount && (
+          <div className="shrink-0 border-t border-border-soft py-1">
+            <button
+              type="button"
+              onClick={onDeleteAccount}
+              className={cn(ITEM_CLASS, "text-destructive hover:text-destructive")}
+            >
+              <Trash2 className="h-4 w-4" />
 
-            <>{messages.deleteAccount}</>
-          </button>
-        </div>
+              <>{messages.deleteAccount}</>
+            </button>
+          </div>
+        )}
 
         <div className="shrink-0 border-t border-border-soft py-1">
           <button

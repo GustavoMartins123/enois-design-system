@@ -6,6 +6,7 @@ export type AccountMessages = {
     corporateProfile: string;
     wallet: string;
     marketplace: string;
+    account: string;
     changeEmail: string;
     changePassword: string;
     support: string;
@@ -22,6 +23,21 @@ export type AccountMessages = {
     logout: string;
     loggingOut: string;
     notificationPreferences: string;
+  };
+  accountSettings: {
+    title: string;
+    description: string;
+    access: string;
+    privacy: string;
+    danger: string;
+    changeEmail: string;
+    changePassword: string;
+    linkedAccounts: string;
+    security: string;
+    blockedUsers: string;
+    myReports: string;
+    sanctions: string;
+    deleteAccount: string;
   };
   pushToggle: { on: string; off: string; working: string };
   ageGate: {
