@@ -22,6 +22,10 @@
   --color-text-strong: var(--text-strong);
   --color-text-subtle: var(--text-subtle);
   --color-text-date: var(--text-date);
+  --color-signal-today: var(--signal-today);
+  --color-signal-today-soft: var(--signal-today-soft);
+  --color-signal-love: var(--signal-love);
+  --color-signal-done: var(--signal-done);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -79,8 +83,8 @@
 }
 
 :root {
-  --radius: 0.875rem;
-  --background: #faf9ff;
+  --radius: 1rem;
+  --background: #f7f4fb;
   --foreground: #21173a;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.2 0.02 280);
@@ -132,14 +136,22 @@
   --surface-2: #ede8f5;
   --surface-3: #f5f3ff;
   --border-soft: #e5e0eb;
-  --text-strong: #0f0f14;
-  --text-subtle: #6b7280;
-  --text-date: #a1a1aa;
+  --text-strong: #1d1626;
+  --text-subtle: #5b5068;
+  --text-date: #74697f;
+
+  /* Boteco: warm lamp light at the top of the page and the semantic signal colors. */
+  --lamp: radial-gradient(120% 60% at 50% -10%, rgb(255 184 107 / 0.16), transparent 60%);
+  --signal-today: #b8620e;
+  --signal-today-soft: #fff0dd;
+  --signal-love: #d6336c;
+  --signal-done: #0e9f6e;
+  --shadow-table: 0 1px 2px rgb(40 20 60 / 0.05), 0 10px 24px -16px rgb(40 20 60 / 0.22);
 }
 
 .dark {
-  --background: #0d0d18;
-  --foreground: #e8e6ff;
+  --background: #15111c;
+  --foreground: #f3eef7;
   --card: oklch(0.21 0.025 285);
   --card-foreground: oklch(0.96 0.008 280);
   --popover: oklch(0.21 0.025 285);
@@ -172,16 +184,24 @@
   --gradient-soft: linear-gradient(135deg, oklch(0.22 0.04 285), oklch(0.25 0.05 295));
 
   /* Novos tokens (Fase 0) */
-  --surface-card: #13131f;
-  --surface-card-90: rgba(19, 19, 31, 0.9);
-  --surface-card-95: rgba(19, 19, 31, 0.95);
-  --surface-1: #1c1c2e;
-  --surface-2: #2d1f4e;
-  --surface-3: #1e1829;
-  --border-soft: #2a2a3d;
-  --text-strong: #e8e6ff;
-  --text-subtle: #9ca3af;
-  --placeholder-color: #6b7280;
+  --surface-card: #1f1929;
+  --surface-card-90: rgb(31 25 41 / 0.9);
+  --surface-card-95: rgb(31 25 41 / 0.95);
+  --surface-1: #1b1623;
+  --surface-2: #2a2236;
+  --surface-3: #241d30;
+  --border-soft: #34293f;
+  --text-strong: #f3eef7;
+  --text-subtle: #b9aec6;
+  --text-date: #94889f;
+  --placeholder-color: #8a7f96;
+
+  --lamp: radial-gradient(120% 60% at 50% -10%, rgb(255 184 107 / 0.1), transparent 60%);
+  --signal-today: #ffb86b;
+  --signal-today-soft: #3a2a1e;
+  --signal-love: #ff8fb1;
+  --signal-done: #6ee7b7;
+  --shadow-table: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 8px 20px -12px rgb(0 0 0 / 0.55);
 }
 
 @layer base {
