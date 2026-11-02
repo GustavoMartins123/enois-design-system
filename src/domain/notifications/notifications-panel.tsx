@@ -113,7 +113,7 @@ export function NotificationsPanel({
             onClick={onNavigate}
             aria-label={messages.preferences}
             title={messages.preferences}
-            className="grid h-9 w-9 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-text-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="grid h-11 w-11 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-text-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <Settings2 aria-hidden className="h-[18px] w-[18px]" />
           </AppLink>

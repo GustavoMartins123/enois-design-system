@@ -172,7 +172,7 @@ export function NotificationItem({
             onClick={markAsRead}
             aria-label={messages.markRead}
             title={messages.markRead}
-            className="grid h-9 w-9 place-items-center rounded-full text-text-date transition hover:bg-surface-2 hover:text-text-strong"
+            className="grid h-11 w-11 place-items-center rounded-full text-text-date transition hover:bg-surface-2 hover:text-text-strong"
           >
             <Check aria-hidden className="h-4 w-4" />
           </button>
