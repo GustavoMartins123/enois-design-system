@@ -110,6 +110,17 @@ describe("ProfileQuickComposer", () => {
     expect(onWriteArticle).toHaveBeenCalledOnce();
   });
 
+  it("draws the dividers on square cells, not on the rounded buttons", () => {
+    render(() => undefined);
+
+    const row = button("Foto").closest("div.divide-x");
+    expect(row).not.toBeNull();
+    for (const cell of row?.children ?? []) {
+      expect(cell.tagName).toBe("DIV");
+      expect(cell.className).not.toMatch(/rounded/);
+    }
+  });
+
   it("hides the article shortcut when the app has no editor to open", () => {
     render();
 
