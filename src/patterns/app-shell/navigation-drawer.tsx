@@ -17,7 +17,7 @@ export function NavigationDrawer({ open, onClose, brand, children }: NavigationD
         overlayClassName="bg-black/55 backdrop-blur-sm lg:hidden"
         // A floating soft panel, not a list glued to the screen edge: it reads as a place you
         // opened, and the rounded corners match the rest of the app's tables.
-        className="inset-y-2.5 left-2.5 flex h-auto w-[19.5rem] max-w-[calc(100vw-1.25rem)] flex-col rounded-[2rem] border-0 bg-background bg-[image:var(--lamp)] bg-no-repeat p-0 shadow-[0_20px_60px_-10px_rgb(0_0_0/0.7)] lg:hidden [&>button]:right-3 [&>button]:top-3 [&>button]:grid [&>button]:h-10 [&>button]:w-10 [&>button]:place-items-center [&>button]:rounded-full [&>button]:text-text-subtle [&>button]:opacity-100 [&>button]:transition [&>button:hover]:bg-surface-2 [&>button:hover]:text-text-strong"
+        className="inset-y-2.5 left-2.5 flex h-auto w-[19.5rem] max-w-[calc(100vw-1.25rem)] flex-col rounded-[2rem] border-0 bg-background bg-[image:var(--lamp)] bg-no-repeat p-0 shadow-[var(--shadow-float)] lg:hidden [&>button]:right-3 [&>button]:top-3 [&>button]:grid [&>button]:h-10 [&>button]:w-10 [&>button]:place-items-center [&>button]:rounded-full [&>button]:text-text-subtle [&>button]:opacity-100 [&>button]:transition [&>button:hover]:bg-surface-2 [&>button:hover]:text-text-strong"
       >
         <SheetTitle className="sr-only">{messages.title}</SheetTitle>
 

@@ -57,7 +57,7 @@ export function MobileDock({ items, action }: MobileDockProps) {
   return (
     <nav
       aria-label={messages.label}
-      className="fixed inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-40 grid h-[4.25rem] grid-cols-5 items-center rounded-[1.625rem] bg-[color-mix(in_oklab,var(--color-surface-card)_92%,transparent)] px-1.5 shadow-[inset_0_1px_0_rgb(255_255_255/0.05),0_16px_30px_-12px_rgb(0_0_0/0.6)] ring-1 ring-border-soft backdrop-blur-xl lg:hidden"
+      className="fixed inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-40 grid h-[4.25rem] grid-cols-5 items-center rounded-[1.625rem] bg-[color-mix(in_oklab,var(--color-surface-card)_92%,transparent)] px-1.5 shadow-[var(--shadow-float)] ring-1 ring-border-soft backdrop-blur-xl lg:hidden"
     >
       {left.map((item) => (
         <DockLink key={item.href} item={item} />

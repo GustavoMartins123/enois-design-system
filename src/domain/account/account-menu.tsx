@@ -61,7 +61,7 @@ export function AccountMenu({
 
       <PopoverContent
         align="end"
-        className="flex max-h-[min(85dvh,40rem)] w-[min(calc(100vw-1.5rem),20rem)] flex-col gap-2.5 overflow-y-auto overscroll-contain rounded-[1.75rem] border-border-soft bg-surface-card p-2.5 shadow-[0_24px_60px_-16px_rgb(0_0_0/0.55)]"
+        className="flex max-h-[min(85dvh,40rem)] w-[min(calc(100vw-1.5rem),20rem)] flex-col gap-2.5 overflow-y-auto overscroll-contain rounded-[1.75rem] border-border-soft bg-surface-card p-2.5 shadow-[var(--shadow-float)]"
       >
         <AppLink
           href={hrefs.profile}

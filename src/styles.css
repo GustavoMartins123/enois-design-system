@@ -149,6 +149,8 @@
   --signal-love: #d6336c;
   --signal-done: #0e9f6e;
   --shadow-table: 0 1px 2px rgb(40 20 60 / 0.05), 0 10px 24px -16px rgb(40 20 60 / 0.22);
+  /* Things that float over the page: dock, drawer, account menu. */
+  --shadow-float: 0 2px 6px rgb(40 20 60 / 0.06), 0 18px 40px -16px rgb(40 20 60 / 0.28);
 
   /* Table colors: a community or room without its own color gets a stable one from this set. White
      text passes AA on each, in both themes. */
@@ -163,9 +165,9 @@
 .dark {
   --background: #15111c;
   --foreground: #f3eef7;
-  --card: oklch(0.21 0.025 285);
+  --card: #1f1929;
   --card-foreground: oklch(0.96 0.008 280);
-  --popover: oklch(0.21 0.025 285);
+  --popover: #1f1929;
   --popover-foreground: oklch(0.96 0.008 280);
   --primary: #a78bfa;
   --primary-foreground: oklch(0.16 0.02 285);
@@ -214,6 +216,7 @@
   --signal-love: #ff8fb1;
   --signal-done: #6ee7b7;
   --shadow-table: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 8px 20px -12px rgb(0 0 0 / 0.55);
+  --shadow-float: inset 0 1px 0 rgb(255 255 255 / 0.05), 0 20px 50px -14px rgb(0 0 0 / 0.65);
 }
 
 @layer base {
@@ -258,7 +261,6 @@
 /* A table top: warm surface, soft corners and a soft offset shadow instead of a hard border. */
 @utility surface-card {
   background-color: var(--color-surface-card);
-  border: 1px solid color-mix(in oklab, var(--color-border-soft) 55%, transparent);
   border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-table);
 }
@@ -2550,6 +2552,7 @@ html[data-batata] {
   --shadow-soft: none;
   --shadow-card: none;
   --shadow-table: none;
+  --shadow-float: none;
   --lamp: none;
   --gradient-primary: none;
   --gradient-soft: none;
@@ -2578,6 +2581,13 @@ html[data-batata] *::after {
 html[data-batata] body {
   font-feature-settings: normal;
   text-rendering: auto;
+}
+
+/* Tables lose their shadow above: a hairline keeps them apart from the ground, without layout shift. */
+html[data-batata] .surface-card,
+html[data-batata] [class*="shadow-[var(--shadow-table)]"] {
+  outline: 1px solid var(--border-soft);
+  outline-offset: -1px;
 }
 
 /* Foco do teclado: `ring-*` é `box-shadow` e sumiu na regra acima. */
