@@ -5,6 +5,7 @@ export type PatternsMessages = {
   navigationDrawer: { title: string };
   mobileDock: { label: string };
   themeToggle: { light: string; dark: string };
+  themeSwitch: { label: string; light: string; dark: string };
   errorBanner: {
     show: string;
     hide: string;

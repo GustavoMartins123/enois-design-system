@@ -5,6 +5,7 @@ export const patternsMessages: PatternsMessages = {
   navigationDrawer: { title: "Menu de navegação" },
   mobileDock: { label: "Navegação principal" },
   themeToggle: { light: "Tema claro", dark: "Tema escuro" },
+  themeSwitch: { label: "Tema", light: "Claro", dark: "Escuro" },
   errorBanner: {
     show: "Mostrar detalhes",
     hide: "Ocultar detalhes",
