@@ -20,6 +20,9 @@ Rules:
 - Components never fetch, route or read app stores. Data comes in through props, actions go out through callbacks.
 - Content (titles, post text, names) is always a prop. Fixed component microcopy (accessible labels, counters, empty states) comes from `useMessages()` with pt-BR defaults.
 
+See [`docs/visual-language.md`](docs/visual-language.md) for the default look: surfaces, semantic
+contours (person, community, event) and the signal vocabulary.
+
 ## Using it in an app
 
 `.npmrc` (GitHub Packages needs a token with `read:packages`, even for public packages):
