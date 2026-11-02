@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import {
+  Baby,
   Bell,
   ChevronRight,
   Flag,
@@ -57,6 +58,7 @@ export function AccountSettings({
         <Row icon={ShieldOff} label={messages.blockedUsers} href={hrefs.blockedUsers} />
         <Row icon={Flag} label={messages.myReports} href={hrefs.myReports} />
         <Row icon={ShieldAlert} label={messages.sanctions} href={hrefs.sanctions} />
+        {hrefs.guardian && <Row icon={Baby} label={messages.guardian} href={hrefs.guardian} />}
         {hrefs.mutedUsers && (
           <Row icon={VolumeX} label={messages.mutedUsers} href={hrefs.mutedUsers} />
         )}

@@ -28,6 +28,7 @@ export const accountMessages: AccountMessages = {
     sanctions: "Penalidades",
     deleteAccount: "Excluir conta",
     mutedUsers: "Pessoas silenciadas",
+    guardian: "Supervisão parental",
     preferences: "Preferências",
     notificationPreferences: "Preferências de aviso",
     healthyUsage: "Uso saudável",

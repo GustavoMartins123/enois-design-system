@@ -27,6 +27,7 @@ export type AccountMessages = {
     sanctions: string;
     deleteAccount: string;
     mutedUsers: string;
+    guardian: string;
     preferences: string;
     notificationPreferences: string;
     healthyUsage: string;

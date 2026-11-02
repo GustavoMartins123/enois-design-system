@@ -14,8 +14,7 @@ export const notificationsMessages: NotificationsMessages = {
     emptyNew: "Nenhuma notificação nova.",
     emptyHistory: "Nenhum histórico ainda.",
     emptyRequests: "Nenhuma solicitação pendente.",
-    unreadLabel: (count) =>
-      `${count} ${count === 1 ? "aviso não lido" : "avisos não lidos"}`,
+    unreadLabel: (count) => `${count} ${count === 1 ? "aviso não lido" : "avisos não lidos"}`,
     viewAll: "Ver todos os avisos",
     loadMore: "Carregar mais",
     loadingMore: "Carregando...",

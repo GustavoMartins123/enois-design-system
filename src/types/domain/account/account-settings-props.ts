@@ -7,6 +7,8 @@ export type AccountSettingsProps = {
     blockedUsers: string;
     myReports: string;
     sanctions: string;
+    /** Parental supervision; the row only shows when it is set. */
+    guardian?: string;
     /** Muted people; the row only shows when it is set. */
     mutedUsers?: string;
     /** Notification preferences page; the row only shows when it is set. */

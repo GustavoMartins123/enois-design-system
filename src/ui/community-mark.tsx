@@ -8,7 +8,10 @@ const SIZES = {
 } as const;
 
 function initials(name: string) {
-  const words = name.trim().split(/\s+/).filter((word) => word.length > 2 || /^[A-Z]/.test(word));
+  const words = name
+    .trim()
+    .split(/\s+/)
+    .filter((word) => word.length > 2 || /^[A-Z]/.test(word));
   const picked = (words.length > 1 ? [words[0], words[1]] : [name]).map((word) => word[0]);
   return picked.join("").toUpperCase().slice(0, 2);
 }
