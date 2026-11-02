@@ -31,6 +31,19 @@ export function MediaStage({ src, initialTime = 0, muted = false, onClose }: Med
   }, [onClose]);
 
   useEffect(() => {
+    // O palco nasce com som. Onde o navegador recusa autoplay com áudio (iOS, sobretudo no PWA),
+    // a segunda tentativa é muda — que é permitida — e o botão de som fica a um toque.
+    const video = videoRef.current;
+    const attempt = video?.play();
+    attempt?.catch(() => {
+      if (!video || video.muted) return;
+      video.muted = true;
+      setMutedNow(true);
+      void video.play().catch(() => undefined);
+    });
+  }, []);
+
+  useEffect(() => {
     // O resto da página sai de cena: tudo pausado, e os vídeos fora da tela devolvem a memória.
     suspendOffscreenMedia(videoRef.current);
     const previousOverflow = document.body.style.overflow;
