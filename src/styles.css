@@ -147,6 +147,15 @@
   --signal-love: #d6336c;
   --signal-done: #0e9f6e;
   --shadow-table: 0 1px 2px rgb(40 20 60 / 0.05), 0 10px 24px -16px rgb(40 20 60 / 0.22);
+
+  /* Table colors: a community or room without its own color gets a stable one from this set. White
+     text passes AA on each, in both themes. */
+  --table-1: #0f766e;
+  --table-2: #c2410c;
+  --table-3: #4338ca;
+  --table-4: #be185d;
+  --table-5: #7c3aed;
+  --table-6: #b45309;
 }
 
 .dark {

@@ -3,7 +3,7 @@ export type NavigationCommunityData = {
   id: string;
   name: string;
   href: string;
-  /** The community's own color, painted on its mark. */
+  /** The community's own color, painted on its mark; without one, its id picks a table color. */
   color?: string | null;
   /** Unread notifications from this community. */
   hasNews?: boolean;

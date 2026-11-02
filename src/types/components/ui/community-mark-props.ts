@@ -1,8 +1,10 @@
 export type CommunityMarkProps = {
   /** Community name: its initials fill the mark and it is the accessible label. */
   name: string;
-  /** The community's own color; falls back to the primary color. */
+  /** The community's own color. */
   color?: string | null;
+  /** Without a color, a stable table color is picked from this (the community id). */
+  seed?: string;
   size?: "xs" | "sm" | "md";
   className?: string;
 };

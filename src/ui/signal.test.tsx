@@ -48,3 +48,13 @@ describe("semantic shapes", () => {
     expect(html).toContain("radial-gradient");
   });
 });
+
+describe("CommunityMark color", () => {
+  it("gives the same community the same table color when it has none", () => {
+    const a = renderToStaticMarkup(<CommunityMark name="Rust" seed="community_1" />);
+    const b = renderToStaticMarkup(<CommunityMark name="Rust" seed="community_1" />);
+
+    expect(a).toBe(b);
+    expect(a).toMatch(/background:var\(--table-[1-6]\)/);
+  });
+});

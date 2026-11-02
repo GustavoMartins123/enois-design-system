@@ -20,7 +20,16 @@ function initials(name: string) {
  * A community is a "table": a squircle in the community's color. People are circles, so the
  * shape alone tells a person from a place.
  */
-export function CommunityMark({ name, color, size = "sm", className }: CommunityMarkProps) {
+const TABLE_COLORS = 6;
+
+/** The same seed always lands on the same table color. */
+function tableColor(seed: string) {
+  let hash = 0;
+  for (const char of seed) hash = (hash * 31 + char.charCodeAt(0)) | 0;
+  return `var(--table-${(Math.abs(hash) % TABLE_COLORS) + 1})`;
+}
+
+export function CommunityMark({ name, color, seed, size = "sm", className }: CommunityMarkProps) {
   return (
     <span
       role="img"
@@ -30,7 +39,7 @@ export function CommunityMark({ name, color, size = "sm", className }: Community
         SIZES[size],
         className,
       )}
-      style={{ background: color || "var(--color-primary)" }}
+      style={{ background: color || (seed ? tableColor(seed) : "var(--color-primary)") }}
     >
       {initials(name)}
     </span>
