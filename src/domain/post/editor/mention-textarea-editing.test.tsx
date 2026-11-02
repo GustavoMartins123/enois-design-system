@@ -132,6 +132,28 @@ describe("MentionTextarea confirmed mentions", () => {
     type(textarea, "Another draft with @ana-silva typed manually");
     expect(changed).toHaveBeenLastCalledWith("Another draft with @ana-silva typed manually", []);
   });
+
+  it.each(["_@ana-silva_", "__@ana-silva__", "**_@ana-silva_**", "- item\n  - _@ana-silva_"])(
+    "retains the selected recipient inside rendered Markdown: %s",
+    (text) => {
+      const textarea = render();
+      type(textarea, "@an");
+      pick(ana);
+      type(textarea, text);
+      expect(changed).toHaveBeenLastCalledWith(text, [ana.id]);
+    },
+  );
+
+  it.each(["`@ana-silva`", "```\n@ana-silva\n```"])(
+    "removes a recipient when its token becomes literal code: %s",
+    (text) => {
+      const textarea = render();
+      type(textarea, "@an");
+      pick(ana);
+      type(textarea, text);
+      expect(changed).toHaveBeenLastCalledWith(text, []);
+    },
+  );
 });
 
 describe("MentionTextarea insertion limits", () => {
