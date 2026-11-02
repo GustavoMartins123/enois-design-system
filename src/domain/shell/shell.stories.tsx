@@ -46,17 +46,9 @@ export const AuthenticatedHeader: StoryObj = {
 
 const menuHrefs: AccountMenuHrefs = {
   profile: "#",
-  corporateProfile: "#",
   wallet: "#",
-  marketplace: "#",
+  account: "#",
   support: "#",
-  security: "#",
-  blockedUsers: "#",
-  myReports: "#",
-  sanctions: "#",
-  guardian: "#",
-  moderator: "#",
-  apoie: "#",
 };
 
 /** O cabeçalho como o app o monta no telefone: busca recolhida e o menu da conta nas ações. */
@@ -89,15 +81,10 @@ export const AuthenticatedHeaderPhone: StoryObj = {
             </button>
 
             <AccountMenu
-              profile={{ name: "Ana Souza", email: "ana@example.com", avatar: null }}
+              profile={{ name: "Ana Souza", username: "anasouza", avatar: null }}
               hrefs={menuHrefs}
               open={menu}
               onOpenChange={setMenu}
-              onChangeEmail={() => {}}
-              onChangePassword={() => {}}
-              onOpenLinkedAccounts={() => {}}
-              onOpenHealthyUsage={() => {}}
-              onDeleteAccount={() => {}}
               onLogout={() => {}}
               loggingOut={false}
             />

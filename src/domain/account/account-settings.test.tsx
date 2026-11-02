@@ -2,6 +2,7 @@
 import { act } from "react";
 
 import { createRoot } from "react-dom/client";
+import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { AccountSettings } from "./account-settings.js";
@@ -45,5 +46,38 @@ describe("AccountSettings", () => {
     act(() => button("Excluir conta")?.click());
     expect(onChangeEmail).toHaveBeenCalledOnce();
     expect(onDeleteAccount).toHaveBeenCalledOnce();
+  });
+});
+
+describe("AccountSettings: what left the account menu", () => {
+  it("lists preferences, muted people and support when the app gives them", () => {
+    const markup = renderToStaticMarkup(
+      <AccountSettings
+        hrefs={{
+          security: "/s",
+          blockedUsers: "/b",
+          myReports: "/d",
+          sanctions: "/p",
+          mutedUsers: "/silenciados",
+          notificationPreferences: "/notificacoes/preferencias",
+          supportUs: "/apoiar",
+        }}
+        onChangeEmail={() => {}}
+        onChangePassword={() => {}}
+        onOpenLinkedAccounts={() => {}}
+        onDeleteAccount={() => {}}
+        onOpenHealthyUsage={() => {}}
+      />,
+    );
+
+    for (const label of [
+      "Pessoas silenciadas",
+      "Preferências de aviso",
+      "Uso saudável",
+      "Apoie o Énóis",
+    ]) {
+      expect(markup).toContain(label);
+    }
+    expect(markup).toContain('href="/notificacoes/preferencias"');
   });
 });
