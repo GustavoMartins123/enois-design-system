@@ -2,6 +2,7 @@ export type ShellMessages = {
   appBrand: { prefix: string; accent: string };
   authenticatedAppHeader: { openMenu: string };
   guestAppHeader: { enter: string };
+  exploreHub: { title: string; searchLabel: string; searchPlaceholder: string; empty: string };
   navigationLinks: {
     myCommunities: string;
     favoriteCommunities: string;

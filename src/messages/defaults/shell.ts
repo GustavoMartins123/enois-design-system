@@ -4,6 +4,12 @@ export const shellMessages: ShellMessages = {
   appBrand: { prefix: "É", accent: "nóis" },
   authenticatedAppHeader: { openMenu: "Abrir menu" },
   guestAppHeader: { enter: "Entrar" },
+  exploreHub: {
+    title: "Explorar",
+    searchLabel: "Procurar no Énóis",
+    searchPlaceholder: "Ache qualquer coisa: carteira, vagas, jogos...",
+    empty: "Nada com esse nome por aqui. Tente outra palavra.",
+  },
   navigationLinks: {
     myCommunities: "Suas comunidades",
     favoriteCommunities: "Favoritas",
