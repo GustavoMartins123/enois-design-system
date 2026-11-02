@@ -32,8 +32,8 @@ function tableColor(seed: string) {
 export function CommunityMark({ name, color, seed, size = "sm", className }: CommunityMarkProps) {
   return (
     <span
-      role="img"
-      aria-label={name}
+      // ponytail: always decorative, every use prints the name beside it; add a label prop for a standalone mark.
+      aria-hidden
       className={cn(
         "inline-grid shrink-0 place-items-center rounded-[34%] font-extrabold text-white",
         SIZES[size],

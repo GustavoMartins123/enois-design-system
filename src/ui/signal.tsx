@@ -49,12 +49,13 @@ export function Signal({ signal, onIcon = false, className }: SignalProps) {
 
   return (
     <span
+      role="img"
       aria-label={
         signal.kind === "messages" ? messages.messages(signal.count) : messages.count(signal.count)
       }
       className={cn(
-        "inline-grid h-[22px] min-w-[22px] shrink-0 place-items-center px-1.5 text-xs font-extrabold tabular-nums text-white",
-        "bg-[color-mix(in_oklab,var(--color-primary)_78%,black)]",
+        "inline-grid h-[22px] min-w-[22px] shrink-0 place-items-center px-1.5 text-xs font-extrabold tabular-nums",
+        "bg-primary text-primary-foreground",
         signal.kind === "messages" ? "rounded-[11px_11px_11px_3px]" : "rounded-full",
         ring,
         className,

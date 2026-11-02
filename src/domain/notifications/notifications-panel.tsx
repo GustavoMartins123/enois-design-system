@@ -8,6 +8,7 @@ import type { NotificationData } from "../../types/domain/notifications/notifica
 import type { NotificationTab } from "../../types/domain/notifications/notification-tab.js";
 import type { NotificationsPanelProps } from "../../types/domain/notifications/notifications-panel-props.js";
 import { AppLink } from "../../ui/app-link.js";
+import { Pill } from "../../ui/pill.js";
 import { Signal } from "../../ui/signal.js";
 
 import { ConnectionRequestItem } from "./connection-request-item.js";
@@ -119,24 +120,12 @@ export function NotificationsPanel({
         )}
       </div>
 
-      <div role="tablist" className={cn("flex gap-2 overflow-x-auto pb-2", page ? "px-1" : "px-4")}>
+      <div className={cn("flex gap-2 overflow-x-auto pb-2", page ? "px-1" : "px-4")}>
         {TABS.map((option) => (
-          <button
-            key={option}
-            type="button"
-            role="tab"
-            aria-selected={tab === option}
-            onClick={() => setTab(option)}
-            className={cn(
-              "inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border px-4 text-sm font-semibold transition",
-              tab === option
-                ? "border-transparent bg-primary-soft text-text-strong"
-                : "border-border-soft text-text-subtle hover:bg-surface-2 hover:text-text-strong",
-            )}
-          >
+          <Pill key={option} active={tab === option} onClick={() => setTab(option)}>
             {labels[option]}
             {counts[option] > 0 && <Signal signal={{ kind: "count", count: counts[option] }} />}
-          </button>
+          </Pill>
         ))}
       </div>
 

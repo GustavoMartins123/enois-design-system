@@ -1,5 +1,5 @@
 export type CommunityMarkProps = {
-  /** Community name: its initials fill the mark and it is the accessible label. */
+  /** Community name: its initials fill the mark. The mark is decorative; show the name beside it. */
   name: string;
   /** The community's own color. */
   color?: string | null;
