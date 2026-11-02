@@ -58,7 +58,12 @@ export function NotificationItem({
   const contour = notification.eventDay ? (
     <EventTicket day={notification.eventDay} size="sm" />
   ) : notification.place && !notification.actorName ? (
-    <CommunityMark name={notification.place.name} color={notification.place.color} size="md" />
+    <CommunityMark
+      name={notification.place.name}
+      color={notification.place.color}
+      seed={notification.place.id}
+      size="md"
+    />
   ) : notification.actorAvatar !== null || notification.actorName ? (
     // UserAvatar resolve o caminho do CDN: com <img> cru a foto do usuario nao carregava.
     <UserAvatar
