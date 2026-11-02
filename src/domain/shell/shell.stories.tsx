@@ -1,10 +1,12 @@
 import { useState } from "react";
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Briefcase, Compass, Home, Users } from "lucide-react";
+import { Bell, Briefcase, Compass, Home, Search, Users } from "lucide-react";
 
 import { ThemeToggle } from "../../patterns/app-shell/theme-toggle.js";
+import type { AccountMenuHrefs } from "../../types/domain/account/account-menu-hrefs.js";
 import type { InterfaceContext } from "../../types/domain/shell/interface-context.js";
+import { AccountMenu } from "../account/account-menu.js";
 
 import { AuthenticatedAppHeader } from "./authenticated-app-header.js";
 import { ContextSwitcher } from "./context-switcher.js";
@@ -29,6 +31,70 @@ export const AuthenticatedHeader: StoryObj = {
       actions={themeToggle}
     />
   ),
+};
+
+const menuHrefs: AccountMenuHrefs = {
+  profile: "#",
+  corporateProfile: "#",
+  wallet: "#",
+  marketplace: "#",
+  support: "#",
+  security: "#",
+  blockedUsers: "#",
+  myReports: "#",
+  sanctions: "#",
+  guardian: "#",
+  moderator: "#",
+  apoie: "#",
+};
+
+/** O cabeçalho como o app o monta no telefone: busca recolhida e o menu da conta nas ações. */
+export const AuthenticatedHeaderPhone: StoryObj = {
+  parameters: { layout: "fullscreen" },
+  render: function PhoneHeaderStory() {
+    const [menu, setMenu] = useState(false);
+
+    return (
+      <AuthenticatedAppHeader
+        homeHref="#"
+        onOpenNavigation={() => {}}
+        search={
+          <button
+            className="ml-auto grid h-9 w-9 place-items-center rounded-full text-text-subtle md:hidden"
+            aria-label="Buscar"
+          >
+            <Search className="h-4 w-4" />
+          </button>
+        }
+        actions={
+          <>
+            {themeToggle}
+
+            <button
+              className="relative grid h-10 w-10 place-items-center rounded-full text-text-subtle"
+              aria-label="Notificações"
+            >
+              <Bell className="h-5 w-5" />
+            </button>
+
+            <AccountMenu
+              profile={{ name: "Ana Souza", email: "ana@example.com", avatar: null }}
+              hrefs={menuHrefs}
+              open={menu}
+              onOpenChange={setMenu}
+              onChangeEmail={() => {}}
+              onChangePassword={() => {}}
+              onOpenLinkedAccounts={() => {}}
+              onOpenHealthyUsage={() => {}}
+              onDeleteAccount={() => {}}
+              onLogout={() => {}}
+              loggingOut={false}
+            />
+          </>
+        }
+      />
+    );
+  },
 };
 
 export const GuestHeader: StoryObj = {

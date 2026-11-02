@@ -49,7 +49,9 @@ export function AccountMenu({
     <Popover open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>
         <button
-          className="flex items-center gap-2 rounded-full pr-3 transition hover:bg-surface-2"
+          // No telefone o rótulo some e o botão é só o avatar: sem o respiro da direita ele cabe
+          // na linha do cabeçalho a 320px. A partir de `sm` o rótulo volta e o respiro também.
+          className="flex items-center gap-2 rounded-full pr-0 transition hover:bg-surface-2 sm:pr-3"
           aria-label={messages.trigger}
         >
           <span className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-visible">

@@ -57,6 +57,19 @@ const preferencesItem = () =>
     (a) => a.textContent === "Preferências de notificação",
   );
 
+describe("AccountMenu: trigger on a phone", () => {
+  it("não gasta respiro à direita quando o rótulo some, para caber no cabeçalho a 320px", () => {
+    render(hrefs);
+
+    const trigger = document.body.querySelector<HTMLButtonElement>(
+      'button[aria-haspopup="dialog"]',
+    )!;
+
+    expect(trigger.className).toContain("pr-0");
+    expect(trigger.className).toContain("sm:pr-3");
+  });
+});
+
 describe("AccountMenu: notification preferences item", () => {
   it("shows the item when hrefs.notificationPreferences is set", () => {
     render({ ...hrefs, notificationPreferences: "/configuracoes/notificacoes" });
