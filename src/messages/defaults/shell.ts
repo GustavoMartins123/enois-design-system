@@ -4,7 +4,11 @@ export const shellMessages: ShellMessages = {
   appBrand: { prefix: "É", accent: "nóis" },
   authenticatedAppHeader: { openMenu: "Abrir menu" },
   guestAppHeader: { enter: "Entrar" },
-  navigationLinks: { myCommunities: "Suas comunidades", favoriteCommunities: "Favoritas" },
+  navigationLinks: {
+    myCommunities: "Suas comunidades",
+    favoriteCommunities: "Favoritas",
+    sections: { community: "Comunidade", work: "Trabalho", explore: "Explorar" },
+  },
   contextSwitcher: {
     label: "Interface",
     social: "Social",

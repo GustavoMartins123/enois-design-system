@@ -1,7 +1,18 @@
 import { useState } from "react";
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Bell, Briefcase, Compass, Home, Search, Users } from "lucide-react";
+import {
+  Bell,
+  Bookmark,
+  Briefcase,
+  Calendar,
+  Compass,
+  Home,
+  LayoutGrid,
+  MessageCircle,
+  Search,
+  Users,
+} from "lucide-react";
 
 import { ThemeToggle } from "../../patterns/app-shell/theme-toggle.js";
 import type { AccountMenuHrefs } from "../../types/domain/account/account-menu-hrefs.js";
@@ -107,11 +118,49 @@ export const Navigation: StoryObj = {
       <NavigationLinks
         items={[
           { href: "#feed", label: "Início", icon: Home, active: true },
-          { href: "#rede", label: "Rede", icon: Users, active: false },
-          { href: "#comunidades", label: "Comunidades", icon: Compass, active: false },
+          {
+            href: "#mensagens",
+            label: "Mensagens",
+            icon: MessageCircle,
+            active: false,
+            signal: { kind: "messages", count: 3 },
+          },
+          {
+            href: "#rede",
+            label: "Rede",
+            icon: Users,
+            active: false,
+            signal: { kind: "count", count: 2 },
+          },
+          { href: "#salvos", label: "Salvos", icon: Bookmark, active: false },
+          {
+            href: "#comunidades",
+            label: "Comunidades",
+            icon: Compass,
+            active: false,
+            section: "community",
+            signal: { kind: "new" },
+          },
+          {
+            href: "#eventos",
+            label: "Eventos",
+            icon: Calendar,
+            active: false,
+            section: "community",
+            signal: { kind: "today" },
+          },
+          {
+            href: "#explorar",
+            label: "Explorar",
+            icon: LayoutGrid,
+            active: false,
+            section: "explore",
+          },
         ]}
-        myCommunities={[{ id: "c1", name: "Mulheres na Tecnologia", href: "#" }]}
-        favoriteCommunities={[{ id: "c2", name: "Design aberto", href: "#" }]}
+        myCommunities={[
+          { id: "c1", name: "Mulheres na Tecnologia", href: "#", color: "#be185d", hasNews: true },
+        ]}
+        favoriteCommunities={[{ id: "c2", name: "Design aberto", href: "#", color: "#0f766e" }]}
       />
     </div>
   ),
