@@ -24,6 +24,7 @@
   --color-text-date: var(--text-date);
   --color-signal-today: var(--signal-today);
   --color-signal-today-soft: var(--signal-today-soft);
+  --color-signal-today-foreground: var(--signal-today-foreground);
   --color-signal-love: var(--signal-love);
   --color-signal-done: var(--signal-done);
 
@@ -142,8 +143,9 @@
 
   /* Boteco: warm lamp light at the top of the page and the semantic signal colors. */
   --lamp: radial-gradient(120% 60% at 50% -10%, rgb(255 184 107 / 0.16), transparent 60%);
-  --signal-today: #b8620e;
+  --signal-today: #a8570a;
   --signal-today-soft: #fff0dd;
+  --signal-today-foreground: #ffffff;
   --signal-love: #d6336c;
   --signal-done: #0e9f6e;
   --shadow-table: 0 1px 2px rgb(40 20 60 / 0.05), 0 10px 24px -16px rgb(40 20 60 / 0.22);
@@ -208,6 +210,7 @@
   --lamp: radial-gradient(120% 60% at 50% -10%, rgb(255 184 107 / 0.1), transparent 60%);
   --signal-today: #ffb86b;
   --signal-today-soft: #3a2a1e;
+  --signal-today-foreground: #2a1606;
   --signal-love: #ff8fb1;
   --signal-done: #6ee7b7;
   --shadow-table: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 8px 20px -12px rgb(0 0 0 / 0.55);

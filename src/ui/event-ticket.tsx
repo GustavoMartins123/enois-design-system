@@ -18,7 +18,9 @@ export function EventTicket({
       className={cn(
         "inline-flex shrink-0 flex-col items-center justify-center font-extrabold",
         size === "md" ? "h-12 w-12 rounded-[10px]" : "h-9 w-9 rounded-lg",
-        tone === "today" ? "bg-signal-today text-[#2a1606]" : "bg-primary text-primary-foreground",
+        tone === "today"
+          ? "bg-signal-today text-signal-today-foreground"
+          : "bg-primary text-primary-foreground",
         className,
       )}
       style={{ mask: NOTCHES, WebkitMask: NOTCHES }}
