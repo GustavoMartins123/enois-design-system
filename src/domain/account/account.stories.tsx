@@ -3,6 +3,7 @@ import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { AccountMenu } from "./account-menu.js";
+import { AccountSettings } from "./account-settings.js";
 import { AgeGate } from "./age-gate.js";
 import { BlockUserDialog } from "./block-user-dialog.js";
 import { ChangeEmailDialog } from "./change-email-dialog.js";
@@ -65,6 +66,50 @@ export const Menu: StoryObj = {
       </div>
     );
   },
+};
+
+/** The short menu: account items live on the "Conta e segurança" page (`hrefs.account`). */
+export const MenuWithAccountPage: StoryObj = {
+  render: function MenuWithAccountPageStory() {
+    const [open, setOpen] = useState(true);
+
+    return (
+      <div className="flex justify-end">
+        <AccountMenu
+          profile={{ name: "Ana Souza", email: "ana@example.com", avatar: null }}
+          hrefs={{
+            profile: "#",
+            corporateProfile: "#",
+            wallet: "#",
+            marketplace: "#",
+            support: "#",
+            account: "#",
+            guardian: "#",
+            moderator: "#",
+            apoie: "#",
+            notificationPreferences: "#",
+          }}
+          open={open}
+          onOpenChange={setOpen}
+          onOpenHealthyUsage={() => {}}
+          onLogout={() => {}}
+          loggingOut={false}
+        />
+      </div>
+    );
+  },
+};
+
+export const Settings: StoryObj = {
+  render: () => (
+    <AccountSettings
+      hrefs={{ security: "#", blockedUsers: "#", myReports: "#", sanctions: "#" }}
+      onChangeEmail={() => {}}
+      onChangePassword={() => {}}
+      onOpenLinkedAccounts={() => {}}
+      onDeleteAccount={() => {}}
+    />
+  ),
 };
 
 const ageGateBase = {
