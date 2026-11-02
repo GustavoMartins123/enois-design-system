@@ -82,6 +82,11 @@ export const Dialog: StoryObj = {
             onSubmit={() => setSellOpen(false)}
           />
         }
+        itemsSlot={
+          <p className="text-sm text-text-subtle">
+            Molduras, emblemas e banners que a pessoa já tem, para equipar aqui.
+          </p>
+        }
       />
     );
   },

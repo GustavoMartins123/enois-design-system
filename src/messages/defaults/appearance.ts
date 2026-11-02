@@ -13,6 +13,7 @@ export const appearanceMessages: AppearanceMessages = {
     colorsNote: (name) => `O tema "${name}" está ativo. As cores livres valem no Padrão Énóis.`,
     tabGlobal: "Tema global",
     tabIdentity: "Identidade",
+    tabItems: "Itens",
     themesCollapse: "Recolher temas",
     themesExpand: "Mostrar temas",
     nameStyleTitle: "Estilo do nome do perfil",
