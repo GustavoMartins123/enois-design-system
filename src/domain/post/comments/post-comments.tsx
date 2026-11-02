@@ -277,8 +277,10 @@ export function PostComments<C extends PostCommentNode>({
         />
 
         {/* One calm row, like a chat app: "+" for the extras, the field, send. The extras
-              (photo, audio, GIF and the formatting bar) stay out of the way until asked for. */}
-        <div className="flex items-end gap-1.5">
+              (photo, audio, GIF and the formatting bar) stay out of the way until asked for.
+              On a phone the send button drops to its own line: the field keeps the whole width
+              for writing instead of splitting it with the two buttons. */}
+        <div className="flex flex-wrap items-end gap-1.5">
           <button
             type="button"
             onClick={() => setToolsOpen((open) => !open)}
@@ -312,8 +314,9 @@ export function PostComments<C extends PostCommentNode>({
           <Button
             type="submit"
             size="icon"
-            // 36px: big enough for a thumb on the phone.
-            className="h-9 w-9 shrink-0 rounded-full"
+            // 36px: big enough for a thumb on the phone. Below `sm` it takes the whole line, so
+            // the field on the row above is not squeezed by it.
+            className="order-last h-9 w-full shrink-0 rounded-full sm:order-none sm:w-9"
             disabled={!canSend || sending}
             aria-label={messages.send}
           >

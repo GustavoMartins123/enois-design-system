@@ -79,6 +79,19 @@ describe("PostComments composer", () => {
     expect(textarea().dataset.tools).toBe("open");
   });
 
+  it("gives the field the whole width on a phone: send drops to its own line", () => {
+    render();
+
+    const row = textarea().closest("div.flex")!;
+    expect(row.className).toContain("flex-wrap");
+
+    const send = container.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    // Full width below `sm` (the field keeps the row), icon-sized from `sm` up.
+    expect(send.className).toContain("w-full");
+    expect(send.className).toContain("sm:w-9");
+    expect(send.className).toContain("order-last");
+  });
+
   it("folds the tray when a GIF is picked", () => {
     const onOpenGifPicker = vi.fn();
     render(onOpenGifPicker);
