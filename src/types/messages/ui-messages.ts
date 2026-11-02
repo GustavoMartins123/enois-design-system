@@ -17,4 +17,10 @@ export type UiMessages = {
   toast: { region: string; dismiss: string };
   dateTextInput: { placeholder: string; invalid: string; outOfRange: string };
   skeletonList: { loading: string };
+  signal: {
+    new: string;
+    today: string;
+    count: (count: number) => string;
+    messages: (count: number) => string;
+  };
 };

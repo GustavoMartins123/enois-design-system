@@ -5,6 +5,7 @@ export { badgeVariants } from "./badge-variants.js";
 export { Button } from "./button.js";
 export { buttonVariants } from "./button-variants.js";
 export { CharCounter } from "./char-counter.js";
+export { CommunityMark } from "./community-mark.js";
 export { ConfirmDialog } from "./confirm-dialog.js";
 export { DateTextInput } from "./date-text-input.js";
 export {
@@ -21,6 +22,7 @@ export {
 } from "./dialog.js";
 export { EmojiPicker } from "./emoji-picker.js";
 export { EmptyState } from "./empty-state.js";
+export { EventTicket } from "./event-ticket.js";
 export { GithubIcon } from "./github-icon.js";
 export { Input } from "./input.js";
 export { Label } from "./label.js";
@@ -43,6 +45,7 @@ export {
   SheetTitle,
   SheetTrigger,
 } from "./sheet.js";
+export { Signal } from "./signal.js";
 export { Skeleton } from "./skeleton.js";
 export { Switch } from "./switch.js";
 export { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs.js";
@@ -63,3 +66,7 @@ export type { ReadMoreProps } from "../types/components/ui/read-more-props.js";
 export type { SheetContentProps } from "../types/components/ui/sheet-content-props.js";
 export type { ToastAction } from "../types/components/ui/toast-action.js";
 export type { ToastVariant } from "../types/components/ui/toast-variant.js";
+export type { CommunityMarkProps } from "../types/components/ui/community-mark-props.js";
+export type { EventTicketProps } from "../types/components/ui/event-ticket-props.js";
+export type { SignalData } from "../types/components/ui/signal-data.js";
+export type { SignalProps } from "../types/components/ui/signal-props.js";
