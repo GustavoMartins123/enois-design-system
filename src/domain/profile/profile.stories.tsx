@@ -154,7 +154,8 @@ export const Sections: StoryObj = {
     <div className="max-w-2xl space-y-4">
       <ProfileQuickComposer
         profile={{ name: "Ana Souza" }}
-        onPublish={async () => true}
+        onCompose={() => undefined}
+        onComposeWithMedia={() => undefined}
         onWriteArticle={() => undefined}
       />
       <ProfileProjectsSection

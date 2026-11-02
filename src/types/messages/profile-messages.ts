@@ -215,14 +215,6 @@ export type ProfileMessages = {
     video: string;
     photo: string;
     article: string;
-    placeholder: string;
-    hint: string;
-    action: string;
-    cancel: string;
-    sending: string;
-    mediaSpoiler: string;
-    mediaSpoilerActive: string;
-    textRequired: string;
   };
   profileProjectsSection: {
     title: string;
