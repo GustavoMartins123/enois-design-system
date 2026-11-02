@@ -7,8 +7,11 @@ import { useMessages } from "../../messages/messages-context.js";
 import type { ProfileQuickComposerProps } from "../../types/domain/profile/profile-quick-composer-props.js";
 import { UserAvatar } from "../avatar/user-avatar.js";
 
+// The divider lives on a square cell around each button: on the rounded button itself the border
+// followed its corners and drew curved lines between the shortcuts.
+const cellClass = "min-w-0 px-1";
 const shortcutClass =
-  "flex items-center justify-center gap-2 rounded-lg px-2 py-2 text-sm font-medium text-text-subtle transition hover:bg-surface-2 hover:text-text-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary";
+  "flex w-full items-center justify-center gap-2 rounded-lg px-2 py-2 text-sm font-medium text-text-subtle transition hover:bg-surface-2 hover:text-text-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary";
 
 /**
  * Launcher for the app's full composer. It never publishes by itself: a post made here used to skip
@@ -71,21 +74,27 @@ export function ProfileQuickComposer({
       <div
         className={`mt-3 grid ${onWriteArticle ? "grid-cols-3" : "grid-cols-2"} divide-x divide-border-soft border-t border-border-soft pt-3`}
       >
-        <button type="button" onClick={() => pickMedia("video")} className={shortcutClass}>
-          <Video className="h-4 w-4 text-primary" aria-hidden="true" />
-          {messages.video}
-        </button>
+        <div className={cellClass}>
+          <button type="button" onClick={() => pickMedia("video")} className={shortcutClass}>
+            <Video className="h-4 w-4 text-primary" aria-hidden="true" />
+            {messages.video}
+          </button>
+        </div>
 
-        <button type="button" onClick={() => pickMedia("image")} className={shortcutClass}>
-          <Image className="h-4 w-4 text-primary" aria-hidden="true" />
-          {messages.photo}
-        </button>
+        <div className={cellClass}>
+          <button type="button" onClick={() => pickMedia("image")} className={shortcutClass}>
+            <Image className="h-4 w-4 text-primary" aria-hidden="true" />
+            {messages.photo}
+          </button>
+        </div>
 
         {onWriteArticle && (
-          <button type="button" onClick={onWriteArticle} className={shortcutClass}>
-            <FilePenLine className="h-4 w-4 text-primary" aria-hidden="true" />
-            {messages.article}
-          </button>
+          <div className={cellClass}>
+            <button type="button" onClick={onWriteArticle} className={shortcutClass}>
+              <FilePenLine className="h-4 w-4 text-primary" aria-hidden="true" />
+              {messages.article}
+            </button>
+          </div>
         )}
       </div>
     </section>
