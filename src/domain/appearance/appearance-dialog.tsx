@@ -86,6 +86,7 @@ export function AppearanceDialog({
   onContributorTagColorChange,
   onReset,
   sellDialog,
+  itemsSlot,
 }: AppearanceDialogProps) {
   const messages = useMessages().appearanceDialog;
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -139,6 +140,8 @@ export function AppearanceDialog({
             <TabsTrigger value="global">{messages.tabGlobal}</TabsTrigger>
 
             <TabsTrigger value="identity">{messages.tabIdentity}</TabsTrigger>
+
+            {itemsSlot && <TabsTrigger value="items">{messages.tabItems}</TabsTrigger>}
           </TabsList>
 
           <TabsContent value="global" className="space-y-5">
@@ -605,6 +608,8 @@ export function AppearanceDialog({
               </section>
             )}
           </TabsContent>
+
+          {itemsSlot && <TabsContent value="items">{itemsSlot}</TabsContent>}
         </Tabs>
 
         <div className="flex flex-wrap justify-between gap-2 border-t border-border-soft pt-4">

@@ -7,6 +7,7 @@ export type AppearanceMessages = {
     colorsNote: (name: string) => string;
     tabGlobal: string;
     tabIdentity: string;
+    tabItems: string;
     themesCollapse: string;
     themesExpand: string;
     nameStyleTitle: string;

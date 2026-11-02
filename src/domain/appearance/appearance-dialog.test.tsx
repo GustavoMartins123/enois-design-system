@@ -129,3 +129,19 @@ describe("AppearanceDialog", () => {
     expect(text()).not.toContain(messages.contributorTagTitle);
   });
 });
+
+describe("AppearanceDialog: owned items tab (#566)", () => {
+  it("shows the Itens tab with the app's content when itemsSlot is given", () => {
+    render({ itemsSlot: <p>Moldura Saci equipada</p> });
+
+    openTab(messages.tabItems);
+    expect(text()).toContain("Moldura Saci equipada");
+  });
+
+  it("hides the tab without itemsSlot", () => {
+    render();
+
+    const tabs = [...document.body.querySelectorAll('[role="tab"]')].map((t) => t.textContent);
+    expect(tabs).not.toContain(messages.tabItems);
+  });
+});
