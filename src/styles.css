@@ -3579,6 +3579,8 @@ html:not(.dark) .frame-shop-price {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 12px;
+  /* Opening one look's pieces must not stretch the other cards in its row. */
+  align-items: start;
 }
 .cos-look {
   --lt: var(--card);
