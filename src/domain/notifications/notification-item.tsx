@@ -55,8 +55,11 @@ export function NotificationItem({
     onAcceptConnection(notification.actorId);
   };
 
+  // Every contour sits in the same 44px slot, so the text column lines up row after row.
   const contour = notification.eventDay ? (
-    <EventTicket day={notification.eventDay} size="sm" />
+    <span className="grid h-11 w-11 place-items-center">
+      <EventTicket day={notification.eventDay} size="sm" />
+    </span>
   ) : notification.place && !notification.actorName ? (
     <CommunityMark
       name={notification.place.name}
