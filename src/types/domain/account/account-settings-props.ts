@@ -1,5 +1,3 @@
-import type { ReactNode } from "react";
-
 /** "Conta e segurança" page: every account, privacy and preference item the account menu left out. */
 export type AccountSettingsProps = {
   hrefs: {
@@ -22,6 +20,4 @@ export type AccountSettingsProps = {
   onDeleteAccount: () => void;
   /** "Uso saudável" dialog; the row only shows when it is set. */
   onOpenHealthyUsage?: () => void;
-  /** Push notifications switch (the app owns the subscription). */
-  pushToggle?: ReactNode;
 };

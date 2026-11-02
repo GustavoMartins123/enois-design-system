@@ -39,7 +39,6 @@ export function AccountSettings({
   onOpenLinkedAccounts,
   onDeleteAccount,
   onOpenHealthyUsage,
-  pushToggle,
 }: AccountSettingsProps) {
   const messages = useMessages().accountSettings;
 
@@ -64,7 +63,7 @@ export function AccountSettings({
         )}
       </Section>
 
-      {(hrefs.notificationPreferences || pushToggle || onOpenHealthyUsage) && (
+      {(hrefs.notificationPreferences || onOpenHealthyUsage) && (
         <Section title={messages.preferences}>
           {hrefs.notificationPreferences && (
             <Row
@@ -73,7 +72,6 @@ export function AccountSettings({
               href={hrefs.notificationPreferences}
             />
           )}
-          {pushToggle}
           {onOpenHealthyUsage && (
             <Row icon={HeartPulse} label={messages.healthyUsage} onClick={onOpenHealthyUsage} />
           )}

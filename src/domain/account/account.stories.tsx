@@ -11,7 +11,6 @@ import { ChangePasswordDialog } from "./change-password-dialog.js";
 import { DeleteAccountDialog } from "./delete-account-dialog.js";
 import { LinkedAccountsDialog } from "./linked-accounts-dialog.js";
 import { LinkedInSyncPrompt } from "./linkedin-sync-prompt.js";
-import { PushToggle } from "./push-toggle.js";
 
 const meta: Meta = {
   title: "Domain/Account",
@@ -63,7 +62,6 @@ export const Settings: StoryObj = {
       onOpenLinkedAccounts={() => {}}
       onDeleteAccount={() => {}}
       onOpenHealthyUsage={() => {}}
-      pushToggle={<PushToggle active={false} busy={false} error={null} onToggle={() => {}} />}
     />
   ),
 };
