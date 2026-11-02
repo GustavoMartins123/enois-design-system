@@ -71,6 +71,13 @@ for a verification code:
 `MentionTextarea` shows its character counter when `maxLength` is set. Forms that render the same
 `CharCounter` in their own footer can pass `showCounter={false}` while keeping the textarea limit.
 
+Formatting buttons, keyboard shortcuts, emoji and mention suggestions also respect `maxLength`:
+an insertion that would exceed it leaves the current text unchanged. The `onChange` callback emits
+only selected mention IDs whose complete usernames remain as rendered mentions, including inside
+Markdown formatting. Literal code does not count as a mention. Removing a mention or
+clearing the controlled `value` removes that recipient from subsequent edits; typing a username
+manually does not restore a previously removed selection.
+
 ### Profile garden
 
 `ProfileGarden` (domain) draws a profile's reputation as a small static garden: the tree is
