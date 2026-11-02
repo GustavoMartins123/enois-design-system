@@ -22,7 +22,7 @@ import type { MonitoringSectionProps } from "../../types/domain/moderation/monit
 import { Button } from "../../ui/button.js";
 import { Input } from "../../ui/input.js";
 import { LoadingState } from "../../ui/loading-state.js";
-import { useToast } from "../../ui/toast.js";
+import { useToast } from "../../ui/toast-context.js";
 
 const number = new Intl.NumberFormat("pt-BR");
 

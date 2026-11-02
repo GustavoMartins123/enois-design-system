@@ -22,6 +22,11 @@
   --color-text-strong: var(--text-strong);
   --color-text-subtle: var(--text-subtle);
   --color-text-date: var(--text-date);
+  --color-signal-today: var(--signal-today);
+  --color-signal-today-soft: var(--signal-today-soft);
+  --color-signal-today-foreground: var(--signal-today-foreground);
+  --color-signal-love: var(--signal-love);
+  --color-signal-done: var(--signal-done);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -79,8 +84,8 @@
 }
 
 :root {
-  --radius: 0.875rem;
-  --background: #faf9ff;
+  --radius: 1rem;
+  --background: #f7f4fb;
   --foreground: #21173a;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.2 0.02 280);
@@ -132,17 +137,37 @@
   --surface-2: #ede8f5;
   --surface-3: #f5f3ff;
   --border-soft: #e5e0eb;
-  --text-strong: #0f0f14;
-  --text-subtle: #6b7280;
-  --text-date: #a1a1aa;
+  --text-strong: #1d1626;
+  --text-subtle: #5b5068;
+  --text-date: #74697f;
+
+  /* Boteco: warm lamp light at the top of the page and the semantic signal colors. */
+  --lamp: radial-gradient(120% 60% at 50% -10%, rgb(255 184 107 / 0.16), transparent 60%);
+  --signal-today: #a8570a;
+  --signal-today-soft: #fff0dd;
+  --signal-today-foreground: #ffffff;
+  --signal-love: #d6336c;
+  --signal-done: #0e9f6e;
+  --shadow-table: 0 1px 2px rgb(40 20 60 / 0.05), 0 10px 24px -16px rgb(40 20 60 / 0.22);
+  /* Things that float over the page: dock, drawer, account menu. */
+  --shadow-float: 0 2px 6px rgb(40 20 60 / 0.06), 0 18px 40px -16px rgb(40 20 60 / 0.28);
+
+  /* Table colors: a community or room without its own color gets a stable one from this set. White
+     text passes AA on each, in both themes. */
+  --table-1: #0f766e;
+  --table-2: #c2410c;
+  --table-3: #4338ca;
+  --table-4: #be185d;
+  --table-5: #7c3aed;
+  --table-6: #b45309;
 }
 
 .dark {
-  --background: #0d0d18;
-  --foreground: #e8e6ff;
-  --card: oklch(0.21 0.025 285);
+  --background: #15111c;
+  --foreground: #f3eef7;
+  --card: #1f1929;
   --card-foreground: oklch(0.96 0.008 280);
-  --popover: oklch(0.21 0.025 285);
+  --popover: #1f1929;
   --popover-foreground: oklch(0.96 0.008 280);
   --primary: #a78bfa;
   --primary-foreground: oklch(0.16 0.02 285);
@@ -172,16 +197,26 @@
   --gradient-soft: linear-gradient(135deg, oklch(0.22 0.04 285), oklch(0.25 0.05 295));
 
   /* Novos tokens (Fase 0) */
-  --surface-card: #13131f;
-  --surface-card-90: rgba(19, 19, 31, 0.9);
-  --surface-card-95: rgba(19, 19, 31, 0.95);
-  --surface-1: #1c1c2e;
-  --surface-2: #2d1f4e;
-  --surface-3: #1e1829;
-  --border-soft: #2a2a3d;
-  --text-strong: #e8e6ff;
-  --text-subtle: #9ca3af;
-  --placeholder-color: #6b7280;
+  --surface-card: #1f1929;
+  --surface-card-90: rgb(31 25 41 / 0.9);
+  --surface-card-95: rgb(31 25 41 / 0.95);
+  --surface-1: #1b1623;
+  --surface-2: #2a2236;
+  --surface-3: #241d30;
+  --border-soft: #34293f;
+  --text-strong: #f3eef7;
+  --text-subtle: #b9aec6;
+  --text-date: #94889f;
+  --placeholder-color: #8a7f96;
+
+  --lamp: radial-gradient(120% 60% at 50% -10%, rgb(255 184 107 / 0.1), transparent 60%);
+  --signal-today: #ffb86b;
+  --signal-today-soft: #3a2a1e;
+  --signal-today-foreground: #2a1606;
+  --signal-love: #ff8fb1;
+  --signal-done: #6ee7b7;
+  --shadow-table: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 8px 20px -12px rgb(0 0 0 / 0.55);
+  --shadow-float: inset 0 1px 0 rgb(255 255 255 / 0.05), 0 20px 50px -14px rgb(0 0 0 / 0.65);
 }
 
 @layer base {
@@ -223,11 +258,11 @@
   }
 }
 
+/* A table top: warm surface, soft corners and a soft offset shadow instead of a hard border. */
 @utility surface-card {
-  background-color: var(--color-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-soft);
+  background-color: var(--color-surface-card);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-table);
 }
 
 @utility gradient-text {
@@ -2516,6 +2551,9 @@ html[data-batata] {
   --radius-3xl: 0px;
   --shadow-soft: none;
   --shadow-card: none;
+  --shadow-table: none;
+  --shadow-float: none;
+  --lamp: none;
   --gradient-primary: none;
   --gradient-soft: none;
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -2543,6 +2581,13 @@ html[data-batata] *::after {
 html[data-batata] body {
   font-feature-settings: normal;
   text-rendering: auto;
+}
+
+/* Tables lose their shadow above: a hairline keeps them apart from the ground, without layout shift. */
+html[data-batata] .surface-card,
+html[data-batata] [class*="shadow-[var(--shadow-table)]"] {
+  outline: 1px solid var(--border-soft);
+  outline-offset: -1px;
 }
 
 /* Foco do teclado: `ring-*` é `box-shadow` e sumiu na regra acima. */

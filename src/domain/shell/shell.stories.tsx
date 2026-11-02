@@ -1,7 +1,18 @@
 import { useState } from "react";
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Bell, Briefcase, Compass, Home, Search, Users } from "lucide-react";
+import {
+  Bell,
+  Bookmark,
+  Briefcase,
+  Calendar,
+  Compass,
+  Home,
+  LayoutGrid,
+  MessageCircle,
+  Search,
+  Users,
+} from "lucide-react";
 
 import { ThemeToggle } from "../../patterns/app-shell/theme-toggle.js";
 import type { AccountMenuHrefs } from "../../types/domain/account/account-menu-hrefs.js";
@@ -35,17 +46,9 @@ export const AuthenticatedHeader: StoryObj = {
 
 const menuHrefs: AccountMenuHrefs = {
   profile: "#",
-  corporateProfile: "#",
   wallet: "#",
-  marketplace: "#",
+  account: "#",
   support: "#",
-  security: "#",
-  blockedUsers: "#",
-  myReports: "#",
-  sanctions: "#",
-  guardian: "#",
-  moderator: "#",
-  apoie: "#",
 };
 
 /** O cabeçalho como o app o monta no telefone: busca recolhida e o menu da conta nas ações. */
@@ -58,6 +61,7 @@ export const AuthenticatedHeaderPhone: StoryObj = {
       <AuthenticatedAppHeader
         homeHref="#"
         onOpenNavigation={() => {}}
+        navigationHasNews
         search={
           <button
             className="ml-auto grid h-9 w-9 place-items-center rounded-full text-text-subtle md:hidden"
@@ -72,21 +76,16 @@ export const AuthenticatedHeaderPhone: StoryObj = {
 
             <button
               className="relative grid h-10 w-10 place-items-center rounded-full text-text-subtle"
-              aria-label="Notificações"
+              aria-label="Avisos"
             >
               <Bell className="h-5 w-5" />
             </button>
 
             <AccountMenu
-              profile={{ name: "Ana Souza", email: "ana@example.com", avatar: null }}
+              profile={{ name: "Ana Souza", username: "anasouza", avatar: null }}
               hrefs={menuHrefs}
               open={menu}
               onOpenChange={setMenu}
-              onChangeEmail={() => {}}
-              onChangePassword={() => {}}
-              onOpenLinkedAccounts={() => {}}
-              onOpenHealthyUsage={() => {}}
-              onDeleteAccount={() => {}}
               onLogout={() => {}}
               loggingOut={false}
             />
@@ -107,11 +106,49 @@ export const Navigation: StoryObj = {
       <NavigationLinks
         items={[
           { href: "#feed", label: "Início", icon: Home, active: true },
-          { href: "#rede", label: "Rede", icon: Users, active: false },
-          { href: "#comunidades", label: "Comunidades", icon: Compass, active: false },
+          {
+            href: "#mensagens",
+            label: "Mensagens",
+            icon: MessageCircle,
+            active: false,
+            signal: { kind: "messages", count: 3 },
+          },
+          {
+            href: "#rede",
+            label: "Rede",
+            icon: Users,
+            active: false,
+            signal: { kind: "count", count: 2 },
+          },
+          { href: "#salvos", label: "Salvos", icon: Bookmark, active: false },
+          {
+            href: "#comunidades",
+            label: "Comunidades",
+            icon: Compass,
+            active: false,
+            section: "community",
+            signal: { kind: "new" },
+          },
+          {
+            href: "#eventos",
+            label: "Eventos",
+            icon: Calendar,
+            active: false,
+            section: "community",
+            signal: { kind: "today" },
+          },
+          {
+            href: "#explorar",
+            label: "Explorar",
+            icon: LayoutGrid,
+            active: false,
+            section: "explore",
+          },
         ]}
-        myCommunities={[{ id: "c1", name: "Mulheres na Tecnologia", href: "#" }]}
-        favoriteCommunities={[{ id: "c2", name: "Design aberto", href: "#" }]}
+        myCommunities={[
+          { id: "c1", name: "Mulheres na Tecnologia", href: "#", color: "#be185d", hasNews: true },
+        ]}
+        favoriteCommunities={[{ id: "c2", name: "Design aberto", href: "#", color: "#0f766e" }]}
       />
     </div>
   ),

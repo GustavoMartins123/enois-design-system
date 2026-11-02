@@ -7,7 +7,7 @@ import { useMessages } from "../../messages/messages-context.js";
 import type { ProfileResumeDialogProps } from "../../types/domain/profile/profile-resume-dialog-props.js";
 import { Button } from "../../ui/button.js";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../ui/dialog.js";
-import { useToast } from "../../ui/toast.js";
+import { useToast } from "../../ui/toast-context.js";
 
 /** Teto do arquivo: currículo é texto; acima disso é portfólio disfarçado. */
 const MAX_RESUME_BYTES = 5 * 1024 * 1024;

@@ -3,7 +3,9 @@ import type { CityStateErrorCode } from "../patterns/city-state-error-code.js";
 export type PatternsMessages = {
   appSidebar: { expandMenu: string; collapseMenu: string };
   navigationDrawer: { title: string };
+  mobileDock: { label: string };
   themeToggle: { light: string; dark: string };
+  themeSwitch: { label: string; light: string; dark: string };
   errorBanner: {
     show: string;
     hide: string;

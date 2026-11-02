@@ -78,10 +78,10 @@ export function PostCard({
     <article
       id={anchored ? `feed-post-${post.id}` : undefined}
       tabIndex={anchored ? -1 : undefined}
-      className={`min-w-0 border border-border-soft bg-surface-card p-4 transition sm:p-5 ${
+      className={`min-w-0 bg-surface-card p-4 shadow-[var(--shadow-table)] transition sm:p-5 ${
         // Post de página: sem canto no card, porque o conteúdo tem de alcançar as bordas — o
         // arredondamento do card recortava os cantos da página e era o que sobrava de "rounding".
-        post.pageHtml ? "rounded-none" : "overflow-hidden rounded-2xl"
+        post.pageHtml ? "rounded-none" : "overflow-hidden rounded-3xl"
       } ${
         // In a list the browser skips layout and paint for offscreen cards; `auto` in the size
         // keeps the real height after the first paint so the scrollbar does not jump. Left out:
