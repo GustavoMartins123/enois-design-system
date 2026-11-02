@@ -243,11 +243,12 @@
   }
 }
 
+/* A table top: warm surface, soft corners and a soft offset shadow instead of a hard border. */
 @utility surface-card {
-  background-color: var(--color-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-soft);
+  background-color: var(--color-surface-card);
+  border: 1px solid color-mix(in oklab, var(--color-border-soft) 55%, transparent);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-table);
 }
 
 @utility gradient-text {
@@ -2536,6 +2537,8 @@ html[data-batata] {
   --radius-3xl: 0px;
   --shadow-soft: none;
   --shadow-card: none;
+  --shadow-table: none;
+  --lamp: none;
   --gradient-primary: none;
   --gradient-soft: none;
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
