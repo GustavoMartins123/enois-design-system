@@ -75,7 +75,7 @@ export const AuthenticatedHeaderPhone: StoryObj = {
 
             <button
               className="relative grid h-10 w-10 place-items-center rounded-full text-text-subtle"
-              aria-label="Notificações"
+              aria-label="Avisos"
             >
               <Bell className="h-5 w-5" />
             </button>
