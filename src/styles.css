@@ -2475,6 +2475,112 @@ html[data-lite] .moldura-fx__particula {
   display: none;
 }
 
+/* ── Modo BATATA ─────────────────────────────────────────────────────────────
+   `<html data-batata>`: a interface da web clássica para aparelho com pouca
+   memória, processador fraco ou conexão lenta. O lite encurta as durações; o
+   BATATA apaga o que custa PINTURA e COMPOSIÇÃO a cada quadro:
+
+   - `box-shadow`/`text-shadow`: cada sombra vira uma camada rasterizada e
+     recomposta na rolagem. As `ring-*` do app também são sombra — por isso o
+     `:focus-visible` ganha contorno de verdade logo abaixo; sem ele o foco do
+     teclado desapareceria junto com a sombra;
+   - `backdrop-filter`/`filter`: desfoque é recalculado a cada quadro, caro em GPU
+     fraca (blocos decorativos com `blur-*` e o `hover:brightness-*`);
+   - `will-change`: promove o elemento a camada de composição da GPU sem animação
+     nenhuma acontecendo;
+   - gradientes: rasterizados por elemento. Os tokens viram `none` e os
+     utilitários `bg-gradient-to-*` (capas e heros) perdem a imagem; o
+     `.gradient-text` recebe cor sólida, senão o recorte do texto o deixaria
+     transparente;
+   - `border-radius`: cada canto arredondado pede máscara em cada pintura (são
+     centenas de `rounded-full` no app).
+
+   A tipografia passa a ser a do próprio sistema: `--font-sans`/`--font-display`
+   são `var()`s no `body` e nos títulos, então trocá-los aqui alcança a árvore
+   inteira de uma vez. A fonte do Google nem chega a ser baixada — o `<head>` do
+   app só injeta o link quando o aparelho não está em BATATA.
+
+   Precedência: BATATA é um superconjunto do lite — o app liga os dois atributos
+   (`data-lite` e `data-batata`), então nada aqui depende de o lite estar ligado,
+   e desligar o BATATA devolve o desenho normal com o lite continuando como
+   estava. O que some com `display: none` é só enfeite: partícula, brilho e
+   órbita das molduras. Nenhum conteúdo, controle, validação, estado de
+   carregamento ou mensagem de erro sai da tela. */
+html[data-batata] {
+  --radius: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --shadow-soft: none;
+  --shadow-card: none;
+  --gradient-primary: none;
+  --gradient-soft: none;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-sans);
+}
+
+html[data-batata] *,
+html[data-batata] *::before,
+html[data-batata] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  animation-delay: 0s !important;
+  transition-duration: 0.01ms !important;
+  transition-delay: 0s !important;
+  scroll-behavior: auto !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  border-radius: 0 !important;
+  will-change: auto !important;
+}
+
+html[data-batata] body {
+  font-feature-settings: normal;
+  text-rendering: auto;
+}
+
+/* Foco do teclado: `ring-*` é `box-shadow` e sumiu na regra acima. */
+html[data-batata] :focus-visible {
+  outline: 2px solid var(--ring) !important;
+  outline-offset: 2px !important;
+}
+
+/* Sem o gradiente o `background-clip: text` pintaria nada. */
+html[data-batata] .gradient-text {
+  color: var(--primary) !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+html[data-batata] [class*="bg-gradient-to"] {
+  background-image: none !important;
+}
+
+/* Enfeite puro: não carrega informação nem controle. */
+html[data-batata] .moldura-fx__particula,
+html[data-batata] .moldura-orbita__brilho,
+html[data-batata] .moldura-orbita__plano,
+html[data-batata] .moldura-orbita__trilha {
+  display: none;
+}
+
+/* O cartão de perfil temático inclina em 3D e acende um reflexo que segue o
+   mouse: sem `transform` não há contexto 3D nem camada promovida. */
+html[data-batata] .cos-card {
+  transform: none !important;
+}
+
+/* 28dvh de capa é área grande só para rasterizar; a capa continua lá, menor. */
+html[data-batata] .cos-card__banner {
+  height: 120px;
+  min-height: 120px;
+}
+
 /* ── Frame shop (wallet) ─────────────────────────────────────────────────── */
 .wallet-shop-tabs {
   gap: 24px;

@@ -22,6 +22,11 @@ export const wellbeingMessages: WellbeingMessages = {
       "Aparelho antigo, bateria curta ou internet ruim? O Modo lite desliga as animações, busca tudo em blocos maiores e segura os dados por mais tempo em cache: menos requisições e menos trabalho pro seu celular. A interface é a mesma.",
     liteWhy:
       "A gente pensou em otimização de recursos: aparelho antigo não é aparelho de segunda classe. Em vez de pedir um celular novo, o Énóis se adapta ao que você tem.",
+    batataTitle: "Modo BATATA",
+    batataDescription:
+      "Deixe o Énóis no modo econômico: interface minimalista, sem animações e com o mínimo de efeitos visuais para funcionar melhor em dispositivos fracos.",
+    batataWhy:
+      "Feito pra computador antigo, com pouca memória ou processador fraco: sem sombra, sem gradiente, sem desfoque e com a fonte do próprio sistema. O Modo lite continua valendo junto e a sua paleta de cores continua a mesma.",
     forceMotionTitle: "Manter as animações neste aparelho",
     forceMotionDescription:
       "Seu sistema está pedindo pra reduzir movimento e a gente respeita: as molduras animadas e os efeitos ficam parados. Ligue aqui pra ver as animações mesmo assim.",

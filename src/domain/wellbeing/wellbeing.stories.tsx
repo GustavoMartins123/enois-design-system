@@ -32,6 +32,7 @@ export const HealthyUsage: StoryObj = {
         disabledModules: ["EVENTS"],
         nightRestReminder: true,
         liteMode: false,
+        batataMode: false,
       }}
       topics={[
         { value: "TECNOLOGIA", label: "Tecnologia" },
