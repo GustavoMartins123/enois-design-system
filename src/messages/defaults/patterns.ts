@@ -3,6 +3,7 @@ import type { PatternsMessages } from "../../types/messages/patterns-messages.js
 export const patternsMessages: PatternsMessages = {
   appSidebar: { expandMenu: "Expandir menu", collapseMenu: "Recolher menu" },
   navigationDrawer: { title: "Menu de navegação" },
+  mobileDock: { label: "Navegação principal" },
   themeToggle: { light: "Tema claro", dark: "Tema escuro" },
   errorBanner: {
     show: "Mostrar detalhes",
