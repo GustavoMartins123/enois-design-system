@@ -12,7 +12,7 @@ surfaces; these are the brand defaults in `src/styles.css` (`:root` and `.dark`)
   same aubergine (`#1f1929`), so every table reads as one material.
 - Things that float over the page (the dock, the drawer, the account menu) use `--shadow-float`,
   tuned per mode: a warm low shadow in light, a deeper one in dark.
-- `--lamp` is a faint amber light over the top of the page, painted by `AppLayout`. Lite mode turns
+- `--lamp` is a faint amber light over the top of the page, painted by `AppLayout`. Batata mode turns
   `--lamp`, `--shadow-table` and `--shadow-float` off and draws a hairline outline around tables so
   they still separate from the ground.
 - Body text is 16px (15px in dense rows), meta 13px; secondary inks are warm (`--text-subtle`,
