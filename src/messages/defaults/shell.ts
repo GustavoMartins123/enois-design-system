@@ -13,7 +13,7 @@ export const shellMessages: ShellMessages = {
   navigationLinks: {
     myCommunities: "Suas comunidades",
     favoriteCommunities: "Favoritas",
-    sections: { community: "Comunidade", work: "Trabalho", explore: "Explorar" },
+    sections: { community: "Comunidade", work: "Trabalho" },
   },
   contextSwitcher: {
     label: "Interface",

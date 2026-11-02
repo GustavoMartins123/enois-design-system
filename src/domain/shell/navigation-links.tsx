@@ -114,8 +114,14 @@ export function NavigationLinks({
         if (sectionItems.length === 0) return null;
 
         return (
-          <div key={section} className="flex flex-col gap-0.5">
-            {section !== "you" && <p className={HEADING}>{messages.sections[section]}</p>}
+          <div
+            key={section}
+            className={cn("flex flex-col gap-0.5", section === "explore" && "mt-3")}
+          >
+            {/* "explore" is one door to the hub: a heading would just repeat the item's name. */}
+            {(section === "community" || section === "work") && (
+              <p className={HEADING}>{messages.sections[section]}</p>
+            )}
             {sectionItems.map((item) => (
               <NavigationRow
                 key={item.href}

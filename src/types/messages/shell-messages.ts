@@ -6,7 +6,7 @@ export type ShellMessages = {
   navigationLinks: {
     myCommunities: string;
     favoriteCommunities: string;
-    sections: Record<"community" | "work" | "explore", string>;
+    sections: Record<"community" | "work", string>;
   };
   contextSwitcher: {
     label: string;

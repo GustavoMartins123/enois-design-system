@@ -61,6 +61,7 @@ export const AuthenticatedHeaderPhone: StoryObj = {
       <AuthenticatedAppHeader
         homeHref="#"
         onOpenNavigation={() => {}}
+        navigationHasNews
         search={
           <button
             className="ml-auto grid h-9 w-9 place-items-center rounded-full text-text-subtle md:hidden"
