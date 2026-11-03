@@ -4,6 +4,7 @@ import type { ThemeCollectionTokens } from "../../types/lib/theme/theme-collecti
 
 import { withAlpha } from "./build-background-style.js";
 import {
+  contrastRatio,
   hexToRgb,
   readableForeground,
   relativeLuminance,
@@ -139,6 +140,15 @@ export function palette(spec: PaletteSpec): ThemeCollectionTokens {
           b: surfaceSolidRgb.b * surfaceAlpha + backgroundRgb.b * (1 - surfaceAlpha),
         };
   const dateText = textSafeAccent(hexToRgb(spec.text.date), [surfaceRgb, backgroundRgb]);
+  // `--on-foreground` pinta o texto de quem usa o `--foreground` como PREENCHIMENTO. O cartão
+  // costuma servir (fundo claro num tema de texto escuro), mas não sempre: no Workbench a página
+  // é azul com texto claro e a janela é cinza clara — o cartão sozinho dava 1.4:1. Quando ele não
+  // alcança texto normal, o próprio contraste contra o `--foreground` escolhe o lado.
+  const foregroundRgb = corSobre(spec.text.strong, backgroundRgb);
+  const onForeground =
+    contrastRatio(surfaceRgb, foregroundRgb) >= 4.5
+      ? rgbToHex(surfaceRgb)
+      : rgbToHex(readableForeground(foregroundRgb, 0).rgb);
 
   return {
     // Destaque
@@ -167,7 +177,7 @@ export function palette(spec: PaletteSpec): ThemeCollectionTokens {
     "--card": withAlpha(surface, spec.surfaceAlpha ?? 100),
     // Text on a `bg-foreground` fill: the card as the reader sees it, always a solid colour (the
     // background may be a gradient and the card may be translucent, neither works as a text colour).
-    "--on-foreground": rgbToHex(surfaceRgb),
+    "--on-foreground": onForeground,
     "--popover": withAlpha(surface, spec.surfaceAlpha ?? 100),
     "--muted": muted,
     "--border": border,
