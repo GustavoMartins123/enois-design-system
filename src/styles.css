@@ -3640,6 +3640,11 @@ html:not(.dark) .frame-shop-price {
   border-color: var(--primary);
   box-shadow: 0 0 0 1px var(--primary);
 }
+/* On the profile now: the card reads as worn, not as being tried on. */
+.cos-look.is-worn {
+  border-color: var(--growth);
+  box-shadow: 0 0 0 1px var(--growth);
+}
 .cos-look__stage {
   display: grid;
   justify-items: center;
@@ -3844,6 +3849,26 @@ html:not(.dark) .frame-shop-price {
 .cos-shop__owned {
   font-weight: 800;
   color: var(--growth);
+}
+/* The footer of an owned look is a switch, so it keeps the text look but behaves like a button. */
+.cos-look__wear {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 800;
+  color: var(--growth);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.cos-look__wear:disabled {
+  cursor: progress;
+  opacity: 0.6;
+}
+.cos-look__wear:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 .cos-shop__side {
   position: sticky;
