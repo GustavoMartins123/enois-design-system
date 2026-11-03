@@ -123,7 +123,9 @@ export function palette(spec: PaletteSpec): ThemeCollectionTokens {
   // A data do post fica dentro do CARD, não no fundo da página: o token do tema é
   // ajustado contra a superfície real (composta, quando o card é translúcido) para
   // não ficar em 2.0–2.9:1 em temas de superfície clara/escura.
-  const surfaceSolidRgb = hexToRgb(surface);
+  // `corSobre`, not `hexToRgb`: a surface may come as `rgb(r g b / a)` (vaporwave, synthwave), which
+  // `hexToRgb` turned into NaN for the date colour and the text on a foreground fill.
+  const surfaceSolidRgb = corSobre(surface, backgroundRgb);
   const surfaceAlpha = Math.min(100, Math.max(0, spec.surfaceAlpha ?? 100)) / 100;
   const surfaceRgb =
     surfaceAlpha >= 1
