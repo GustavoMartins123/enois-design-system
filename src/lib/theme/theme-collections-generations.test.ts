@@ -67,10 +67,8 @@ describe("nova geração de temas", () => {
   });
 
   it("não colide com nenhum tema anterior", () => {
-    const anteriores = THEME_COLLECTIONS.filter(
-      (theme) => !THEME_COLLECTIONS_GENERATIONS.some((novo) => novo.id === theme.id),
-    );
-    expect(anteriores.length).toBe(THEME_COLLECTIONS.length - THEME_COLLECTIONS_GENERATIONS.length);
+    const ids = THEME_COLLECTIONS.map((theme) => theme.id);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 
   it("cobre todos os tokens da marca nos dois modos", () => {

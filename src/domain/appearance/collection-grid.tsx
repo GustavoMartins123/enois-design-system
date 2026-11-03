@@ -95,7 +95,12 @@ export function CollectionGrid({ activeId, previewId, onPreview, onSelect }: Col
     setLimit(PAGE_SIZE);
   };
 
-  const shown = filtered.slice(0, limit);
+  // O tema em uso e o em prévia sempre aparecem, mesmo fora do lote: quem abre a galeria
+  // precisa ver o que está vestindo sem caçar no "Mostrar mais".
+  const shown = filtered.filter(
+    (collection, index) =>
+      index < limit || collection.id === activeId || collection.id === previewId,
+  );
   const remaining = filtered.length - shown.length;
 
   const categoryOf = (collection: ThemeCollection) =>

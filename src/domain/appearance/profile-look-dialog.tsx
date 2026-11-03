@@ -108,7 +108,6 @@ export function ProfileLookDialog({
 
               <CollectionGrid
                 activeId={draft[key].theme}
-                previewId={null}
                 onPreview={(collectionId) => patchLook(key, { theme: collectionId })}
                 onSelect={(collectionId) => patchLook(key, { theme: collectionId })}
               />

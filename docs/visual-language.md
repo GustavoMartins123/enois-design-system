@@ -76,7 +76,8 @@ os tokens respeita todos os temas — uma coleção nova entra na lista e não t
   a montagem final), `theme-collections-generations.ts` (25 temas em quatro famílias).
 - **Famílias** (`ThemeCategory`): `retro`, `casa`, `jogos`, `maquinas`, `papel` e as novas `swing`
   (Java Swing), `web2000` (internet da época), `arcade` (jogos) e `sistemas` (computação clássica).
-  A galeria as apresenta nessa ordem, com busca e carregamento em lotes de 18.
+  A galeria as apresenta nessa ordem, com busca e carregamento em lotes de 18; o tema em uso e o
+  em prévia aparecem sempre, mesmo fora do lote.
 - **Identidade não é paleta.** Temas com cara própria declaram CSS estrutural: relevo (bevel), pixel,
   scanlines de CRT, mosaico de dungeon, painel técnico. O relevo referencia variáveis
   (`--bevel-*`) definidas por modo, então o mesmo desenho acerta no claro e no escuro.
@@ -93,8 +94,11 @@ social e profissional são independentes.
   junto com `div.profile-scope[data-profile-theme][data-profile-header][data-profile-textures]`, de
   modo que a prévia chega no primeiro paint (SSR) e o visual do perfil não vaza para o menu, as
   notificações ou qualquer diálogo por cima.
+- Fundo em gradiente leva a cor sólida do topo por baixo; `textures: false` tira o padrão do fundo
+  da vitrine e das superfícies e deixa essa cor.
 - `ProfileLookDialog` recebe `onDraftChange` a cada mudança: o diálogo não mostra miniatura, veste a
-  **página real** com o rascunho antes do "Salvar".
+  **página real** com o rascunho antes do "Salvar". Ali os dois botões do cartão só mexem no
+  rascunho, então o tema do rascunho aparece "Em uso" e nenhum cartão fica "Em prévia".
 
 ## Modo econômico dentro da vitrine
 

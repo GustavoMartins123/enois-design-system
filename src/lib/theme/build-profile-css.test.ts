@@ -3,6 +3,20 @@ import { describe, expect, it } from "vitest";
 import { EMPTY_PROFILE_LOOK, type ProfileLook } from "../../types/lib/theme/profile-look.js";
 
 import { buildProfileCss, themeCollectionById } from "./build-profile-css.js";
+import { THEME_COLLECTIONS } from "./theme-collections.js";
+
+/** Declarações de `property` nas regras cujo seletor inclui o container puro, em ordem. */
+function containerDeclarations(css: string, id: string, property: string): string[] {
+  const container = `[data-profile-theme="${id}"]`;
+  const values: string[] = [];
+  for (const [, selectors, body] of css.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+    if (!selectors.split(",").some((selector) => selector.trim() === container)) continue;
+    for (const [, value] of body.matchAll(new RegExp(`(?:^|;)\\s*${property}:\\s*([^;]+)`, "g"))) {
+      values.push(value.trim());
+    }
+  }
+  return values;
+}
 
 const ARCADE = themeCollectionById("arcade-8bit")!;
 
@@ -63,6 +77,43 @@ describe("buildProfileCss", () => {
     expect(css).toContain("background-image: none;");
     expect(css).toContain(".cos-card__banner::after");
     expect(css).toContain("--profile-decoration: 0.8;");
+  });
+
+  it("texturas desligadas tiram o padrão do fundo da vitrine em todos os temas", () => {
+    for (const collection of THEME_COLLECTIONS) {
+      for (const mode of ["light", "dark"] as const) {
+        const css = buildProfileCss(
+          collection,
+          look({ theme: collection.id, textures: false }),
+          mode,
+        );
+        const images = containerDeclarations(css, collection.id, "background-image");
+        const shorthands = containerDeclarations(css, collection.id, "background");
+
+        expect(images.at(-1) ?? "none", `${collection.id} (${mode})`).toBe("none");
+        expect(
+          shorthands.filter((value) => value.includes("gradient")),
+          collection.id,
+        ).toEqual([]);
+        // A última cor declarada é a que vale; `var(--background)` só serve se o token for sólido.
+        const tokens =
+          mode === "dark"
+            ? (collection.tokens.dark ?? collection.tokens.light)
+            : collection.tokens.light;
+        const color = containerDeclarations(css, collection.id, "background-color").at(-1) ?? "";
+        const resolved = color === "var(--background)" ? (tokens["--background"] ?? "") : color;
+        expect(resolved, `${collection.id} (${mode}) sem cor sólida`).not.toContain("gradient");
+      }
+    }
+  });
+
+  it("fundo em gradiente ganha uma cor sólida por baixo", () => {
+    const css = buildProfileCss(ARCADE, look(), "light");
+
+    expect(containerDeclarations(css, "arcade-8bit", "background-color")).toContain("#0a0612");
+    expect(containerDeclarations(css, "arcade-8bit", "background-image").at(-1)).toContain(
+      "gradient",
+    );
   });
 
   it("sem nível escolhido, a moldura fica discreta", () => {
