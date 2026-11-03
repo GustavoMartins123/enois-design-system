@@ -60,3 +60,46 @@ disagree.
 - Explore: `ExploreHub` lists every room that is not on the dock or in the menu, with a filter that
   matches names, descriptions and keywords.
 - Composer at rest: `ComposerLauncher`; the full composer only opens when the person starts.
+
+## Temas da galeria
+
+Um tema é **dado**, não componente: cada entrada de `THEME_COLLECTIONS` declara tokens por modo
+(`light` e, quando existe, `dark`) e, se precisar de estrutura própria, CSS escopado. Quem respeita
+os tokens respeita todos os temas — uma coleção nova entra na lista e não toca em componente nenhum.
+
+- **Motor** (`src/lib/theme/theme-palette.ts`): `palette(spec)` expande a especificação nos tokens da
+  marca (superfícies derivadas, tints, raios coerentes com o raio do tema, `--on-foreground` escolhido
+  pela leitura contra o preenchimento) e `scopedCss(id, rules)` prefixa regras estruturais com
+  `html:root[data-theme="id"]`. Ele mora fora das listas: as duas gerações o usam e as listas não
+  podem se importar em ciclo.
+- **Listas**: `theme-collections-extra.ts` (coleções da casa), `theme-collections.ts` (sistema retrô e
+  a montagem final), `theme-collections-generations.ts` (25 temas em quatro famílias).
+- **Famílias** (`ThemeCategory`): `retro`, `casa`, `jogos`, `maquinas`, `papel` e as novas `swing`
+  (Java Swing), `web2000` (internet da época), `arcade` (jogos) e `sistemas` (computação clássica).
+  A galeria as apresenta nessa ordem, com busca e carregamento em lotes de 18.
+- **Identidade não é paleta.** Temas com cara própria declaram CSS estrutural: relevo (bevel), pixel,
+  scanlines de CRT, mosaico de dungeon, painel técnico. O relevo referencia variáveis
+  (`--bevel-*`) definidas por modo, então o mesmo desenho acerta no claro e no escuro.
+
+## Vitrine com tema próprio
+
+O perfil pode ser vestido com um tema **diferente** do que a pessoa usa para navegar, e os lados
+social e profissional são independentes.
+
+- `ProfileLook` guarda as escolhas prontas (`theme`, `accent`, `font`, `header`, `textures`,
+  `borders`, `decoration`) — nenhum CSS digitado pela pessoa.
+- `buildProfileCss(collection, look, mode)` emite os tokens **no container**, não em `html:root`, e
+  reescreve o CSS estrutural do preset para esse escopo. `ProfileThemeScope` renderiza o `<style>`
+  junto com `div.profile-scope[data-profile-theme][data-profile-header][data-profile-textures]`, de
+  modo que a prévia chega no primeiro paint (SSR) e o visual do perfil não vaza para o menu, as
+  notificações ou qualquer diálogo por cima.
+- `ProfileLookDialog` recebe `onDraftChange` a cada mudança: o diálogo não mostra miniatura, veste a
+  **página real** com o rascunho antes do "Salvar".
+
+## Modo econômico dentro da vitrine
+
+`html[data-lite]` corta animação, transição e desfoque de fundo; `html[data-batata]` também corta
+sombra, filtro, gradiente e raio e troca a tipografia pela do sistema. Como os tokens de um perfil
+têmático vivem no container, o BATATA repete ali a achatagem de raio e fonte; sem isso um perfil
+vestido de tema escuro apareceria com a fonte da marca (ou com raio) em aparelho que pediu economia.
+`batata-mode-styles.test.ts` garante a regra.
