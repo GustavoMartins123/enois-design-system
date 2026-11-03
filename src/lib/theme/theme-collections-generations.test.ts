@@ -51,14 +51,19 @@ function modesOf(tokens: { light: ThemeCollectionTokens; dark?: ThemeCollectionT
 }
 
 describe("nova geração de temas", () => {
-  it("traz as quatro famílias completas, sem identificador repetido", () => {
+  it("distribui as quatro coleções novas nas famílias existentes, sem identificador repetido", () => {
     const byCategory = (category: string) =>
       THEME_COLLECTIONS_GENERATIONS.filter((theme) => theme.category === category).map((t) => t.id);
 
-    expect(byCategory("swing")).toHaveLength(6);
+    // Desktop clássico, web da virada do milênio, jogos e computação de terminal entraram
+    // nas famílias que já existiam com esse sentido — a galeria não ganha categoria repetida.
+    expect(byCategory("retro")).toHaveLength(6);
     expect(byCategory("web2000")).toHaveLength(6);
-    expect(byCategory("arcade")).toHaveLength(8);
-    expect(byCategory("sistemas")).toHaveLength(5);
+    expect(byCategory("jogos")).toHaveLength(8);
+    expect(byCategory("maquinas")).toHaveLength(5);
+
+    const families = new Set(THEME_COLLECTIONS.map((theme) => theme.category));
+    expect(families.size).toBeLessThanOrEqual(6);
 
     const ids = THEME_COLLECTIONS_GENERATIONS.map((theme) => theme.id);
     expect(new Set(ids).size).toBe(ids.length);

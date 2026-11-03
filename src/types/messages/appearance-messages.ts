@@ -118,10 +118,7 @@ export type AppearanceMessages = {
     categoryMaquinas: string;
     categoryPapel: string;
     categoryRetro: string;
-    categorySwing: string;
     categoryWeb2000: string;
-    categoryArcade: string;
-    categorySistemas: string;
     themeSearchPlaceholder: string;
     defaultThemeName: string;
     defaultThemeDescription: string;

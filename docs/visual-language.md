@@ -73,11 +73,14 @@ os tokens respeita todos os temas — uma coleção nova entra na lista e não t
   `html:root[data-theme="id"]`. Ele mora fora das listas: as duas gerações o usam e as listas não
   podem se importar em ciclo.
 - **Listas**: `theme-collections-extra.ts` (coleções da casa), `theme-collections.ts` (sistema retrô e
-  a montagem final), `theme-collections-generations.ts` (25 temas em quatro famílias).
-- **Famílias** (`ThemeCategory`): `retro`, `casa`, `jogos`, `maquinas`, `papel` e as novas `swing`
-  (Java Swing), `web2000` (internet da época), `arcade` (jogos) e `sistemas` (computação clássica).
-  A galeria as apresenta nessa ordem, com busca e carregamento em lotes de 18; o tema em uso e o
-  em prévia aparecem sempre, mesmo fora do lote.
+  a montagem final), `theme-collections-generations.ts` (25 temas de desktop clássico, internet da
+  virada do milênio, jogos e terminal).
+- **Famílias** (`ThemeCategory`): seis, uma por jeito de olhar a tela — `casa`, `retro` (sistemas com
+  cara de desktop, inclusive Java Swing e Windows clássico), `web2000` (internet da época), `jogos`
+  (fliperama, 8/16 bits, dungeon, estratégia), `maquinas` (computação: terminal, workstation,
+  industrial) e `papel`. A geração nova não abriu categoria própria: duas famílias com o mesmo
+  sentido só dividiam o que a pessoa procura. A galeria as apresenta nessa ordem, com busca e
+  carregamento em lotes de 18.
 - **Identidade não é paleta.** Temas com cara própria declaram CSS estrutural: relevo (bevel), pixel,
   scanlines de CRT, mosaico de dungeon, painel técnico. O relevo referencia variáveis
   (`--bevel-*`) definidas por modo, então o mesmo desenho acerta no claro e no escuro.

@@ -48,7 +48,7 @@ export const THEME_COLLECTIONS_GENERATIONS: ThemeCollection[] = [
   // ───────────────────────────── A. Java Swing clássico ─────────────────────────────
   {
     id: "swing-metal",
-    category: "swing",
+    category: "retro",
     name: "Metal",
     description:
       "O cinza metálico do look-and-feel padrão do Java: painéis com brilho e cantos quase vivos.",
@@ -109,7 +109,7 @@ export const THEME_COLLECTIONS_GENERATIONS: ThemeCollection[] = [
   },
   {
     id: "swing-ocean",
-    category: "swing",
+    category: "retro",
     name: "Ocean",
     description: "O azul-profundo do Ocean: gradiente frio de botão e vidro de painel.",
     metaColor: "#cfe0f2",
@@ -169,7 +169,7 @@ export const THEME_COLLECTIONS_GENERATIONS: ThemeCollection[] = [
   },
   {
     id: "swing-nimbus",
-    category: "swing",
+    category: "retro",
     name: "Nimbus",
     description: "Ardósia acetinada do Nimbus: brilho discreto, borda fina e sensação de software.",
     metaColor: "#e6e9ec",
@@ -229,7 +229,7 @@ export const THEME_COLLECTIONS_GENERATIONS: ThemeCollection[] = [
   },
   {
     id: "swing-motif",
-    category: "swing",
+    category: "retro",
     name: "Motif",
     description: "O bege acinzentado do Unix de 1993: relevo grosso, borda preta e zero sutileza.",
     metaColor: "#c9c0b3",
@@ -285,7 +285,7 @@ export const THEME_COLLECTIONS_GENERATIONS: ThemeCollection[] = [
   },
   {
     id: "swing-windows",
-    category: "swing",
+    category: "retro",
     name: "Windows Classic",
     description: "Área de trabalho cinza, cliente branco e a barra de título em degradê azul.",
     metaColor: "#008080",
@@ -341,7 +341,7 @@ export const THEME_COLLECTIONS_GENERATIONS: ThemeCollection[] = [
   },
   {
     id: "swing-dark",
-    category: "swing",
+    category: "retro",
     name: "Dark Desktop",
     description:
       "O gerenciador de janelas à noite: grafite, bordas frias e o azul de seleção. Escuro por natureza.",
@@ -698,7 +698,7 @@ export const THEME_COLLECTIONS_GENERATIONS: ThemeCollection[] = [
   // ───────────────────────────── C. Arcade e jogos clássicos ─────────────────────────────
   {
     id: "arcade-8bit",
-    category: "arcade",
+    category: "jogos",
     name: "8-Bit Arcade",
     description: "Fundo de fliperama: preto, ciano e magenta em blocos duros. Escuro por natureza.",
     metaColor: "#0a0612",
@@ -734,7 +734,7 @@ export const THEME_COLLECTIONS_GENERATIONS: ThemeCollection[] = [
   },
   {
     id: "arcade-16bit",
-    category: "arcade",
+    category: "jogos",
     name: "16-Bit Fantasy",
     description:
       "Aventura de 16 bits: azul-noturno, ouro e verde de floresta, título em serifa. Escuro por natureza.",
@@ -775,7 +775,7 @@ export const THEME_COLLECTIONS_GENERATIONS: ThemeCollection[] = [
   },
   {
     id: "arcade-dungeon",
-    category: "arcade",
+    category: "jogos",
     name: "Dungeon Interface",
     description:
       "Pedra, tocha e painel de madeira: a interface que parece esculpida. Escuro por natureza.",
@@ -814,7 +814,7 @@ export const THEME_COLLECTIONS_GENERATIONS: ThemeCollection[] = [
   },
   {
     id: "arcade-space",
-    category: "arcade",
+    category: "jogos",
     name: "Space Command",
     description:
       "Cabine de comando: HUD ciano, alerta âmbar e leitura de instrumento. Escuro por natureza.",
@@ -854,7 +854,7 @@ export const THEME_COLLECTIONS_GENERATIONS: ThemeCollection[] = [
   },
   {
     id: "arcade-wasteland",
-    category: "arcade",
+    category: "jogos",
     name: "Wasteland",
     description: "Poeira, ferrugem e verde tóxico: o mapa depois do fim. Escuro por natureza.",
     metaColor: "#2a2118",
@@ -892,7 +892,7 @@ export const THEME_COLLECTIONS_GENERATIONS: ThemeCollection[] = [
   },
   {
     id: "arcade-strategy",
-    category: "arcade",
+    category: "jogos",
     name: "Strategy Classic",
     description: "Pergaminho e latão: mapa de campanha, recurso contado e fonte de livro.",
     metaColor: "#e8dcc0",
@@ -948,7 +948,7 @@ export const THEME_COLLECTIONS_GENERATIONS: ThemeCollection[] = [
   },
   {
     id: "arcade-rpg",
-    category: "arcade",
+    category: "jogos",
     name: "RPG Inventory",
     description:
       "Couro escuro com filete de ouro: a tela de inventário que abre com som. Escuro por natureza.",
@@ -991,7 +991,7 @@ export const THEME_COLLECTIONS_GENERATIONS: ThemeCollection[] = [
   },
   {
     id: "arcade-terminal",
-    category: "arcade",
+    category: "jogos",
     name: "Terminal Quest",
     description:
       "A aventura em texto: tela preta, fósforo verde e prompt piscando. Escuro por natureza.",
@@ -1032,7 +1032,7 @@ export const THEME_COLLECTIONS_GENERATIONS: ThemeCollection[] = [
   // ───────────────────────────── D. Computação clássica ─────────────────────────────
   {
     id: "unix-classic",
-    category: "sistemas",
+    category: "maquinas",
     name: "Classic Unix",
     description:
       "Terminal de verdade: cinza sobre preto, vídeo invertido e nada de enfeite. Escuro por natureza.",
@@ -1071,7 +1071,7 @@ export const THEME_COLLECTIONS_GENERATIONS: ThemeCollection[] = [
   },
   {
     id: "terminal-green",
-    category: "sistemas",
+    category: "maquinas",
     name: "Terminal Green",
     description:
       "Fósforo verde sobre vidro escuro, com a linha de varredura do monitor. Escuro por natureza.",
@@ -1110,7 +1110,7 @@ export const THEME_COLLECTIONS_GENERATIONS: ThemeCollection[] = [
   },
   {
     id: "amber-crt",
-    category: "sistemas",
+    category: "maquinas",
     name: "Amber CRT",
     description:
       "O âmbar dos monitores de fósforo: quente, sépia e com a varredura visível. Escuro por natureza.",
@@ -1149,7 +1149,7 @@ export const THEME_COLLECTIONS_GENERATIONS: ThemeCollection[] = [
   },
   {
     id: "workbench",
-    category: "sistemas",
+    category: "maquinas",
     name: "Workbench",
     description: "Desktop azul, janela cinza e laranja de destaque: o micro de 1985 na memória.",
     metaColor: "#0b57a4",
@@ -1211,7 +1211,7 @@ export const THEME_COLLECTIONS_GENERATIONS: ThemeCollection[] = [
   },
   {
     id: "industrial-desktop",
-    category: "sistemas",
+    category: "maquinas",
     name: "Industrial Desktop",
     description:
       "Grafite de painel, laranja de sinalização e faixa de advertência. Escuro por natureza.",
