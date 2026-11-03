@@ -4,7 +4,13 @@ import type { ThemeCollectionTokens } from "../../types/lib/theme/theme-collecti
 import type { ThemeCollection } from "../../types/lib/theme/theme-collection.js";
 
 import { withAlpha } from "./build-background-style.js";
-import { hexToRgb, readableForeground, relativeLuminance, textSafeAccent } from "./color.js";
+import {
+  hexToRgb,
+  readableForeground,
+  relativeLuminance,
+  rgbToHex,
+  textSafeAccent,
+} from "./color.js";
 /**
  * Coleção temática: identidades visuais completas, uma por entrada.
  *
@@ -123,7 +129,9 @@ export function palette(spec: PaletteSpec): ThemeCollectionTokens {
   // A data do post fica dentro do CARD, não no fundo da página: o token do tema é
   // ajustado contra a superfície real (composta, quando o card é translúcido) para
   // não ficar em 2.0–2.9:1 em temas de superfície clara/escura.
-  const surfaceSolidRgb = hexToRgb(surface);
+  // `corSobre`, not `hexToRgb`: a surface may come as `rgb(r g b / a)` (vaporwave, synthwave), which
+  // `hexToRgb` turned into NaN for the date colour and the text on a foreground fill.
+  const surfaceSolidRgb = corSobre(surface, backgroundRgb);
   const surfaceAlpha = Math.min(100, Math.max(0, spec.surfaceAlpha ?? 100)) / 100;
   const surfaceRgb =
     surfaceAlpha >= 1
@@ -160,6 +168,9 @@ export function palette(spec: PaletteSpec): ThemeCollectionTokens {
     // Superfícies
     "--background": spec.background,
     "--card": withAlpha(surface, spec.surfaceAlpha ?? 100),
+    // Text on a `bg-foreground` fill: the card as the reader sees it, always a solid colour (the
+    // background may be a gradient and the card may be translucent, neither works as a text colour).
+    "--on-foreground": rgbToHex(surfaceRgb),
     "--popover": withAlpha(surface, spec.surfaceAlpha ?? 100),
     "--muted": muted,
     "--border": border,

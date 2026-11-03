@@ -232,7 +232,7 @@ export function PostComments<C extends PostCommentNode>({
                 <button
                   type="button"
                   onClick={() => onRemoveMedia(i)}
-                  className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-foreground text-background shadow"
+                  className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-foreground text-on-foreground shadow"
                   aria-label={messages.removeMedia}
                   title={messages.removeMedia}
                 >
