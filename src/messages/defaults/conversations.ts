@@ -5,7 +5,6 @@ export const conversationsMessages: ConversationsMessages = {
   conversationItem: { conversationFallback: "Conversa" },
   chatDock: {
     title: "Mensagens",
-    collapse: "Minimizar mensagens",
     empty: "Nenhuma conversa ainda.",
     loading: "Carregando…",
     loadMore: "Carregar mais conversas",
@@ -17,6 +16,7 @@ export const conversationsMessages: ConversationsMessages = {
     readReceiptRead: "Lida pela outra pessoa",
     react: "Reagir",
     report: "Denunciar mensagem",
+    reply: "Responder",
   },
   e2eSetupBanner: {
     prompt: "Proteja suas mensagens com criptografia ponta a ponta.",
@@ -46,6 +46,8 @@ export const conversationsMessages: ConversationsMessages = {
     noMessages: "Nenhuma mensagem ainda",
     loadOlderMessages: "Ver mensagens anteriores",
     loadingOlder: "Carregando...",
+    replyingTo: (name: string) => `Respondendo a ${name}`,
+    cancelReply: "Cancelar resposta",
     inputPlaceholder: "Escreva uma mensagem...",
     send: "Enviar mensagem",
     attachMedia: "Anexar imagem",

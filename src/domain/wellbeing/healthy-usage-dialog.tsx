@@ -24,6 +24,7 @@ export function HealthyUsageDialog({
   minMinutes,
   maxMinutes,
   savePending = false,
+  onBatataModeChange,
   onSave,
 }: HealthyUsageDialogProps) {
   const messages = useMessages().healthyUsageDialog;
@@ -34,7 +35,9 @@ export function HealthyUsageDialog({
   const [disabledModules, setDisabledModules] = useState<string[]>([]);
   const [nightRestReminder, setNightRestReminder] = useState(true);
   const [liteMode, setLiteMode] = useState(false);
+  const [batataMode, setBatataMode] = useState(false);
   const [forceMotion, setForceMotion] = useState(false);
+  const [cardTilt, setCardTilt] = useState(true);
   // Só aparece para quem o sistema está pedindo menos movimento: nas outras pessoas a chave
   // não teria efeito nenhum e só faria volume.
   const [reducedMotionDevice, setReducedMotionDevice] = useState(false);
@@ -45,6 +48,7 @@ export function HealthyUsageDialog({
     setEnabled(device.enabled);
     setMinutes(device.minutes);
     setForceMotion(device.forceMotion);
+    setCardTilt(device.cardTilt);
     setReducedMotionDevice(device.reducedMotion);
     // Seeds only when the dialog opens, like the device reads it did before.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -57,7 +61,12 @@ export function HealthyUsageDialog({
     setDisabledModules(personalization.disabledModules);
     setNightRestReminder(personalization.nightRestReminder);
     setLiteMode(personalization.liteMode);
+    setBatataMode(personalization.batataMode);
   }, [open, personalization]);
+
+  // BATATA ja entrega o que o lite entrega (e mais): as animacoes continuam desligadas de
+  // qualquer jeito, entao a chave de "manter as animacoes" nao teria efeito nenhum.
+  const animationsOff = liteMode || batataMode;
 
   // Um assunto não pode estar nos dois lados: marcar num remove do outro (o backend recusa
   // o conflito, e a tela evita chegar lá).
@@ -157,6 +166,29 @@ export function HealthyUsageDialog({
             <Switch checked={liteMode} onCheckedChange={setLiteMode} />
           </label>
 
+          <label className="flex items-start justify-between gap-3 rounded-2xl border border-border-soft bg-surface-card p-3">
+            <span className="min-w-0">
+              <span className="block text-sm font-medium text-text-strong">
+                {messages.batataTitle}
+              </span>
+
+              <span className="mt-0.5 block text-xs text-text-subtle">
+                {messages.batataDescription}
+              </span>
+
+              <span className="mt-1.5 block text-xs text-text-subtle">{messages.batataWhy}</span>
+            </span>
+
+            <Switch
+              checked={batataMode}
+              onCheckedChange={(on) => {
+                setBatataMode(on);
+                // O BATATA muda a cara da tela inteira; o app aplica e grava na hora.
+                onBatataModeChange?.(on);
+              }}
+            />
+          </label>
+
           {reducedMotionDevice && (
             <label className="flex items-start justify-between gap-3 rounded-2xl border border-border-soft bg-surface-card p-3">
               <span className="min-w-0">
@@ -170,12 +202,26 @@ export function HealthyUsageDialog({
               </span>
 
               <Switch
-                checked={forceMotion && !liteMode}
-                disabled={liteMode}
+                checked={forceMotion && !animationsOff}
+                disabled={animationsOff}
                 onCheckedChange={setForceMotion}
               />
             </label>
           )}
+
+          <label className="flex items-start justify-between gap-3 rounded-2xl border border-border-soft bg-surface-card p-3">
+            <span className="min-w-0">
+              <span className="block text-sm font-medium text-text-strong">
+                {messages.cardTiltTitle}
+              </span>
+
+              <span className="mt-0.5 block text-xs text-text-subtle">
+                {messages.cardTiltDescription}
+              </span>
+            </span>
+
+            <Switch checked={cardTilt} onCheckedChange={setCardTilt} />
+          </label>
 
           <section className="space-y-2 border-t border-border-soft pt-4">
             <h3 className="text-sm font-semibold text-text-strong">{messages.likeTitle}</h3>
@@ -255,7 +301,9 @@ export function HealthyUsageDialog({
                   disabledModules,
                   nightRestReminder,
                   liteMode,
+                  batataMode,
                   forceMotion,
+                  cardTilt,
                 })
               }
             >

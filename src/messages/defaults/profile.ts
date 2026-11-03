@@ -87,10 +87,10 @@ export const profileMessages: ProfileMessages = {
   profileBannerDialog: {
     title: "Capa do perfil",
     choiceHint:
-      "Escolha uma das duas formas de capa. Dá para trocar de ideia quando quiser — a foto continua guardada.",
+      "Escolha uma das duas formas de capa. Dá para trocar de ideia quando quiser: a foto continua guardada.",
     photoTab: "Selecionar nova foto",
     photo: "Escolher arquivo",
-    photoHint: "JPG, PNG ou WebP — você recorta no formato da capa em seguida.",
+    photoHint: "JPG, PNG ou WebP. Você recorta no formato da capa em seguida.",
     htmlTab: "Digitar código HTML",
     label: "HTML/CSS da capa",
     description:
@@ -102,6 +102,9 @@ export const profileMessages: ProfileMessages = {
     remove: "Voltar para a foto",
     cancel: "Cancelar",
     saving: "Salvando...",
+    shopBanner: (name) =>
+      `Agora aparece o banner ${name}, da loja, por cima da sua capa. Ao trocar a capa ele sai, e continua seu.`,
+    useOwnCover: "Voltar para a minha capa",
   },
   profileBioDialog: {
     action: "Bio em HTML",
@@ -141,6 +144,31 @@ export const profileMessages: ProfileMessages = {
       return parts.join(" e ") || "1 mês";
     },
   },
+  professionalProfile: {
+    back: "Voltar ao feed",
+    edit: "Editar perfil profissional",
+    verified: "Identidade verificada",
+    usernameLabel: "Usuário profissional",
+    credibility: "Credibilidade",
+    reputation: "Reputação",
+    memberSince: "No Énóis desde",
+    identity: "Identidade",
+    identityVerified: "Verificada",
+    about: "Sobre",
+    skills: "Habilidades",
+    trajectory: "Trajetória",
+    period: (start, end) =>
+      start ? (end ? `${start} a ${end}` : `${start} até o momento`) : (end ?? "Atual"),
+    education: "Formação",
+    certifications: "Certificações",
+    viewCredential: "Ver credencial",
+    links: "Links",
+    posts: "Publicações profissionais",
+  },
+  profileCityPrivacy: {
+    label: "Mostrar minha cidade no perfil",
+    hint: "Desligado, sua cidade fica só com você e serve para sugerir comunidades e encontros por perto.",
+  },
   profileCommunityShelf: {
     communityEyebrow: "Seu círculo",
     communityTitle: "Cantos da comunidade",
@@ -156,6 +184,40 @@ export const profileMessages: ProfileMessages = {
       "Seu perfil é uma parte da experiência. O resto se constrói nas trocas da comunidade.",
     dailyGames: "Jogos diários",
     appearance: "Explorar aparências",
+  },
+  profileGarden: {
+    style: {
+      quintal: "do quintal",
+      cerrado: "do cerrado",
+      "mata-atlantica": "da mata atlântica",
+      caatinga: "da caatinga",
+      pampa: "do pampa",
+    },
+    label: (style, parts) => `Jardim ${style}: ${parts.join(", ")}.`,
+    stages: {
+      trajectory: ["árvore ainda semente", "árvore em muda", "árvore jovem", "árvore adulta"],
+      relations: [
+        "flores em botão",
+        "primeiras flores abertas",
+        "flores se espalhando",
+        "flores por toda parte",
+      ],
+      contribution: [
+        "canteiro semeado",
+        "canteiro brotando",
+        "canteiro com os primeiros frutos",
+        "canteiro carregado de frutos",
+      ],
+      tenure: ["terra preparada", "grama nascendo", "grama crescida", "gramado cheio"],
+    },
+    health: ["cores bem suaves", "cores suaves"],
+    hint: {
+      trajectory: "Sua árvore cresce conforme você publica e participa com constância.",
+      relations: "Suas flores abrem quando pessoas novas interagem com você.",
+      contribution: "Seu canteiro dá frutos quando você ajuda e contribui com a comunidade.",
+      tenure: "Seu gramado fica mais cheio com o tempo de casa.",
+      complete: "Seu jardim está no auge. Continue cuidando dele.",
+    },
   },
   profileGamificationPanel: {
     walletEyebrow: "Sua carteira",
@@ -183,13 +245,6 @@ export const profileMessages: ProfileMessages = {
     video: "Vídeo",
     photo: "Foto",
     article: "Escrever artigo",
-    placeholder: "No que você está trabalhando hoje?",
-    hint: "Publica no seu perfil e no feed da sua rede.",
-    action: "Publicar",
-    cancel: "Cancelar",
-    sending: "Enviando...",
-    mediaSpoiler: "Spoiler",
-    mediaSpoilerActive: "Spoiler ativo",
   },
   profileProjectsSection: {
     title: "Projetos",
@@ -202,7 +257,7 @@ export const profileMessages: ProfileMessages = {
   },
   projectsManager: {
     title: "Projetos",
-    hint: "O que você anda construindo — stack, repositório, status e o diário de evolução.",
+    hint: "O que você anda construindo: stack, repositório, status e o diário de evolução.",
     empty: "Nenhum projeto ainda. Conte o que você está construindo.",
     diary: "Diário de evolução",
     modeStructured: "Estruturado",
@@ -214,6 +269,8 @@ export const profileMessages: ProfileMessages = {
     stackDuplicate: "Essa tecnologia já está na stack.",
     stackRemove: (tech) => `Remover ${tech} da stack`,
     repoField: "Link do repositório (https)",
+    bannerField: "Banner do projeto (URL https, opcional)",
+    iconField: "Ícone do projeto (URL https, opcional)",
     statusField: "Status",
     descriptionField: "Descrição do projeto",
     descriptionPlaceholder: "Uma frase sobre o que o projeto faz",
@@ -249,7 +306,7 @@ export const profileMessages: ProfileMessages = {
     grantedAt: "Concedido em",
     verified: (count) =>
       count === 1 ? "1 contribuição verificada" : `${count} contribuições verificadas`,
-    tierRange: (min, max) => (max === null ? `${min}+` : `${min}–${max}`),
+    tierRange: (min, max) => (max === null ? `${min}+` : `${min}-${max}`),
   },
   sealEvidenceList: {
     evidence: "Evidências públicas",

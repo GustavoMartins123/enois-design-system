@@ -5,6 +5,8 @@ import type { ReportTargetType } from "../domain/post/report-target-type.js";
 import type { FormatPlaceholders } from "../lib/rich-text/format-placeholders.js";
 
 export type PostMessages = {
+  caughtUpDivider: { title: string; subline: string };
+  composerLauncher: { placeholder: string; addMedia: string };
   spoilerText: { show: string; hide: string };
   imageLightbox: { title: string; close: string };
   mediaStage: { title: string; mute: string; unmute: string; close: string };
@@ -28,6 +30,9 @@ export type PostMessages = {
   };
   postCard: {
     types: Record<PostType, string>;
+    /** Status pill of a QUESTION post. */
+    questionResolved: string;
+    questionOpen: string;
     pinned: string;
     pin: string;
     unpin: string;
@@ -36,6 +41,7 @@ export type PostMessages = {
     momentExpiryTitle: string;
     sealSeeWho: string;
     repostedWithOpinion: string;
+    repostedBy: (name: string | null | undefined) => string;
     repostedFrom: (username: string | null | undefined) => string;
     quotedFrom: (username: string | null | undefined) => string;
     viewOriginal: string;
@@ -74,6 +80,7 @@ export type PostMessages = {
     seeWho: (count: number) => string;
     comments: string;
     repost: string;
+    reposted: string;
     repostUnavailable: string;
     share: string;
     report: string;
@@ -95,6 +102,8 @@ export type PostMessages = {
   reportDialog: {
     titles: Record<ReportTargetType, string>;
     reason: string;
+    /** Label per reason; a reason without a label shows its raw code. */
+    reasons: Record<string, string>;
     description: string;
     action: string;
     sending: string;
@@ -103,11 +112,16 @@ export type PostMessages = {
   repostDialog: {
     title: string;
     description: string;
-    opinionLabel: string;
+    plain: string;
+    plainHint: string;
+    withOpinion: string;
+    withOpinionHint: string;
     opinionPlaceholder: string;
     opinionCount: (length: number) => string;
-    plain: string;
-    withOpinion: string;
+    back: string;
+    publish: string;
+    undo: string;
+    undoHint: string;
   };
   gifPickerDialog: {
     title: string;
@@ -144,6 +158,9 @@ export type PostMessages = {
     edit: string;
     delete: string;
     report: string;
+    accepted: string;
+    accept: string;
+    unaccept: string;
   };
   postComments: {
     errors: Record<CommentsError, string>;
@@ -161,6 +178,11 @@ export type PostMessages = {
     mediaSpoilerActive: string;
     attachMedia: string;
     recordAudio: string;
+    /** The "+" that opens attachments and formatting. */
+    moreTools: string;
+    closeTools: string;
+    photo: string;
+    audio: string;
     stopRecording: string;
     recording: (minutes: number, seconds: number) => string;
     gif: string;
@@ -187,4 +209,11 @@ export type PostMessages = {
     username: (username: string) => string;
     formatPlaceholders: FormatPlaceholders;
   };
+  questionStatusFilter: {
+    label: string;
+    all: string;
+    open: string;
+    resolved: string;
+  };
+  questionComposer: { hint: string };
 };

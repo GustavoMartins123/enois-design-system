@@ -5,9 +5,15 @@ export const jobsMessages: JobsMessages = {
     action: "Agilizar envio",
     hint: "O Énóis escreve o e-mail com os seus dados e abre o seu app de e-mail.",
   },
+  professionalSignature: {
+    sendingAs: "Você envia como",
+    needsProfile:
+      "Candidaturas e propostas saem pelo seu perfil profissional, nunca pelo pessoal. Ative o seu para continuar.",
+    setup: "Configurar perfil profissional",
+  },
   applyFreelanceDialog: {
     title: "Candidatar-se ao freela",
-    hint: "A mensagem vai direto para a conversa com quem publicou — escopo, prazo e valor são combinados ali.",
+    hint: "A proposta vai para a conversa profissional com quem publicou. Escopo, prazo e valor são combinados ali.",
     placeholder: "Conte como você pretende entregar o trabalho...",
     message: (title) => `Olá! Tenho interesse no freela "${title}".`,
     send: "Enviar mensagem",
@@ -20,7 +26,7 @@ export const jobsMessages: JobsMessages = {
     title: (job) => `Candidatar-se a ${job}`,
     intro: "Ao enviar, seu perfil e suas respostas vão direto para quem publicou a vaga.",
     aboutYou: "O que vai junto",
-    aboutYouProfile: "Seu perfil público (nome, foto, headline, habilidades)",
+    aboutYouProfile: "Seu perfil profissional (nome, @, foto e headline) e suas habilidades",
     aboutYouExperience: "Suas experiências e tempo de experiência",
     aboutYouReputation: "Sua reputação e a verificação da conta",
     message: "Mensagem (opcional)",
@@ -34,12 +40,12 @@ export const jobsMessages: JobsMessages = {
     verifyIdentity: "Verificar minha conta",
     resumePrefill: "Preencher com meu currículo",
     resumePrefillHint:
-      "Suba o currículo (PDF ou texto): o app sugere a mensagem e as respostas. O que ele não achar fica marcado para você preencher — revise antes de enviar.",
+      "Suba o currículo (PDF ou texto): o app sugere a mensagem e as respostas. O que ele não achar fica marcado para você preencher. Revise antes de enviar.",
     resumeReading: "Lendo o currículo...",
     resumeFilled: (filled, total) =>
-      `${filled} de ${total} campos preenchidos — revise e complete o resto.`,
+      `${filled} de ${total} campos preenchidos. Revise e complete o resto.`,
     resumeNoSuggestion: "preencha aqui",
-    resumeMissingField: " — o currículo não trouxe este campo.",
+    resumeMissingField: " (o currículo não trouxe este campo)",
     close: "Fechar",
   },
   applicationFeedbackDialog: {
@@ -77,7 +83,7 @@ export const jobsMessages: JobsMessages = {
   jobEditDialog: {
     title: "Editar vaga",
     description:
-      "Os campos do formulário de candidatura continuam como estão — para mudá-los, publique outra vaga.",
+      "Os campos do formulário de candidatura continuam como estão. Para mudá-los, publique outra vaga.",
     save: "Salvar",
     saving: "Salvando...",
   },
@@ -128,5 +134,7 @@ export const jobsMessages: JobsMessages = {
     memberSearch: "Adicionar por nome ou @usuário",
     memberAdd: "Adicionar",
     cancel: "Cancelar",
+    roleLabel: "Papel na equipe",
+    roles: { OWNER: "Dono", ADMIN: "Admin", EDITOR: "Editor", RECRUITER: "Recrutador" },
   },
 };

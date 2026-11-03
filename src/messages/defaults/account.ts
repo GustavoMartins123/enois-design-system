@@ -3,29 +3,37 @@ import type { AccountMessages } from "../../types/messages/account-messages.js";
 export const accountMessages: AccountMessages = {
   accountMenu: {
     trigger: "Menu da conta",
-    triggerLabel: "Perfil",
-    profile: "Ver perfil",
-    identity: "Identidade",
-    socialIdentity: "Social",
-    corporateIdentity: "Profissional",
-    corporateProfile: "Perfil profissional",
+    profile: "Ver meu perfil",
     wallet: "Carteira",
-    marketplace: "Marketplace",
-    changeEmail: "Alterar e-mail",
-    changePassword: "Trocar senha",
+    account: "Conta e segurança",
     support: "Ajuda e suporte",
-    blockedUsers: "Usuários bloqueados",
-    myReports: "Minhas denúncias",
-    moderator: "Painel de moderador",
-    sanctions: "Penalidades",
-    linkedAccounts: "Contas vinculadas",
-    healthyUsage: "Uso saudável",
     guardian: "Supervisão parental",
-    security: "Segurança e verificação",
-    apoie: "Apoie o Énóis",
-    deleteAccount: "Excluir conta",
+    moderator: "Painel de moderador",
+    theme: "Tema",
     logout: "Sair",
     loggingOut: "Saindo...",
+  },
+  accountSettings: {
+    title: "Conta e segurança",
+    description: "E-mail, senha, privacidade, avisos e tudo o que é da sua conta.",
+    access: "Acesso",
+    privacy: "Privacidade e moderação",
+    danger: "Encerrar conta",
+    changeEmail: "Alterar e-mail",
+    changePassword: "Trocar senha",
+    linkedAccounts: "Contas vinculadas",
+    security: "Segurança e verificação",
+    blockedUsers: "Usuários bloqueados",
+    myReports: "Minhas denúncias",
+    sanctions: "Penalidades",
+    deleteAccount: "Excluir conta",
+    mutedUsers: "Pessoas silenciadas",
+    guardian: "Supervisão parental",
+    preferences: "Preferências",
+    notificationPreferences: "Preferências de aviso",
+    healthyUsage: "Uso saudável",
+    project: "O Énóis",
+    supportUs: "Apoie o Énóis",
   },
   pushToggle: {
     on: "Notificações no celular ativadas",
@@ -112,15 +120,16 @@ export const accountMessages: AccountMessages = {
     link: (provider) => `Vincular ${provider}`,
     unlink: "Desvincular",
     linkedinSync: {
-      toggle: "Publicar minhas publicações no LinkedIn",
-      toggleHint: "Cada post novo vira um post no LinkedIn com o link do Énóis.",
+      toggle: "Publicar no LinkedIn o que sai pelo perfil profissional",
+      toggleHint:
+        "Cada publicação nova do seu perfil profissional vira um post no LinkedIn com o link do Énóis. O perfil pessoal nunca vai para o LinkedIn.",
       lastShareOk: "Última tentativa: o LinkedIn aceitou · ",
       lastShareFailed: (detail) =>
         detail === "HTTP_401" || detail === "HTTP_403"
-          ? "A última tentativa não foi: o LinkedIn recusou a permissão — reconecte o LinkedIn e publique de novo. · "
+          ? "A última tentativa não foi: o LinkedIn recusou a permissão. Reconecte o LinkedIn e publique de novo. · "
           : detail === "HTTP_422"
             ? "A última tentativa não foi: o LinkedIn recusou o conteúdo do post. · "
-            : `A última tentativa não foi (${detail}) — reconecte o LinkedIn e publique de novo. · `,
+            : `A última tentativa não foi (${detail}). Reconecte o LinkedIn e publique de novo. · `,
       notReady: "Reconecte o LinkedIn para autorizar a publicação em seu nome.",
       serverKey:
         "A publicação no LinkedIn ainda não está disponível nesta instalação. Avise o time de suporte.",
@@ -130,9 +139,9 @@ export const accountMessages: AccountMessages = {
     },
   },
   linkedInSyncPrompt: {
-    promptTitle: "Sincronizar publicações com o LinkedIn?",
+    promptTitle: "Levar o seu perfil profissional para o LinkedIn?",
     promptBody:
-      "Suas próximas publicações no Énóis podem ser publicadas também no seu feed do LinkedIn, com o link para o post original. Você pode mudar isso depois em Contas vinculadas.",
+      "As próximas publicações do seu perfil profissional no Énóis podem sair também no seu feed do LinkedIn, com o link para o post original. O perfil pessoal nunca é compartilhado. Você pode mudar isso depois em Contas vinculadas.",
     notReady: "Reconecte o LinkedIn para autorizar a publicação em seu nome.",
     serverKey:
       "A publicação no LinkedIn ainda não está disponível nesta instalação. Avise o time de suporte.",

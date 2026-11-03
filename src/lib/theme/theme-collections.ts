@@ -4,7 +4,13 @@ import type { ThemeCollectionTokens } from "../../types/lib/theme/theme-collecti
 import type { ThemeCollection } from "../../types/lib/theme/theme-collection.js";
 
 import { withAlpha } from "./build-background-style.js";
-import { hexToRgb, readableForeground, relativeLuminance, textSafeAccent } from "./color.js";
+import {
+  hexToRgb,
+  readableForeground,
+  relativeLuminance,
+  rgbToHex,
+  textSafeAccent,
+} from "./color.js";
 /**
  * Coleção temática: identidades visuais completas, uma por entrada.
  *
@@ -123,7 +129,9 @@ export function palette(spec: PaletteSpec): ThemeCollectionTokens {
   // A data do post fica dentro do CARD, não no fundo da página: o token do tema é
   // ajustado contra a superfície real (composta, quando o card é translúcido) para
   // não ficar em 2.0–2.9:1 em temas de superfície clara/escura.
-  const surfaceSolidRgb = hexToRgb(surface);
+  // `corSobre`, not `hexToRgb`: a surface may come as `rgb(r g b / a)` (vaporwave, synthwave), which
+  // `hexToRgb` turned into NaN for the date colour and the text on a foreground fill.
+  const surfaceSolidRgb = corSobre(surface, backgroundRgb);
   const surfaceAlpha = Math.min(100, Math.max(0, spec.surfaceAlpha ?? 100)) / 100;
   const surfaceRgb =
     surfaceAlpha >= 1
@@ -160,6 +168,9 @@ export function palette(spec: PaletteSpec): ThemeCollectionTokens {
     // Superfícies
     "--background": spec.background,
     "--card": withAlpha(surface, spec.surfaceAlpha ?? 100),
+    // Text on a `bg-foreground` fill: the card as the reader sees it, always a solid colour (the
+    // background may be a gradient and the card may be translucent, neither works as a text colour).
+    "--on-foreground": rgbToHex(surfaceRgb),
     "--popover": withAlpha(surface, spec.surfaceAlpha ?? 100),
     "--muted": muted,
     "--border": border,
@@ -183,11 +194,16 @@ export function palette(spec: PaletteSpec): ThemeCollectionTokens {
     // Estrutura. Os raios DERIVADOS (sm/md/xl/2xl/3xl) são calc(var(--radius) ± N) no CSS
     // da marca — com raio 0 eles devolviam pixels (2xl = +8) e os cartões do Win95/Metro
     // continuavam arredondados. O tema emite os seis coerentes com o raio dele.
+    // The deltas are pixels: added to a rem base they turned 0.875rem into a 12.875rem (206px)
+    // `--radius-3xl`, and every card of a theme without its own radius came out oval.
     ...(() => {
       const parsed = /^([\d.]+)(px|rem)$/.exec(spec.radius ?? "0.875rem");
       const base = parsed ? Number(parsed[1]) : 14;
-      const unit = parsed ? parsed[2] : "rem";
-      const radiusToken = (delta: number) => `${Math.max(0, base + delta)}${unit}`;
+      const unit = parsed ? parsed[2] : "px";
+      const basePx = unit === "rem" ? base * 16 : base;
+      // A square theme (radius 0) stays square at every size.
+      const radiusToken = (delta: number) =>
+        basePx === 0 ? "0px" : `${Math.max(0, basePx + delta)}px`;
       return {
         "--radius": `${base}${unit}`,
         "--radius-sm": radiusToken(-4),
@@ -299,7 +315,7 @@ export const THEME_COLLECTIONS: ThemeCollection[] = [
     id: "win98",
     category: "retro",
     name: "Memphis 98",
-    description: "O 95 com o título em degradê — a última infância do século XX.",
+    description: "O 95 com o título em degradê: a última infância do século XX.",
     metaColor: "#0a246a",
     tokens: {
       light: palette({
@@ -649,7 +665,7 @@ html:root.dark[data-theme="aero-glass"] .bg-surface-card, html:root.dark[data-th
     category: "retro",
     name: "Terminal",
     description:
-      "Fósforo verde sobre preto, fonte de máquina. Escuro por natureza — o brilho do tubo não tem modo claro.",
+      "Fósforo verde sobre preto, fonte de máquina. Escuro por natureza: o brilho do tubo não tem modo claro.",
     metaColor: "#050805",
     tokens: {
       light: palette({
@@ -687,7 +703,7 @@ html:root.dark[data-theme="aero-glass"] .bg-surface-card, html:root.dark[data-th
     category: "retro",
     name: "Vaporwave",
     description:
-      "Roxo profundo, rosa e ciano neon. Escuro por natureza — a noite é o ponto do tema.",
+      "Roxo profundo, rosa e ciano neon. Escuro por natureza: a noite é o ponto do tema.",
     metaColor: "#2b1055",
     tokens: {
       light: palette({

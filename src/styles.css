@@ -22,6 +22,11 @@
   --color-text-strong: var(--text-strong);
   --color-text-subtle: var(--text-subtle);
   --color-text-date: var(--text-date);
+  --color-signal-today: var(--signal-today);
+  --color-signal-today-soft: var(--signal-today-soft);
+  --color-signal-today-foreground: var(--signal-today-foreground);
+  --color-signal-love: var(--signal-love);
+  --color-signal-done: var(--signal-done);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -32,6 +37,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
+  --color-on-foreground: var(--on-foreground);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
@@ -79,10 +85,11 @@
 }
 
 :root {
-  --radius: 0.875rem;
-  --background: #faf9ff;
+  --radius: 1rem;
+  --background: #f7f4fb;
   --foreground: #21173a;
   --card: oklch(1 0 0);
+  --on-foreground: var(--card);
   --card-foreground: oklch(0.2 0.02 280);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.2 0.02 280);
@@ -132,17 +139,40 @@
   --surface-2: #ede8f5;
   --surface-3: #f5f3ff;
   --border-soft: #e5e0eb;
-  --text-strong: #0f0f14;
-  --text-subtle: #6b7280;
-  --text-date: #a1a1aa;
+  --text-strong: #1d1626;
+  --text-subtle: #5b5068;
+  --text-date: #74697f;
+
+  /* Boteco: warm lamp light at the top of the page and the semantic signal colors. */
+  --lamp: radial-gradient(120% 60% at 50% -10%, rgb(255 184 107 / 0.16), transparent 60%);
+  --signal-today: #a8570a;
+  --signal-today-soft: #fff0dd;
+  --signal-today-foreground: #ffffff;
+  --signal-love: #d6336c;
+  --signal-done: #0e9f6e;
+  /* A short blur on purpose: the 24px one, painted on every rounded card of a list, made Chrome on
+     weak GPUs show stale tiles (cards drawn twice, the page jumping) while scrolling. */
+  --shadow-table: 0 1px 2px rgb(40 20 60 / 0.05), 0 4px 8px -4px rgb(40 20 60 / 0.14);
+  /* Things that float over the page: dock, drawer, account menu. */
+  --shadow-float: 0 2px 6px rgb(40 20 60 / 0.06), 0 18px 40px -16px rgb(40 20 60 / 0.28);
+
+  /* Table colors: a community or room without its own color gets a stable one from this set. White
+     text passes AA on each, in both themes. */
+  --table-1: #0f766e;
+  --table-2: #c2410c;
+  --table-3: #4338ca;
+  --table-4: #be185d;
+  --table-5: #7c3aed;
+  --table-6: #b45309;
 }
 
 .dark {
-  --background: #0d0d18;
-  --foreground: #e8e6ff;
-  --card: oklch(0.21 0.025 285);
+  --background: #15111c;
+  --foreground: #f3eef7;
+  --card: #1f1929;
+  --on-foreground: var(--card);
   --card-foreground: oklch(0.96 0.008 280);
-  --popover: oklch(0.21 0.025 285);
+  --popover: #1f1929;
   --popover-foreground: oklch(0.96 0.008 280);
   --primary: #a78bfa;
   --primary-foreground: oklch(0.16 0.02 285);
@@ -172,16 +202,26 @@
   --gradient-soft: linear-gradient(135deg, oklch(0.22 0.04 285), oklch(0.25 0.05 295));
 
   /* Novos tokens (Fase 0) */
-  --surface-card: #13131f;
-  --surface-card-90: rgba(19, 19, 31, 0.9);
-  --surface-card-95: rgba(19, 19, 31, 0.95);
-  --surface-1: #1c1c2e;
-  --surface-2: #2d1f4e;
-  --surface-3: #1e1829;
-  --border-soft: #2a2a3d;
-  --text-strong: #e8e6ff;
-  --text-subtle: #9ca3af;
-  --placeholder-color: #6b7280;
+  --surface-card: #1f1929;
+  --surface-card-90: rgb(31 25 41 / 0.9);
+  --surface-card-95: rgb(31 25 41 / 0.95);
+  --surface-1: #1b1623;
+  --surface-2: #2a2236;
+  --surface-3: #241d30;
+  --border-soft: #34293f;
+  --text-strong: #f3eef7;
+  --text-subtle: #b9aec6;
+  --text-date: #94889f;
+  --placeholder-color: #8a7f96;
+
+  --lamp: radial-gradient(120% 60% at 50% -10%, rgb(255 184 107 / 0.1), transparent 60%);
+  --signal-today: #ffb86b;
+  --signal-today-soft: #3a2a1e;
+  --signal-today-foreground: #2a1606;
+  --signal-love: #ff8fb1;
+  --signal-done: #6ee7b7;
+  --shadow-table: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 8px 20px -12px rgb(0 0 0 / 0.55);
+  --shadow-float: inset 0 1px 0 rgb(255 255 255 / 0.05), 0 20px 50px -14px rgb(0 0 0 / 0.65);
 }
 
 @layer base {
@@ -194,6 +234,12 @@
 
   * {
     border-color: var(--color-border);
+  }
+
+  /* No iOS o "rubber band" do scroll mostra o fundo do html, não o do body: sem isso aparece uma
+     faixa branca acima e abaixo do feed em tema escuro. */
+  html {
+    background-color: var(--color-background);
   }
 
   body {
@@ -217,11 +263,11 @@
   }
 }
 
+/* A table top: warm surface, soft corners and a soft offset shadow instead of a hard border. */
 @utility surface-card {
-  background-color: var(--color-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-soft);
+  background-color: var(--color-surface-card);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-table);
 }
 
 @utility gradient-text {
@@ -2452,7 +2498,9 @@
    Durações quase zero (em vez de `animation: none`) porque assim a animação
    termina no primeiro quadro e o elemento fica no estado final — nada de diálogo
    ou esqueleto preso no meio do caminho. As partículas das molduras somem porque
-   paradas viram pontinhos soltos em volta do avatar. */
+   paradas viram pontinhos soltos em volta do avatar. O desfoque de fundo
+   (`backdrop-filter`) sai porque é o paint mais caro em GPU fraca ou sem
+   aceleração, refeito a cada quadro de rolagem; os fundos já são quase opacos. */
 html[data-lite] *,
 html[data-lite] *::before,
 html[data-lite] *::after {
@@ -2460,10 +2508,127 @@ html[data-lite] *::after {
   animation-iteration-count: 1 !important;
   transition-duration: 0.01ms !important;
   scroll-behavior: auto !important;
+  backdrop-filter: none !important;
 }
 
 html[data-lite] .moldura-fx__particula {
   display: none;
+}
+
+/* ── Modo BATATA ─────────────────────────────────────────────────────────────
+   `<html data-batata>`: a interface da web clássica para aparelho com pouca
+   memória, processador fraco ou conexão lenta. O lite encurta as durações; o
+   BATATA apaga o que custa PINTURA e COMPOSIÇÃO a cada quadro:
+
+   - `box-shadow`/`text-shadow`: cada sombra vira uma camada rasterizada e
+     recomposta na rolagem. As `ring-*` do app também são sombra — por isso o
+     `:focus-visible` ganha contorno de verdade logo abaixo; sem ele o foco do
+     teclado desapareceria junto com a sombra;
+   - `backdrop-filter`/`filter`: desfoque é recalculado a cada quadro, caro em GPU
+     fraca (blocos decorativos com `blur-*` e o `hover:brightness-*`);
+   - `will-change`: promove o elemento a camada de composição da GPU sem animação
+     nenhuma acontecendo;
+   - gradientes: rasterizados por elemento. Os tokens viram `none` e os
+     utilitários `bg-gradient-to-*` (capas e heros) perdem a imagem; o
+     `.gradient-text` recebe cor sólida, senão o recorte do texto o deixaria
+     transparente;
+   - `border-radius`: cada canto arredondado pede máscara em cada pintura (são
+     centenas de `rounded-full` no app).
+
+   A tipografia passa a ser a do próprio sistema: `--font-sans`/`--font-display`
+   são `var()`s no `body` e nos títulos, então trocá-los aqui alcança a árvore
+   inteira de uma vez. A fonte do Google nem chega a ser baixada — o `<head>` do
+   app só injeta o link quando o aparelho não está em BATATA.
+
+   Precedência: BATATA é um superconjunto do lite — o app liga os dois atributos
+   (`data-lite` e `data-batata`), então nada aqui depende de o lite estar ligado,
+   e desligar o BATATA devolve o desenho normal com o lite continuando como
+   estava. O que some com `display: none` é só enfeite: partícula, brilho e
+   órbita das molduras. Nenhum conteúdo, controle, validação, estado de
+   carregamento ou mensagem de erro sai da tela. */
+html[data-batata] {
+  --radius: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --shadow-soft: none;
+  --shadow-card: none;
+  --shadow-table: none;
+  --shadow-float: none;
+  --lamp: none;
+  --gradient-primary: none;
+  --gradient-soft: none;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-sans);
+}
+
+html[data-batata] *,
+html[data-batata] *::before,
+html[data-batata] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  animation-delay: 0s !important;
+  transition-duration: 0.01ms !important;
+  transition-delay: 0s !important;
+  scroll-behavior: auto !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  border-radius: 0 !important;
+  will-change: auto !important;
+}
+
+html[data-batata] body {
+  font-feature-settings: normal;
+  text-rendering: auto;
+}
+
+/* Tables lose their shadow above: a hairline keeps them apart from the ground, without layout shift. */
+html[data-batata] .surface-card,
+html[data-batata] [class*="shadow-[var(--shadow-table)]"] {
+  outline: 1px solid var(--border-soft);
+  outline-offset: -1px;
+}
+
+/* Foco do teclado: `ring-*` é `box-shadow` e sumiu na regra acima. */
+html[data-batata] :focus-visible {
+  outline: 2px solid var(--ring) !important;
+  outline-offset: 2px !important;
+}
+
+/* Sem o gradiente o `background-clip: text` pintaria nada. */
+html[data-batata] .gradient-text {
+  color: var(--primary) !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+html[data-batata] [class*="bg-gradient-to"] {
+  background-image: none !important;
+}
+
+/* Enfeite puro: não carrega informação nem controle. */
+html[data-batata] .moldura-fx__particula,
+html[data-batata] .moldura-orbita__brilho,
+html[data-batata] .moldura-orbita__plano,
+html[data-batata] .moldura-orbita__trilha {
+  display: none;
+}
+
+/* O cartão de perfil temático inclina em 3D e acende um reflexo que segue o
+   mouse: sem `transform` não há contexto 3D nem camada promovida. */
+html[data-batata] .cos-card {
+  transform: none !important;
+}
+
+/* 28dvh de capa é área grande só para rasterizar; a capa continua lá, menor. */
+html[data-batata] .cos-card__banner {
+  height: 120px;
+  min-height: 120px;
 }
 
 /* ── Frame shop (wallet) ─────────────────────────────────────────────────── */
@@ -3152,7 +3317,8 @@ html:not(.dark) .frame-shop-price {
 }
 .cos-card__banner {
   position: relative;
-  height: 122px;
+  height: 28dvh;
+  min-height: 192px;
   overflow: hidden;
   background: linear-gradient(
     135deg,
@@ -3165,6 +3331,10 @@ html:not(.dark) .frame-shop-price {
   inset: 0;
   width: 100%;
   height: 100%;
+}
+.cos-card__banner > img {
+  object-fit: cover;
+  object-position: center;
 }
 .cos-card__head {
   position: relative;
@@ -3309,6 +3479,7 @@ html:not(.dark) .frame-shop-price {
 }
 .cos-card--compact .cos-card__banner {
   height: 72px;
+  min-height: 72px;
 }
 .cos-card--compact .cos-card__head {
   margin-top: -34px;
@@ -3458,6 +3629,8 @@ html:not(.dark) .frame-shop-price {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 12px;
+  /* Opening one look's pieces must not stretch the other cards in its row. */
+  align-items: start;
 }
 .cos-look {
   --lt: var(--card);
@@ -3559,9 +3732,11 @@ html:not(.dark) .frame-shop-price {
   font-size: 13.5px;
   white-space: nowrap;
 }
+/* Not --background: a theme may declare its background as a gradient, and `color: <gradient>` is
+   invalid, so the text inherited the foreground (white on white). */
 .cos-shop__chips button[aria-pressed="true"] {
   background: var(--foreground);
-  color: var(--background);
+  color: var(--on-foreground);
   border-color: var(--foreground);
 }
 .cos-shop__chips button:focus-visible,
@@ -3847,6 +4022,57 @@ html:not(.dark) .frame-shop-price {
   height: 5px;
   border-radius: 3px;
   background: var(--cos-accent);
+}
+
+.cos-art-garden {
+  width: 92%;
+}
+.cos-art-garden-thumb {
+  width: 100%;
+}
+.cos-art-garden-thumb .profile-garden,
+.cos-art-garden-thumb .profile-garden__art {
+  border: 0;
+  border-radius: 0;
+}
+
+/* Profile garden: theme tokens paint the frame, the sky and the soil; the plants keep their own
+   natural palette (see profile-garden-styles.ts), mid tones that read on light and dark. */
+.profile-garden {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.profile-garden__art {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border-soft);
+  border-radius: calc(var(--radius) + 2px);
+  background: color-mix(in oklab, var(--primary) 5%, var(--surface-1));
+  transform-origin: 50% 100%;
+}
+.profile-garden__sun {
+  fill: color-mix(in oklab, var(--opportunity) 30%, transparent);
+}
+/* At night the sun turns into a pale moon instead of a muddy disc. */
+.dark .profile-garden__sun {
+  fill: color-mix(in oklab, var(--foreground) 16%, transparent);
+}
+.profile-garden__soil {
+  fill: color-mix(in oklab, #8b6a4e 55%, var(--surface-2));
+}
+.profile-garden__furrow {
+  stroke: color-mix(in oklab, #5e4029 70%, var(--surface-2));
+  stroke-width: 1.4;
+}
+.profile-garden__furrow-fill {
+  fill: color-mix(in oklab, #5e4029 70%, var(--surface-2));
+}
+.profile-garden__hint {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-subtle);
 }
 
 /* Events: the Saci × Halloween duel and the hidden Saci of the hunt. */

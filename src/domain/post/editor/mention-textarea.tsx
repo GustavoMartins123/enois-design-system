@@ -15,6 +15,7 @@ import {
 } from "../../../lib/mentions/list-placement.js";
 import { applyFormat } from "../../../lib/rich-text/apply-format.js";
 import { insertSnippet } from "../../../lib/rich-text/insert-snippet.js";
+import { parseRichText } from "../../../lib/rich-text/parse.js";
 import { isSubmitShortcut } from "../../../lib/submit-shortcut.js";
 import { useMessages } from "../../../messages/messages-context.js";
 import { RichTextToolbar } from "../../../patterns/editor/rich-text-toolbar.js";
@@ -44,6 +45,24 @@ const SHORTCUTS: Record<string, RichTextFormat> = {
   k: "link",
 };
 
+/** Grows with the text up to 240px; past that it scrolls inside. */
+function fitHeight(el: HTMLTextAreaElement): void {
+  el.style.height = "auto";
+  el.style.height = `${Math.min(el.scrollHeight, 240)}px`;
+}
+
+function retainMentions(text: string, mentions: Pick<MentionUser, "id" | "username">[]) {
+  // Use the rendered tokens, including formatted mentions and excluding literal code.
+  const nodes = parseRichText(text);
+  const usernames = new Set<string>();
+  while (nodes.length > 0) {
+    const node = nodes.pop()!;
+    if (node.kind === "mention" && node.text) usernames.add(node.text.slice(1));
+    nodes.push(...(node.children ?? []), ...(node.nested ?? []));
+  }
+  return mentions.filter((user) => usernames.has(user.username));
+}
+
 export function MentionTextarea({
   value,
   onChange,
@@ -53,6 +72,7 @@ export function MentionTextarea({
   showCounter = true,
   rows,
   toolbar = false,
+  toolbarVisible = true,
   onPasteImages,
   onSubmitShortcut,
   mentionResults: results,
@@ -70,12 +90,28 @@ export function MentionTextarea({
   // Layout, não effect: a altura tem de estar aplicada antes da medida da lista, no mesmo frame.
   useLayoutEffect(() => {
     const el = textareaRef.current;
-    if (!el) return;
-    el.style.height = "auto";
-    el.style.height = `${Math.min(el.scrollHeight, 240)}px`;
+    if (el) fitHeight(el);
   }, [value]);
+  // The first measure can run before the field is laid out for good (final width, web font):
+  // an empty field then stays several lines tall. Measure again whenever the box changes; the
+  // second pass sets the same height, so it settles.
+  useEffect(() => {
+    const el = textareaRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(() => fitHeight(el));
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
   const [selectedIdx, setSelectedIdx] = useState(0);
-  const [mentionedIds, setMentionedIds] = useState<string[]>([]);
+  const [mentions, setMentions] = useState<Pick<MentionUser, "id" | "username">[]>([]);
+
+  // A parent can clear or replace the draft without unmounting the editor.
+  useEffect(() => {
+    setMentions((current) => {
+      const retained = retainMentions(value, current);
+      return retained.length === current.length ? current : retained;
+    });
+  }, [value]);
 
   // A busca de quem mencionar é do app: o termo sobe e a lista volta em `mentionResults`.
   useEffect(() => {
@@ -166,12 +202,21 @@ export function MentionTextarea({
     setMentionIndex(at);
   };
 
+  const changeValue = (next: string, selected = mentions) => {
+    const retained = retainMentions(next, selected);
+    setMentions(retained);
+    onChange(
+      next,
+      retained.map((user) => user.id),
+    );
+  };
+
   const handleInput = (e: FormEvent<HTMLTextAreaElement>) => {
     const el = e.currentTarget;
     const next = el.value;
     const cursor = el.selectionStart;
     updateMention(next, cursor);
-    onChange(next, mentionedIds);
+    changeValue(next);
   };
 
   const pick = (user: MentionUser) => {
@@ -179,11 +224,14 @@ export function MentionTextarea({
     const before = value.slice(0, mentionIndex);
     const after = value.slice(mentionIndex + mentionQuery.length + 1);
     const next = `${before}@${user.username} ${after}`;
+    if (maxLength !== undefined && next.length > maxLength) return;
+
     setMentionQuery("");
     setMentionIndex(-1);
-    const ids = mentionedIds.includes(user.id) ? mentionedIds : [...mentionedIds, user.id];
-    setMentionedIds(ids);
-    onChange(next, ids);
+    changeValue(
+      next,
+      mentions.some((mention) => mention.id === user.id) ? mentions : [...mentions, user],
+    );
     requestAnimationFrame(() => {
       if (textareaRef.current) {
         const pos = before.length + user.username.length + 2;
@@ -205,7 +253,9 @@ export function MentionTextarea({
       format,
       messages.formatPlaceholders,
     );
-    onChange(result.value, mentionedIds);
+    if (maxLength !== undefined && result.value.length > maxLength) return;
+
+    changeValue(result.value);
 
     // O valor volta pelo `value` (componente controlado): a selecao so pode ser reposta depois
     // do proximo paint, quando o textarea ja tem o texto novo.
@@ -229,7 +279,7 @@ export function MentionTextarea({
     const result = insertSnippet(value, start, end, emoji);
     if (maxLength !== undefined && result.value.length > maxLength) return;
 
-    onChange(result.value, mentionedIds);
+    changeValue(result.value);
 
     requestAnimationFrame(() => {
       const node = textareaRef.current;
@@ -273,6 +323,8 @@ export function MentionTextarea({
       return;
     }
     if (e.key === "Escape") {
+      // Closing the list is all Esc does here: an inline reply around the field must not close.
+      e.preventDefault();
       setMentionQuery("");
       setMentionIndex(-1);
     }
@@ -280,7 +332,7 @@ export function MentionTextarea({
 
   return (
     <div ref={rootRef} className="relative min-w-0 flex-1">
-      {toolbar && (
+      {toolbar && toolbarVisible && (
         <RichTextToolbar
           label={messages.toolbar}
           onFormat={formatSelection}

@@ -28,8 +28,12 @@ export type PostCommentsProps<C extends PostCommentNode = PostCommentNode> = {
   onAddImages: (files: File[]) => void;
   onAddAudio: (file: File) => void;
   onErrorChange: (error: CommentsError | null) => void;
-  /** O campo de escrita (com menção) vem do app. */
-  composerField: ReactNode;
+  /**
+   * O campo de escrita (com menção) vem do app. As a function it learns whether the "+" tools are
+   * open (to show its formatting bar only then) and who is being answered (for its placeholder).
+   */
+  composerField:
+    ReactNode | ((state: { toolsOpen: boolean; replyingTo: string | null }) => ReactNode);
   /** Há texto ou mídia para enviar. */
   canSend: boolean;
   sending: boolean;

@@ -1,4 +1,4 @@
-import { BookOpen, Clock, FileText, Pin, PinOff, Repeat2 } from "lucide-react";
+import { BookOpen, CircleCheck, Clock, FileText, Pin, PinOff, Repeat2 } from "lucide-react";
 
 import { useAdapters } from "../../adapters/adapters-context.js";
 import { inlineMediaIds } from "../../lib/rich-text/inline-media.js";
@@ -8,6 +8,7 @@ import { useMessages } from "../../messages/messages-context.js";
 import type { PostCardProps } from "../../types/domain/post/post-card-props.js";
 import { AppLink } from "../../ui/app-link.js";
 import { Badge } from "../../ui/badge.js";
+import { UserAvatar } from "../avatar/user-avatar.js";
 
 import { AuthorInfo } from "./author-info.js";
 import { LinkPreviews } from "./media/link-previews.js";
@@ -36,6 +37,7 @@ export function PostCard({
   topicLabel,
   anchored = false,
   fullPost = false,
+  virtualized = false,
   pinned = false,
   onTogglePin,
   pinPending = false,
@@ -53,6 +55,7 @@ export function PostCard({
   pageLoading = false,
   mediaSpoiler = false,
   page,
+  poll,
   reactionsSummary,
   notes,
   actions,
@@ -75,20 +78,35 @@ export function PostCard({
     <article
       id={anchored ? `feed-post-${post.id}` : undefined}
       tabIndex={anchored ? -1 : undefined}
-      className={`min-w-0 border border-border-soft bg-surface-card p-4 transition sm:p-5 ${
+      className={`min-w-0 bg-surface-card p-4 shadow-[var(--shadow-table)] transition sm:p-5 ${
         // Post de página: sem canto no card, porque o conteúdo tem de alcançar as bordas — o
         // arredondamento do card recortava os cantos da página e era o que sobrava de "rounding".
-        post.pageHtml ? "rounded-none" : "overflow-hidden rounded-2xl"
+        post.pageHtml ? "rounded-none" : "overflow-hidden rounded-3xl"
       } ${
-        // Na lista, o navegador pula layout e pintura dos cards fora da tela; `auto` no tamanho
-        // guarda a altura real depois da primeira vez, para a barra de rolagem não pular. Fica de
-        // fora o post de página (o iframe dele mede a própria altura) e a página do post.
-        !fullPost && post.type !== "PAGE"
+        // In a list the browser skips layout and paint for offscreen cards; `auto` in the size
+        // keeps the real height after the first paint so the scrollbar does not jump. Left out:
+        // page posts (their iframe measures itself), the post page, and a virtualized list, which
+        // already unmounts far cards and must measure the real height.
+        !fullPost && !virtualized && post.type !== "PAGE"
           ? "[contain-intrinsic-size:auto_360px] [content-visibility:auto]"
           : ""
       }`}
     >
-      {post.repostOf && hrefs.repostOf && (
+      {/* Repost puro (ponteiro): mostra quem repostou com mini avatar no topo, estilo Twitter. */}
+      {post.repostedByName && !post.repostWithOpinion && hrefs.repostedBy && (
+        <AppLink
+          href={hrefs.repostedBy}
+          className="mb-3 flex items-center gap-2 text-xs text-text-subtle transition hover:text-primary"
+        >
+          <UserAvatar src={post.repostedByAvatar} alt={post.repostedByName} className="h-4 w-4" />
+          <Repeat2 className="h-3 w-3 shrink-0" />
+
+          <span className="min-w-0 truncate">{messages.repostedBy(post.repostedByName)}</span>
+        </AppLink>
+      )}
+
+      {/* Repost com opinião ou repost legado (post-cópia). */}
+      {post.repostOf && hrefs.repostOf && !post.repostedByName && (
         <AppLink
           href={hrefs.repostOf}
           className="mb-2 inline-flex items-center gap-1.5 text-xs text-text-subtle transition hover:text-primary"
@@ -152,6 +170,18 @@ export function PostCard({
           >
             {messages.types[metaType]}
           </span>
+
+          {post.type === "QUESTION" &&
+            (post.resolved ? (
+              <span className="inline-flex items-center gap-1 rounded-full bg-growth/10 px-2.5 py-1 text-xs font-medium text-growth">
+                <CircleCheck className="h-3 w-3" aria-hidden />
+                {messages.questionResolved}
+              </span>
+            ) : (
+              <span className="inline-flex items-center rounded-full border border-border-soft px-2.5 py-1 text-xs font-medium text-text-subtle">
+                {messages.questionOpen}
+              </span>
+            ))}
 
           {/* O assunto (categoria) do post fica ao lado do tipo, quando o autor classificou. */}
           {topicLabel && (
@@ -323,6 +353,7 @@ export function PostCard({
         </p>
       ) : null}
 
+      {poll}
       {reactionsSummary}
       <LinkPreviews content={post.content} autoplay={autoplayLinks} />
 

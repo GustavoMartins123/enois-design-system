@@ -12,8 +12,13 @@ export type WellbeingMessages = {
     liteTitle: string;
     liteDescription: string;
     liteWhy: string;
+    batataTitle: string;
+    batataDescription: string;
+    batataWhy: string;
     forceMotionTitle: string;
     forceMotionDescription: string;
+    cardTiltTitle: string;
+    cardTiltDescription: string;
     nightRestTitle: string;
     nightRestDescription: string;
     likeTitle: string;

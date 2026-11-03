@@ -5,4 +5,6 @@ export type HealthyUsagePersonalization = {
   disabledModules: string[];
   nightRestReminder: boolean;
   liteMode: boolean;
+  /** Modo BATATA (interface econômica); independente do lite, e o app soma os efeitos. */
+  batataMode: boolean;
 };

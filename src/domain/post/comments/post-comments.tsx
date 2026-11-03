@@ -1,7 +1,16 @@
-import { type ChangeEvent, type FormEvent, Fragment, useEffect, useRef, useState } from "react";
+import {
+  type ChangeEvent,
+  type FormEvent,
+  Fragment,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from "react";
 
-import { EyeOff, Image, Loader2, Mic, Send, Square, X } from "lucide-react";
+import { EyeOff, Image, Loader2, Mic, Plus, Send, Square, X } from "lucide-react";
 
+import { cn } from "../../../lib/utils.js";
 import { useMessages } from "../../../messages/messages-context.js";
 import type { PostCommentNode } from "../../../types/domain/post/post-comment-node.js";
 import type { PostCommentsProps } from "../../../types/domain/post/post-comments-props.js";
@@ -53,6 +62,11 @@ export function PostComments<C extends PostCommentNode>({
   const audioChunksRef = useRef<Blob[]>([]);
   const listRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const trayId = useId();
+  const formRef = useRef<HTMLFormElement>(null);
+  const [toolsOpen, setToolsOpen] = useState(false);
+  // A recording in progress keeps its controls in sight.
+  const toolsShown = toolsOpen || recording;
 
   // Gravar áudio: o mesmo caminho do anexo (vira arquivo e sobe como mídia) — o que muda é que o
   // arquivo nasce do microfone. Sem suporte no navegador, o botão nem aparece.
@@ -109,7 +123,16 @@ export function PostComments<C extends PostCommentNode>({
   const addMedia = (event: ChangeEvent<HTMLInputElement>) => {
     onAddImages(Array.from(event.target.files ?? []));
     event.target.value = "";
+    setToolsOpen(false);
   };
+
+  // Answering puts the caret in the field right where the reply opened.
+  useEffect(() => {
+    if (!replyToId) return;
+    const form = formRef.current;
+    form?.querySelector("textarea")?.focus({ preventScroll: true });
+    form?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, [replyToId]);
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -138,172 +161,231 @@ export function PostComments<C extends PostCommentNode>({
   }
   const roots = comments.filter((comment) => rootIdByComment.get(comment.id) === comment.id);
   const replyToName = replyToId ? byId.get(replyToId)?.authorName : undefined;
+  // The reply opens in the thread when its comment is loaded; otherwise it stays on top.
+  const inlineReply = replyToId !== null && byId.has(replyToId);
 
-  return (
-    <section className="mt-4 border-t border-border-soft pt-4">
-      <form onSubmit={submit} className="mb-4" id={formId}>
+  // One form, two places: on top for a new comment, under the comment being answered for a reply,
+  // so answering never sends the reader away from what they answer. Draft and attachments stay.
+  const composer = (inline: boolean) => (
+    <form
+      ref={formRef}
+      onSubmit={submit}
+      onKeyDown={(event) => {
+        // Esc leaves an inline reply; the mention list claims Esc first when it is open.
+        if (inline && event.key === "Escape" && !event.defaultPrevented) onCancelReply();
+      }}
+      className={inline ? "mt-2" : "mb-4"}
+      id={formId}
+    >
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="hidden"
+      />
+
+      <div className="min-w-0">
+        {replyToId && (
+          <div className="mb-1.5 flex items-center gap-2 pl-[2.625rem] text-xs font-normal text-primary">
+            <span className="truncate">
+              {replyToName ? messages.replyingTo(replyToName) : messages.reply}
+            </span>
+
+            <button
+              type="button"
+              onClick={onCancelReply}
+              className="shrink-0 text-text-subtle hover:text-foreground"
+              aria-label={messages.cancelReply}
+              title={messages.cancelReply}
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        )}
+
+        {media.length > 0 && (
+          <div className="mb-2 flex flex-wrap gap-2">
+            {media.map((item, i) => (
+              <div key={item.preview} className="relative">
+                {item.type === "audio" ? (
+                  <audio
+                    src={item.preview}
+                    controls
+                    className="h-16 w-56 rounded-lg border border-border-soft"
+                  />
+                ) : (
+                  <SpoilerPreview
+                    active={mediaSpoiler}
+                    label={messages.spoilerBadge}
+                    className="h-16 w-16 rounded-lg"
+                  >
+                    <img
+                      src={item.preview}
+                      alt=""
+                      className="h-16 w-16 rounded-lg border border-border-soft object-cover"
+                    />
+                  </SpoilerPreview>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => onRemoveMedia(i)}
+                  className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-foreground text-on-foreground shadow"
+                  aria-label={messages.removeMedia}
+                  title={messages.removeMedia}
+                >
+                  <X className="h-3 w-3" />
+                </button>
+
+                {/* Item 9: insere o marcador no ponto do texto (o pendente vira id real no upload). */}
+                <button
+                  type="button"
+                  title={messages.insertInText}
+                  onClick={() => onInsertMedia(i)}
+                  className="mt-1 flex w-full items-center justify-center gap-1 rounded-lg border border-dashed border-primary/40 px-1 py-0.5 text-[10px] font-normal text-primary transition hover:bg-primary/10"
+                >
+                  {messages.insertInText}
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={onToggleMediaSpoiler}
+              className={`inline-flex h-8 items-center gap-1 rounded-full px-2 text-xs transition ${
+                mediaSpoiler
+                  ? "bg-primary text-primary-foreground"
+                  : "border border-border-soft text-text-subtle hover:border-primary hover:text-primary"
+              }`}
+              aria-label={mediaSpoiler ? messages.mediaSpoilerActive : messages.mediaSpoiler}
+              title={mediaSpoiler ? messages.mediaSpoilerActive : messages.mediaSpoiler}
+            >
+              <EyeOff className="h-3.5 w-3.5" />
+              {mediaSpoiler ? messages.mediaSpoilerActive : messages.mediaSpoiler}
+            </button>
+          </div>
+        )}
+
         <input
-          type="text"
-          name="website"
-          tabIndex={-1}
-          autoComplete="off"
-          aria-hidden="true"
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          multiple
           className="hidden"
+          onChange={addMedia}
         />
 
-        <div className="min-w-0">
-          {replyToId && (
-            <div className="mb-1 flex items-center gap-2 pl-4 text-xs font-normal text-primary">
-              <span className="truncate">
-                {replyToName ? messages.replyingTo(replyToName) : messages.reply}
-              </span>
+        {/* One calm row, like a chat app: "+" for the extras, the field, send. The extras
+              (photo, audio, GIF and the formatting bar) stay out of the way until asked for.
+              On a phone the send button drops to its own line: the field keeps the whole width
+              for writing instead of splitting it with the two buttons. */}
+        <div className="flex flex-wrap items-end gap-1.5">
+          <button
+            type="button"
+            onClick={() => setToolsOpen((open) => !open)}
+            disabled={recording}
+            aria-expanded={toolsShown}
+            aria-controls={trayId}
+            aria-label={toolsShown ? messages.closeTools : messages.moreTools}
+            title={toolsShown ? messages.closeTools : messages.moreTools}
+            className={cn(
+              "grid h-9 w-9 shrink-0 place-items-center rounded-full text-text-subtle transition-colors hover:bg-surface-2 hover:text-primary disabled:opacity-60",
+              toolsShown && "bg-surface-2 text-primary",
+            )}
+          >
+            <Plus
+              className={cn(
+                "h-5 w-5 transition-transform duration-200 ease-out motion-reduce:transition-none",
+                toolsShown && "rotate-45",
+              )}
+            />
+          </button>
 
-              <button
-                type="button"
-                onClick={onCancelReply}
-                className="shrink-0 text-text-subtle hover:text-foreground"
-                aria-label={messages.cancelReply}
-                title={messages.cancelReply}
-              >
-                <X className="h-3.5 w-3.5" />
-              </button>
-            </div>
-          )}
+          <div className="min-w-0 flex-1 rounded-[1.25rem] border border-border-soft bg-surface-1 px-2 py-1 transition-colors focus-within:border-primary/50">
+            {typeof composerField === "function"
+              ? composerField({
+                  toolsOpen: toolsShown,
+                  replyingTo: inline ? (replyToName ?? null) : null,
+                })
+              : composerField}
+          </div>
 
-          {media.length > 0 && (
-            <div className="mb-2 flex flex-wrap gap-2">
-              {media.map((item, i) => (
-                <div key={item.preview} className="relative">
-                  {item.type === "audio" ? (
-                    <audio
-                      src={item.preview}
-                      controls
-                      className="h-16 w-56 rounded-lg border border-border-soft"
-                    />
-                  ) : (
-                    <SpoilerPreview
-                      active={mediaSpoiler}
-                      label={messages.spoilerBadge}
-                      className="h-16 w-16 rounded-lg"
-                    >
-                      <img
-                        src={item.preview}
-                        alt=""
-                        className="h-16 w-16 rounded-lg border border-border-soft object-cover"
-                      />
-                    </SpoilerPreview>
-                  )}
+          <Button
+            type="submit"
+            size="icon"
+            // 36px: big enough for a thumb on the phone. Below `sm` it takes the whole line, so
+            // the field on the row above is not squeezed by it.
+            className="order-last h-9 w-full shrink-0 rounded-full sm:order-none sm:w-9"
+            disabled={!canSend || sending}
+            aria-label={messages.send}
+          >
+            {sending ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <Send className="h-3.5 w-3.5" />
+            )}
+          </Button>
+        </div>
 
-                  <button
-                    type="button"
-                    onClick={() => onRemoveMedia(i)}
-                    className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-foreground text-background shadow"
-                    aria-label={messages.removeMedia}
-                    title={messages.removeMedia}
-                  >
-                    <X className="h-3 w-3" />
-                  </button>
-
-                  {/* Item 9: insere o marcador no ponto do texto (o pendente vira id real no upload). */}
-                  <button
-                    type="button"
-                    title={messages.insertInText}
-                    onClick={() => onInsertMedia(i)}
-                    className="mt-1 flex w-full items-center justify-center gap-1 rounded-lg border border-dashed border-primary/40 px-1 py-0.5 text-[10px] font-normal text-primary transition hover:bg-primary/10"
-                  >
-                    {messages.insertInText}
-                  </button>
-                </div>
-              ))}
-              <button
-                type="button"
-                onClick={onToggleMediaSpoiler}
-                className={`inline-flex h-8 items-center gap-1 rounded-full px-2 text-xs transition ${
-                  mediaSpoiler
-                    ? "bg-primary text-primary-foreground"
-                    : "border border-border-soft text-text-subtle hover:border-primary hover:text-primary"
-                }`}
-                aria-label={mediaSpoiler ? messages.mediaSpoilerActive : messages.mediaSpoiler}
-                title={mediaSpoiler ? messages.mediaSpoilerActive : messages.mediaSpoiler}
-              >
-                <EyeOff className="h-3.5 w-3.5" />
-                {mediaSpoiler ? messages.mediaSpoilerActive : messages.mediaSpoiler}
-              </button>
-            </div>
-          )}
-
-          <div className="rounded-2xl border border-border-soft bg-surface-1 p-2">
-            {composerField}
-
-            <div className="mt-1 flex items-center gap-1 px-1">
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                multiple
-                className="hidden"
-                onChange={addMedia}
-              />
-
+        {/* Height animates through grid rows, so the tray slides open without measuring it. */}
+        <div
+          id={trayId}
+          inert={!toolsShown}
+          className="grid transition-[grid-template-rows] duration-200 ease-out motion-reduce:transition-none"
+          style={{ gridTemplateRows: toolsShown ? "1fr" : "0fr" }}
+        >
+          <div className="min-h-0 overflow-hidden">
+            <div className="flex flex-wrap items-center gap-1.5 pl-[2.625rem] pt-2">
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="grid h-8 w-8 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-primary"
+                className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border-soft px-3 text-xs text-text-subtle transition-colors hover:border-primary hover:text-primary"
                 aria-label={messages.attachMedia}
-                title={messages.attachMedia}
               >
-                <Image className="h-4 w-4" />
+                <Image className="h-3.5 w-3.5" />
+                {messages.photo}
               </button>
 
               {canRecord && (
                 <button
                   type="button"
                   onClick={() => (recording ? stopRecording() : void startRecording())}
-                  className="grid h-8 w-8 place-items-center rounded-full text-text-subtle transition hover:bg-surface-2 hover:text-primary"
-                  aria-label={recording ? messages.stopRecording : messages.recordAudio}
-                  title={recording ? messages.stopRecording : messages.recordAudio}
-                >
-                  {recording ? (
-                    <Square className="h-4 w-4 text-destructive" />
-                  ) : (
-                    <Mic className="h-4 w-4" />
+                  className={cn(
+                    "inline-flex h-8 items-center gap-1.5 rounded-full border px-3 text-xs transition-colors",
+                    recording
+                      ? "border-destructive/50 text-destructive"
+                      : "border-border-soft text-text-subtle hover:border-primary hover:text-primary",
                   )}
+                  aria-label={recording ? messages.stopRecording : messages.recordAudio}
+                >
+                  {recording ? <Square className="h-3.5 w-3.5" /> : <Mic className="h-3.5 w-3.5" />}
+                  {recording
+                    ? messages.recording(Math.floor(recordedSeconds / 60), recordedSeconds % 60)
+                    : messages.audio}
                 </button>
-              )}
-
-              {recording && (
-                <span className="text-xs font-normal text-destructive" aria-live="polite">
-                  {messages.recording(Math.floor(recordedSeconds / 60), recordedSeconds % 60)}
-                </span>
               )}
 
               <button
                 type="button"
-                onClick={onOpenGifPicker}
-                className="h-8 rounded-full px-2 text-xs font-semibold text-text-subtle transition hover:bg-surface-2 hover:text-primary"
-                aria-label={messages.gif}
+                onClick={() => {
+                  setToolsOpen(false);
+                  onOpenGifPicker();
+                }}
+                className="inline-flex h-8 items-center rounded-full border border-border-soft px-3 text-xs font-semibold text-text-subtle transition-colors hover:border-primary hover:text-primary"
               >
                 {messages.gif}
               </button>
-
-              <Button
-                type="submit"
-                size="icon"
-                // h-9 (36px) em vez de 28px: era pequeno demais para o dedo no celular.
-                className="ml-auto h-9 w-9 shrink-0 rounded-full"
-                disabled={!canSend || sending}
-                aria-label={messages.send}
-              >
-                {sending ? (
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                ) : (
-                  <Send className="h-3.5 w-3.5" />
-                )}
-              </Button>
             </div>
           </div>
         </div>
-      </form>
+      </div>
+    </form>
+  );
+
+  return (
+    <section className="mt-4 border-t border-border-soft pt-4">
+      {!inlineReply && composer(false)}
 
       <div
         ref={listRef}
@@ -340,11 +422,13 @@ export function PostComments<C extends PostCommentNode>({
               <div key={comment.id}>
                 {renderComment(comment)}
 
-                {replies.length > 0 && (
+                {(replies.length > 0 || replyToId === comment.id) && (
                   <div className="ml-6 mt-2 space-y-2 border-l-2 border-border-soft pl-3 sm:ml-10 sm:pl-4">
+                    {replyToId === comment.id && composer(true)}
                     {replies.map((reply) => (
                       <Fragment key={reply.id}>
                         {renderComment(reply, byId.get(reply.parentCommentId ?? "")?.authorName)}
+                        {replyToId === reply.id && composer(true)}
                       </Fragment>
                     ))}
                   </div>

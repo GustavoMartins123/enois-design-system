@@ -14,5 +14,10 @@ export type HealthyUsageDialogProps = {
   minMinutes: number;
   maxMinutes: number;
   savePending?: boolean;
+  /**
+   * BATATA vale na hora: o app aplica o modo e grava a preferência sem esperar o "Salvar".
+   * Sem isto o interruptor só valeria depois de salvar, e a tela ficaria com o modo antigo.
+   */
+  onBatataModeChange?: (on: boolean) => void;
   onSave: (values: HealthyUsageValues) => void;
 };

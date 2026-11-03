@@ -69,8 +69,30 @@ export function ProfileProjectsSection({
               </Fragment>
             ) : (
               <article key={project.id} className="rounded-xl border border-border-soft p-4">
+                {project.banner && safeHref(project.banner) && (
+                  <img
+                    src={safeHref(project.banner) ?? undefined}
+                    alt=""
+                    loading="lazy"
+                    className="mb-3 aspect-[3/1] w-full rounded-lg border border-border-soft object-cover"
+                  />
+                )}
+
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h3 className="font-medium text-text-strong">{project.title}</h3>
+                  <div className="flex min-w-0 items-center gap-2">
+                    {project.icon && safeHref(project.icon) && (
+                      <img
+                        src={safeHref(project.icon) ?? undefined}
+                        alt=""
+                        loading="lazy"
+                        className="h-8 w-8 shrink-0 rounded-lg border border-border-soft object-cover"
+                      />
+                    )}
+
+                    <h3 className="min-w-0 truncate font-medium text-text-strong">
+                      {project.title}
+                    </h3>
+                  </div>
 
                   {project.status && <Chip label={project.status} />}
                 </div>

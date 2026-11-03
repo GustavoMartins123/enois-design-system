@@ -14,6 +14,10 @@ export type ProfileBannerDialogProps = {
   savePending?: boolean;
   /** Grava a capa em HTML; string vazia volta para a foto. */
   onSave: (html: string) => void;
+  /** Name of the equipped shop banner, which draws over the own cover; null when none is equipped. */
+  shopBanner?: string | null;
+  /** Takes the shop banner off so the own cover shows again. */
+  onUseOwnCover?: () => void;
   /** Desenha a pré-visualização no quadro isolado do app. */
   renderHtmlFrame: (props: ProfileHtmlFrameProps) => ReactNode;
 };

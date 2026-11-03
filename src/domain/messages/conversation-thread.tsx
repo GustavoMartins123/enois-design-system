@@ -54,6 +54,8 @@ export function ConversationThread({
   servicesLoading,
   services,
   serviceHref,
+  replyingTo,
+  onCancelReply,
 }: ConversationThreadProps) {
   const messages = useMessages().conversationThread;
   const [text, setText] = useState("");
@@ -63,7 +65,7 @@ export function ConversationThread({
   const messagesScrollRef = useRef<HTMLDivElement>(null);
 
   const attachService = (listing: ConversationServiceOption) => {
-    const snippet = `${messages.serviceAttachment} ${listing.title} — ${serviceHref(listing.id)}`;
+    const snippet = `${messages.serviceAttachment} ${listing.title} · ${serviceHref(listing.id)}`;
     setText((previous) => (previous.trim() ? `${previous.trimEnd()}\n${snippet}` : snippet));
     onServicesOpenChange(false);
     messageInputRef.current?.focus();
@@ -80,11 +82,14 @@ export function ConversationThread({
     const shouldSpoiler = mediaSpoiler;
     setMediaSpoiler(false);
     setUploadError(null);
+    const replyId = replyingTo?.id;
+    onCancelReply?.();
     try {
       await onSend({
         text: content,
         files: media.map((item) => item.file),
         mediaSpoiler: shouldSpoiler,
+        replyToId: replyId,
       });
     } catch (err) {
       setUploadError(err instanceof Error ? err.message : messages.mediaError);
@@ -259,6 +264,28 @@ export function ConversationThread({
               onSubmit={handleSubmit}
               className="border-t border-border px-3 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]"
             >
+              {replyingTo && (
+                <div className="mb-2 flex items-center gap-2 rounded-lg border-l-2 border-primary bg-muted px-3 py-2">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-medium text-primary">
+                      {messages.replyingTo(replyingTo.from)}
+                    </p>
+
+                    <p className="truncate text-xs text-text-subtle">{replyingTo.text}</p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={onCancelReply}
+                    className="shrink-0 rounded-full p-0.5 text-text-subtle transition hover:bg-surface-2 hover:text-foreground"
+                    aria-label={messages.cancelReply}
+                    title={messages.cancelReply}
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              )}
+
               {media.length > 0 && (
                 <div className="mb-2 flex flex-wrap gap-2">
                   {media.map((item, index) => (
@@ -278,7 +305,7 @@ export function ConversationThread({
                       <button
                         type="button"
                         onClick={() => removeMediaItem(index)}
-                        className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-foreground text-background shadow"
+                        className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-foreground text-on-foreground shadow"
                         aria-label={messages.removeMedia}
                         title={messages.removeMedia}
                       >

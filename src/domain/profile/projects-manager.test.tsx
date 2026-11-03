@@ -184,10 +184,19 @@ describe("ProjectsManager stack chips", () => {
   });
 
   it("keeps chips and the chosen mode when other fields change, and saves the stack array", async () => {
-    const onSave = render({ projects: [project] });
+    const banner = "https://example.com/banner.png";
+    const icon = "https://example.com/icon.png";
+    const onSave = render({ projects: [{ ...project, banner, icon }] });
     click(messages.edit);
+    const mediaInputs = document.querySelectorAll<HTMLInputElement>(
+      'input[placeholder="https://…"]',
+    );
+    expect(mediaInputs[0].value).toBe(banner);
+    expect(mediaInputs[1].value).toBe(icon);
     type(stackInput(), "Postgres");
     blur();
+    type(mediaInputs[0], "  https://example.com/updated-banner.png  ");
+    type(mediaInputs[1], "  https://example.com/updated-icon.png  ");
     const repo = document.querySelector<HTMLInputElement>(
       'input[placeholder="https://github.com/…"]',
     )!;
@@ -205,6 +214,8 @@ describe("ProjectsManager stack chips", () => {
       project.id,
       expect.objectContaining({
         title: "Updated project",
+        banner: "https://example.com/updated-banner.png",
+        icon: "https://example.com/updated-icon.png",
         stack: ["React", "TypeScript", "Postgres"],
         repoUrl: "https://github.com/example/sample",
       }),
@@ -220,7 +231,10 @@ describe("ProjectsManager stack chips", () => {
 
     await act(async () => button(messages.save).click());
 
-    expect(onSave).toHaveBeenCalledWith(undefined, expect.objectContaining({ stack: ["React"] }));
+    expect(onSave).toHaveBeenCalledWith(
+      undefined,
+      expect.objectContaining({ banner: null, icon: null, stack: ["React"] }),
+    );
     expect(chips()).toEqual(["React"]);
     expect(stackInput().value).toBe("");
   });

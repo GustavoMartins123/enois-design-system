@@ -29,6 +29,7 @@ import {
   isTryingOn,
   lookMissing,
   previewProfile,
+  shopTabs,
   toggleTryItem,
   tryLook,
 } from "./cosmetic-shop-state.js";
@@ -278,34 +279,21 @@ export function CosmeticShop({
             </label>
 
             <div className="cos-shop__chips" role="group" aria-label={messages.collectionsLabel}>
-              {collections.map((c) => (
+              {shopTabs(collections, hasClassics).map((c) => (
                 <button
-                  key={c.id}
+                  key={c?.id ?? "classics"}
                   type="button"
-                  aria-pressed={!searching && collection === c.id}
+                  aria-pressed={!searching && collection === (c?.id ?? null)}
                   onClick={() => {
-                    setPicked(c.id);
+                    setPicked(c?.id ?? null);
                     setQuery("");
                     resetPage();
                   }}
                 >
-                  {c.name}
-                  {c.dateLabel && <span className="cos-shop__date">{c.dateLabel}</span>}
+                  {c ? c.name : messages.classicTab}
+                  {c?.dateLabel && <span className="cos-shop__date">{c.dateLabel}</span>}
                 </button>
               ))}
-              {hasClassics && (
-                <button
-                  type="button"
-                  aria-pressed={!searching && collection === null}
-                  onClick={() => {
-                    setPicked(null);
-                    setQuery("");
-                    resetPage();
-                  }}
-                >
-                  {messages.classicTab}
-                </button>
-              )}
             </div>
 
             <div

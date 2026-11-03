@@ -44,4 +44,9 @@ export type AppearanceDialogProps = {
   onReset: () => void;
   /** O diálogo de venda, renderizado junto (o app controla abrir e fechar). */
   sellDialog?: ReactNode;
+  /**
+   * Owned cosmetics (frames, badges, banners) to equip from here, issue #566. Without
+   * it the "Itens" tab does not show (e.g. signed out).
+   */
+  itemsSlot?: ReactNode;
 };

@@ -1,3 +1,5 @@
+import type { ProfileGardenStyle } from "../domain/profile/profile-garden-style.js";
+
 export type ProfileMessages = {
   editProfileDialog: {
     title: string;
@@ -92,6 +94,9 @@ export type ProfileMessages = {
     remove: string;
     cancel: string;
     saving: string;
+    /** An equipped shop banner draws over the own cover. */
+    shopBanner: (name: string) => string;
+    useOwnCover: string;
   };
   profileBioDialog: {
     action: string;
@@ -124,6 +129,29 @@ export type ProfileMessages = {
     /** "1 ano e 2 meses": a duração de uma posição, em meses inclusivos. */
     duration: (months: number) => string;
   };
+  professionalProfile: {
+    back: string;
+    edit: string;
+    verified: string;
+    /** Prefix of the @ line, read by screen readers ("Usuário profissional"). */
+    usernameLabel: string;
+    credibility: string;
+    reputation: string;
+    memberSince: string;
+    identity: string;
+    identityVerified: string;
+    about: string;
+    skills: string;
+    trajectory: string;
+    /** "jan. 2023 a mar. 2025" or "jan. 2023 até o momento" (`end` null = still there). */
+    period: (start: string | null, end: string | null) => string;
+    education: string;
+    certifications: string;
+    viewCredential: string;
+    links: string;
+    posts: string;
+  };
+  profileCityPrivacy: { label: string; hint: string };
   profileCommunityShelf: {
     communityEyebrow: string;
     communityTitle: string;
@@ -137,6 +165,29 @@ export type ProfileMessages = {
     exploreDescription: string;
     dailyGames: string;
     appearance: string;
+  };
+  profileGarden: {
+    /** Biome name as it follows "Jardim" ("do cerrado", "da caatinga"...). */
+    style: Record<ProfileGardenStyle, string>;
+    /** Accessible description: the style plus every part's stage in words. */
+    label: (style: string, parts: string[]) => string;
+    /** Each part's stage 0..3 in words. */
+    stages: {
+      trajectory: readonly [string, string, string, string];
+      relations: readonly [string, string, string, string];
+      contribution: readonly [string, string, string, string];
+      tenure: readonly [string, string, string, string];
+    };
+    /** Health 0 and 1 in words (2 is the normal garden and says nothing). */
+    health: readonly [string, string];
+    /** Owner hint for the part that grows next, or for a garden at its peak. */
+    hint: {
+      trajectory: string;
+      relations: string;
+      contribution: string;
+      tenure: string;
+      complete: string;
+    };
   };
   profileGamificationPanel: {
     walletEyebrow: string;
@@ -164,13 +215,6 @@ export type ProfileMessages = {
     video: string;
     photo: string;
     article: string;
-    placeholder: string;
-    hint: string;
-    action: string;
-    cancel: string;
-    sending: string;
-    mediaSpoiler: string;
-    mediaSpoilerActive: string;
   };
   profileProjectsSection: {
     title: string;
@@ -195,6 +239,8 @@ export type ProfileMessages = {
     stackDuplicate: string;
     stackRemove: (tech: string) => string;
     repoField: string;
+    bannerField: string;
+    iconField: string;
     statusField: string;
     descriptionField: string;
     descriptionPlaceholder: string;

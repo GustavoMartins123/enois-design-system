@@ -6,6 +6,8 @@ export type PostCardHrefs = {
   community?: string | null;
   /** The original post of a repost. */
   repostOf?: string | null;
+  /** Profile of who reposted (repost puro). */
+  repostedBy?: string | null;
   /** The blog post a BLOG pointer leads to. */
   blog?: string | null;
 };
