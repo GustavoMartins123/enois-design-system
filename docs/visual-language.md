@@ -93,6 +93,8 @@ social e profissional são independentes.
   junto com `div.profile-scope[data-profile-theme][data-profile-header][data-profile-textures]`, de
   modo que a prévia chega no primeiro paint (SSR) e o visual do perfil não vaza para o menu, as
   notificações ou qualquer diálogo por cima.
+- Fundo em gradiente leva a cor sólida do topo por baixo; `textures: false` tira o padrão do fundo
+  da vitrine e das superfícies e deixa essa cor.
 - `ProfileLookDialog` recebe `onDraftChange` a cada mudança: o diálogo não mostra miniatura, veste a
   **página real** com o rascunho antes do "Salvar".
 

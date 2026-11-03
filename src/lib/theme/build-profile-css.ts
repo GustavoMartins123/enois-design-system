@@ -8,6 +8,7 @@ import { ACCENT_OVERRIDE_KEYS } from "./build-collection-css.js";
 import { buildAccentTokens } from "./build-theme-tokens.js";
 import { hexToRgb, rgbToOklch } from "./color.js";
 import { THEME_COLLECTIONS } from "./theme-collections.js";
+import { solidColorOf } from "./theme-palette.js";
 
 /**
  * CSS de um tema "vestido" por um perfil.
@@ -83,9 +84,10 @@ function lookRules(selector: string, look: ProfileLook): string[] {
   }
 
   if (look.textures === false) {
-    // "Sem textura" é literal: os relevos seguem (borda, sombra), só o padrão de fundo sai.
+    // "Sem textura" é literal: os relevos seguem (borda, sombra), o padrão sai do fundo da
+    // vitrine e das superfícies. O fundo fica na cor sólida do topo (ver `buildProfileCss`).
     rules.push(
-      `${selector} .surface-card, ${selector} .bg-card, ${selector} .bg-surface-card, ${selector} .bg-popover { background-image: none; }`,
+      `${selector}, ${selector} .surface-card, ${selector} .bg-card, ${selector} .bg-surface-card, ${selector} .bg-popover { background-image: none; }`,
     );
   }
 
@@ -141,9 +143,13 @@ export function buildProfileCss(
     `${selector} {\n${declarations}\n  color: var(--foreground);\n  background-color: var(--background);\n}`,
   ];
 
+  // `--background` gradiente não vale como `background-color`: a cor sólida do topo fica por
+  // baixo, e é ela que aparece quando a pessoa desliga as texturas.
   const background = effective["--background"] ?? "";
   if (background.includes("gradient")) {
-    blocks.push(`${selector} { background-image: ${background}; }`);
+    blocks.push(
+      `${selector} { background-color: ${solidColorOf(background)}; background-image: ${background}; }`,
+    );
   }
 
   blocks.push(rescope(collection.css, collection.id));

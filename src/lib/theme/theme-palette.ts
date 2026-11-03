@@ -46,7 +46,7 @@ function mixSrgb(
  * como GRADIENTE — toda a matemática de contraste precisa de uma cor; a primeira
  * parada do gradiente representa o topo da página, que é onde o texto nasce.
  */
-function fundoSolido(valor: string): string {
+export function solidColorOf(valor: string): string {
   const hex = valor.match(/#[0-9a-fA-F]{6}\b/);
   if (hex) return hex[0];
   const rgb = valor.match(/rgba?\(\s*[\d.]+[,\s]+[\d.]+[,\s]+[\d.]+/);
@@ -61,7 +61,7 @@ function fundoSolido(valor: string): string {
 /**
  * Cor EFETIVA de um token que pode ser translúcido, composta sobre o fundo da página.
  *
- * `fundoSolido` ignora o alpha, e isso engana a conta de contraste: um branco a 38%
+ * `solidColorOf` ignora o alpha, e isso engana a conta de contraste: um branco a 38%
  * sobre um azul claro é um azul quase branco, não branco puro; um azul a 14% sobre o
  * mesmo fundo é um azul pálido, não o azul cheio. O texto só pode ser escolhido contra
  * o que a pessoa realmente vê.
@@ -94,7 +94,7 @@ function paradasDoFundo(valor: string, backdrop: RgbColor): RgbColor[] {
 
 export function palette(spec: PaletteSpec): ThemeCollectionTokens {
   const { primary, onPrimary, surface, muted, border } = spec;
-  const bgSolido = fundoSolido(spec.background);
+  const bgSolido = solidColorOf(spec.background);
   // O soft é um WASH (fundo sutil): no contexto claro fica MAIS CLARO que o primário,
   // no escuro MAIS ESCURO. Alguns temas declararam um soft do lado oposto (tom
   // profundo no claro) — aí nenhum texto alcança 3:1 contra ele e o par
