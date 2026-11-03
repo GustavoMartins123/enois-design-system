@@ -258,6 +258,8 @@ export type ProfileMessages = {
     modeHtml: string;
     titleField: string;
     stackField: string;
+    stackPlaceholder: string;
+    removeTechnology: (technology: string) => string;
     repoField: string;
     bannerField: string;
     iconField: string;

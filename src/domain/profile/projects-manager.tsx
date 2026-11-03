@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 
 import { useMessages } from "../../messages/messages-context.js";
 import { HtmlEditor } from "../../patterns/editor/html-editor.js";
+import { TokenInput } from "../../patterns/token-input/token-input.js";
 import type { EditingProject } from "../../types/domain/profile/editing-project.js";
 import type { ProjectCardMode } from "../../types/domain/profile/project-card-mode.js";
 import type { ProjectInput } from "../../types/domain/profile/project-input.js";
 import type { ProjectsManagerProps } from "../../types/domain/profile/projects-manager-props.js";
+import type { TokenInputHandle } from "../../types/patterns/token-input-handle.js";
 import { Button } from "../../ui/button.js";
 import {
   Dialog,
@@ -50,26 +52,18 @@ export function ProjectsManager({
 
   const [editando, setEditando] = useState<EditingProject>(null);
   const [modo, setModo] = useState<ProjectCardMode>("estruturado");
-  const [stackTexto, setStackTexto] = useState("");
-
-  useEffect(() => {
-    if (editando) {
-      setStackTexto(editando.stack.join(", "));
-      setModo(editando.html ? "html" : "estruturado");
-    }
-  }, [editando]);
+  const stackInputRef = useRef<TokenInputHandle>(null);
 
   const salvar = async () => {
     if (!editando) return;
+    const stack = stackInputRef.current ? stackInputRef.current.commit() : editando.stack;
+    if (!stack) return;
     const input: ProjectInput = {
       title: editando.title.trim(),
       description: editando.description?.trim() || null,
       banner: editando.banner?.trim() || null,
       icon: editando.icon?.trim() || null,
-      stack: stackTexto
-        .split(",")
-        .map((item) => item.trim())
-        .filter(Boolean),
+      stack,
       repoUrl: editando.repoUrl?.trim() || null,
       status: modo === "estruturado" ? editando.status?.trim() || null : null,
       diary: modo === "estruturado" ? editando.diary : [],
@@ -113,14 +107,15 @@ export function ProjectsManager({
                     size="sm"
                     variant="outline"
                     className="rounded-full"
-                    onClick={() =>
+                    onClick={() => {
+                      setModo(project.html ? "html" : "estruturado");
                       setEditando({
                         ...project,
                         html: project.html ?? null,
                         banner: project.banner ?? null,
                         icon: project.icon ?? null,
-                      })
-                    }
+                      });
+                    }}
                   >
                     {messages.edit}
                   </Button>
@@ -143,7 +138,6 @@ export function ProjectsManager({
               className="rounded-full gap-1.5"
               onClick={() => {
                 setModo("estruturado");
-                setStackTexto("");
                 setEditando(vazio());
               }}
             >
@@ -160,7 +154,10 @@ export function ProjectsManager({
                   key={option}
                   type="button"
                   aria-pressed={modo === option}
-                  onClick={() => setModo(option)}
+                  onClick={() => {
+                    if (stackInputRef.current?.commit() === null) return;
+                    setModo(option);
+                  }}
                   className={
                     modo === option
                       ? "rounded-full border border-primary bg-primary-soft px-3 py-1.5 text-xs text-primary"
@@ -221,16 +218,31 @@ export function ProjectsManager({
                   </div>
                 </div>
 
-                <div className="space-y-1.5">
-                  <Label className="text-xs text-muted-foreground">{messages.stackField}</Label>
-
-                  <Input
-                    value={stackTexto}
-                    maxLength={400}
-                    placeholder="Java, React, Postgres"
-                    onChange={(event) => setStackTexto(event.target.value)}
-                  />
-                </div>
+                <TokenInput
+                  ref={stackInputRef}
+                  id="projeto-stack"
+                  label={messages.stackField}
+                  placeholder={messages.stackPlaceholder}
+                  removeLabel={messages.removeTechnology}
+                  values={editando.stack}
+                  max={10}
+                  maxLength={40}
+                  disabled={savePending}
+                  onAdd={(token) =>
+                    setEditando(
+                      (project) => project && { ...project, stack: [...project.stack, token] },
+                    )
+                  }
+                  onRemove={(token) =>
+                    setEditando(
+                      (project) =>
+                        project && {
+                          ...project,
+                          stack: project.stack.filter((item) => item !== token),
+                        },
+                    )
+                  }
+                />
 
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div className="space-y-1.5">

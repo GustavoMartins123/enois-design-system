@@ -81,6 +81,23 @@ const click = (element: HTMLElement | undefined) => {
 };
 
 describe("OnboardingView", () => {
+  it("adds every skill from Android comma input and commits the final draft before continuing", () => {
+    const all = props();
+    render(all);
+    const input = host.querySelector("input")!;
+    act(() => {
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")!.set!.call(
+        input,
+        "React, Go, Fotografia",
+      );
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+    expect(vi.mocked(all.onAddSkill).mock.calls.map(([value]) => value)).toEqual(["React", "Go"]);
+    click(button(messages.next));
+    expect(all.onAddSkill).toHaveBeenLastCalledWith("Fotografia");
+    expect(all.onStepChange).toHaveBeenCalledWith("pack");
+  });
+
   it("toggles topics and adds skills by Enter and by suggestion", () => {
     const all = props();
     render(all);
