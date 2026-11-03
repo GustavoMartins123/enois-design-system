@@ -16,10 +16,15 @@ const messages = defaultMessages.collectionGrid;
 let host: HTMLDivElement;
 let root: Root;
 
-function render() {
+function render(activeId: string | null = null) {
   act(() =>
     root.render(
-      <CollectionGrid activeId={null} previewId={null} onPreview={() => {}} onSelect={() => {}} />,
+      <CollectionGrid
+        activeId={activeId}
+        previewId={null}
+        onPreview={() => {}}
+        onSelect={() => {}}
+      />,
     ),
   );
 }
@@ -76,5 +81,15 @@ describe("CollectionGrid", () => {
     // Só o que casa com "terminal" aparece; o lote voltou ao tamanho do primeiro.
     expect(cards()).toBeLessThan(18);
     expect(host.textContent).toContain("Terminal");
+  });
+
+  it("o tema em uso aparece mesmo quando fica fora do primeiro lote", () => {
+    const last = THEME_COLLECTIONS.at(-1)!;
+    render(last.id);
+
+    expect(host.textContent).toContain(last.name);
+    expect(
+      [...host.querySelectorAll("span")].filter((span) => span.textContent === messages.inUse),
+    ).toHaveLength(1);
   });
 });
