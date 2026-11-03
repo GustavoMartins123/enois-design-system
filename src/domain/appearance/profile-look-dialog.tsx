@@ -41,6 +41,7 @@ export function ProfileLookDialog({
   onOpenChange,
   value,
   onSave,
+  onDraftChange,
   saving,
 }: ProfileLookDialogProps) {
   const messages = useMessages().profileLookDialog;
@@ -60,12 +61,25 @@ export function ProfileLookDialog({
 
   const look = draft[tab];
 
+  /**
+   * Toda mudança passa por aqui: atualiza o rascunho e avisa quem estiver pré-visualizando.
+   * A notificação usa o estado novo calculado a partir do anterior, não o `draft` capturado
+   * no render — duas mudanças no mesmo tick não podem se sobrescrever.
+   */
+  function change(next: (previous: ProfileLookPair) => ProfileLookPair) {
+    setDraft((previous) => {
+      const updated = next(previous);
+      onDraftChange?.(updated);
+      return updated;
+    });
+  }
+
   function patchLook(key: LookKey, patch: Partial<ProfileLook>) {
-    setDraft((previous) => ({ ...previous, [key]: { ...previous[key], ...patch } }));
+    change((previous) => ({ ...previous, [key]: { ...previous[key], ...patch } }));
   }
 
   function restore(key: LookKey) {
-    setDraft((previous) => ({ ...previous, [key]: { ...EMPTY_PROFILE_LOOK } }));
+    change((previous) => ({ ...previous, [key]: { ...EMPTY_PROFILE_LOOK } }));
   }
 
   return (
