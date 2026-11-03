@@ -27,6 +27,10 @@ export type AppearanceDialogProps = {
   /** A coleção ativa já resolvida (`null` quando não há ou não existe mais). */
   activeCollection: ThemeCollection | null;
   onCollectionSelect: (collectionId: string | null) => void;
+  /** Coleção em prévia (experimentar sem gravar); `null`/ausente = nada em prévia. */
+  previewCollectionId?: string | null;
+  /** Chamado ao experimentar: aplica na hora e o fechar do diálogo desfaz o que não foi aplicado. */
+  onCollectionPreview: (collectionId: string | null) => void;
   /** Temas comprados na loja (aba global); sem isto, a seção não aparece (ex.: sem login). */
   purchasedThemes?: PurchasedThemesProps;
   widgetBackground: BackgroundStyle | null;

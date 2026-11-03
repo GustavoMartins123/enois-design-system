@@ -53,6 +53,7 @@ export const Dialog: StoryObj = {
         collectionId={collectionId}
         activeCollection={null}
         onCollectionSelect={setCollectionId}
+        onCollectionPreview={setCollectionId}
         purchasedThemes={{
           themes: PURCHASED,
           applyingItemId: applying,

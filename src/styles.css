@@ -4198,3 +4198,25 @@ html:not(.dark) .frame-shop-price {
 html[data-lite] .cos-anim {
   animation: none !important;
 }
+
+/* Vitrine com tema próprio: o container recebe os tokens do preset escolhido pelo dono e a
+   moldura decorativa tem a intensidade que ele definiu (0 = sem moldura). O `inherit` no raio
+   mantém a forma que o front deu ao bloco. */
+.profile-scope {
+  position: relative;
+  isolation: isolate;
+}
+.profile-scope > :not(.profile-scope__deco) {
+  position: relative;
+  z-index: 1;
+}
+.profile-scope__deco {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  border: 1px solid color-mix(in oklab, var(--primary) 45%, transparent);
+  box-shadow: 0 24px 60px -48px color-mix(in oklab, var(--primary) 70%, transparent);
+  opacity: var(--profile-decoration, 0.35);
+  pointer-events: none;
+}

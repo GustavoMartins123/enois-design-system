@@ -73,6 +73,8 @@ export function AppearanceDialog({
   collectionId,
   activeCollection,
   onCollectionSelect,
+  previewCollectionId,
+  onCollectionPreview,
   purchasedThemes,
   widgetBackground,
   onWidgetBackgroundChange,
@@ -170,7 +172,12 @@ export function AppearanceDialog({
                 <>
                   <p className="text-xs font-normal text-text-subtle">{messages.collectionsHint}</p>
 
-                  <CollectionGrid activeId={collectionId} onSelect={onCollectionSelect} />
+                  <CollectionGrid
+                    activeId={collectionId}
+                    previewId={previewCollectionId}
+                    onPreview={onCollectionPreview}
+                    onSelect={onCollectionSelect}
+                  />
 
                   {activeCollection && (
                     <p className="text-xs font-normal text-text-subtle">
