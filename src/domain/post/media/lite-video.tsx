@@ -7,6 +7,7 @@ import type { LiteVideoProps } from "../../../types/domain/post/lite-video-props
 import type { LiteVideoStage } from "../../../types/domain/post/lite-video-stage.js";
 
 import { firstFrameSrc } from "./first-frame-src.js";
+import { mediaBoxStyle, rememberVideoBox } from "./media-box.js";
 import { MediaStage } from "./media-stage.js";
 
 /**
@@ -23,6 +24,8 @@ import { MediaStage } from "./media-stage.js";
 export function LiteVideo({
   src,
   className = "max-h-96 w-full bg-surface-1",
+  width,
+  height,
   muted = true,
   registerRef,
   lite = false,
@@ -43,6 +46,8 @@ export function LiteVideo({
 
   if (!src) return null;
 
+  const box = { style: mediaBoxStyle(src, width, height), onLoadedMetadata: rememberVideoBox(src) };
+
   if (!lite) {
     return (
       <video
@@ -53,6 +58,7 @@ export function LiteVideo({
         preload="metadata"
         controls
         className={className}
+        {...box}
       />
     );
   }
@@ -72,6 +78,7 @@ export function LiteVideo({
           playsInline
           preload="metadata"
           className={className}
+          {...box}
         />
 
         <span className="pointer-events-none absolute inset-0 grid place-items-center">
