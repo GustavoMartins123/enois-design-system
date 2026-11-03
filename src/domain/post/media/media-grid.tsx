@@ -1,10 +1,25 @@
 import { useAdapters } from "../../../adapters/adapters-context.js";
 import { useMessages } from "../../../messages/messages-context.js";
 import type { MediaGridProps } from "../../../types/domain/post/media-grid-props.js";
+import type { MediaItemData } from "../../../types/domain/post/media-item-data.js";
 
 import { ImageLightbox } from "./image-lightbox.js";
 import { LiteVideo } from "./lite-video.js";
 import { SpoilerMedia } from "./spoiler-media.js";
+
+/**
+ * The single image keeps its own proportion: with the size known, `width`/`height` and the aspect
+ * ratio hold its box from the first paint (the max height still caps it). The tiles of several
+ * images are fixed squares already.
+ */
+function reservedSize(item: MediaItemData, single: boolean) {
+  if (!single || !item.width || !item.height) return {};
+  return {
+    width: item.width,
+    height: item.height,
+    style: { aspectRatio: `${item.width} / ${item.height}` },
+  };
+}
 
 /** Grade de mídias do post (vídeo único ou imagens) com visualização em tela cheia.
  *
@@ -77,6 +92,7 @@ export function MediaGrid({
                     src={resolveMediaUrl(m.cdnUrl)}
                     alt=""
                     loading="lazy"
+                    {...reservedSize(m, items.length === 1)}
                     className={
                       items.length === 1
                         ? `h-auto w-full object-contain ${compact ? "max-h-[280px]" : "max-h-[36rem]"}`

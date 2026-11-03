@@ -56,6 +56,9 @@ const renderMediaGrid = ({ mediaIds, ...props }: PostMediaGridProps) => (
       id,
       mimeType: "image/png",
       cdnUrl: "https://placehold.co/600x400/png",
+      // Known size: a single image reserves its box before it loads.
+      width: 600,
+      height: 400,
     }))}
   />
 );
