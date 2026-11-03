@@ -88,8 +88,12 @@ export function EditProfileDialog({
       const url = await onUploadBadge(file);
       // Entra no fim da lista: a ordem é a que aparece no perfil, e a primeira acompanha o nome.
       setBadges((current) => [...current, url]);
-    } catch {
-      setGeneralError(messages.imageUploadError);
+    } catch (error) {
+      // The app already turns the API refusal into words for people (wrong type, image refused):
+      // hiding it behind the generic text left people guessing why a normal PNG failed.
+      setGeneralError(
+        error instanceof Error && error.message ? error.message : messages.imageUploadError,
+      );
     } finally {
       setBadgeUploading(false);
     }
