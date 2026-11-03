@@ -5,19 +5,21 @@ import type { MediaItemData } from "../../../types/domain/post/media-item-data.j
 
 import { ImageLightbox } from "./image-lightbox.js";
 import { LiteVideo } from "./lite-video.js";
+import { mediaBoxStyle, rememberImageBox } from "./media-box.js";
 import { SpoilerMedia } from "./spoiler-media.js";
 
 /**
- * The single image keeps its own proportion: with the size known, `width`/`height` and the aspect
- * ratio hold its box from the first paint (the max height still caps it). The tiles of several
- * images are fixed squares already.
+ * The single image keeps its own proportion: with the size known (from the server, or from an
+ * earlier load, see `media-box`), the aspect ratio holds its box from the first paint (the max
+ * height still caps it). The tiles of several images are fixed squares already.
  */
-function reservedSize(item: MediaItemData, single: boolean) {
-  if (!single || !item.width || !item.height) return {};
+function reservedSize(item: MediaItemData, src: string | undefined, single: boolean) {
+  if (!single) return {};
+  const known = item.width && item.height ? { width: item.width, height: item.height } : {};
   return {
-    width: item.width,
-    height: item.height,
-    style: { aspectRatio: `${item.width} / ${item.height}` },
+    ...known,
+    style: mediaBoxStyle(src, item.width, item.height),
+    onLoad: rememberImageBox(src),
   };
 }
 
@@ -63,6 +65,8 @@ export function MediaGrid({
           {(revealed) => (
             <LiteVideo
               src={resolveMediaOriginalUrl(items[0].cdnUrl)}
+              width={items[0].width}
+              height={items[0].height}
               registerRef={revealed ? registerVideoRef : undefined}
               lite={lite}
             />
@@ -92,7 +96,7 @@ export function MediaGrid({
                     src={resolveMediaUrl(m.cdnUrl)}
                     alt=""
                     loading="lazy"
-                    {...reservedSize(m, items.length === 1)}
+                    {...reservedSize(m, resolveMediaUrl(m.cdnUrl), items.length === 1)}
                     className={
                       items.length === 1
                         ? `h-auto w-full object-contain ${compact ? "max-h-[280px]" : "max-h-[36rem]"}`

@@ -9,8 +9,8 @@ import type { EditProfileValues } from "./edit-profile-values.js";
 
 export type EditProfileDialogProps = {
   profile: EditProfileData;
-  /** O gatilho do diálogo (o botão "Editar perfil" da página). */
-  children: ReactNode;
+  /** The dialog trigger. Without one, the app opens it through `open` (e.g. from `ProfileEditMenu`). */
+  children?: ReactNode;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   tab: EditProfileTab;

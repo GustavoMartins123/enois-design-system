@@ -3645,6 +3645,11 @@ html:not(.dark) .frame-shop-price {
   border-color: var(--primary);
   box-shadow: 0 0 0 1px var(--primary);
 }
+/* On the profile now: the card reads as worn, not as being tried on. */
+.cos-look.is-worn {
+  border-color: var(--growth);
+  box-shadow: 0 0 0 1px var(--growth);
+}
 .cos-look__stage {
   display: grid;
   justify-items: center;
@@ -3851,6 +3856,26 @@ html:not(.dark) .frame-shop-price {
 .cos-shop__owned {
   font-weight: 800;
   color: var(--growth);
+}
+/* The footer of an owned look is a switch, so it keeps the text look but behaves like a button. */
+.cos-look__wear {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 800;
+  color: var(--growth);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.cos-look__wear:disabled {
+  cursor: progress;
+  opacity: 0.6;
+}
+.cos-look__wear:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 .cos-shop__side {
   position: sticky;
@@ -4197,4 +4222,45 @@ html:not(.dark) .frame-shop-price {
 }
 html[data-lite] .cos-anim {
   animation: none !important;
+}
+
+/* Vitrine com tema próprio: o container recebe os tokens do preset escolhido pelo dono e a
+   moldura decorativa tem a intensidade que ele definiu (0 = sem moldura). O `inherit` no raio
+   mantém a forma que o front deu ao bloco. */
+.profile-scope {
+  position: relative;
+  isolation: isolate;
+}
+.profile-scope > :not(.profile-scope__deco) {
+  position: relative;
+  z-index: 1;
+}
+.profile-scope__deco {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  border: 1px solid color-mix(in oklab, var(--primary) 45%, transparent);
+  box-shadow: 0 24px 60px -48px color-mix(in oklab, var(--primary) 70%, transparent);
+  opacity: var(--profile-decoration, 0.35);
+  pointer-events: none;
+}
+
+/* Economia de aparelho dentro da vitrine temática: os tokens do perfil moram no container,
+   então os `var()` da página (`--background`, `--font-sans`) continuam valendo ali dentro.
+   Sem esta repetição, um perfil vestido de Terminal Green apareceria com o texto do tema
+   escuro sobre o fundo claro do BATATA (ou com a fonte da marca em vez da do sistema). */
+html[data-batata] .profile-scope__deco {
+  box-shadow: none;
+}
+html[data-batata] .profile-scope {
+  --radius: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-sans);
 }
