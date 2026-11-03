@@ -32,7 +32,9 @@ const render = (onUploadBadge: (file: File) => Promise<string>) =>
         onCreateItem={async () => undefined}
         onUpdateItem={async () => undefined}
         onDeleteItem={() => undefined}
-      />,
+      >
+        <button type="button">Editar perfil</button>
+      </EditProfileDialog>,
     ),
   );
 
