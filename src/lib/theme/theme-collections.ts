@@ -4,7 +4,13 @@ import type { ThemeCollectionTokens } from "../../types/lib/theme/theme-collecti
 import type { ThemeCollection } from "../../types/lib/theme/theme-collection.js";
 
 import { withAlpha } from "./build-background-style.js";
-import { hexToRgb, readableForeground, relativeLuminance, textSafeAccent } from "./color.js";
+import {
+  hexToRgb,
+  readableForeground,
+  relativeLuminance,
+  rgbToHex,
+  textSafeAccent,
+} from "./color.js";
 /**
  * Coleção temática: identidades visuais completas, uma por entrada.
  *
@@ -162,6 +168,9 @@ export function palette(spec: PaletteSpec): ThemeCollectionTokens {
     // Superfícies
     "--background": spec.background,
     "--card": withAlpha(surface, spec.surfaceAlpha ?? 100),
+    // Text on a `bg-foreground` fill: the card as the reader sees it, always a solid colour (the
+    // background may be a gradient and the card may be translucent, neither works as a text colour).
+    "--on-foreground": rgbToHex(surfaceRgb),
     "--popover": withAlpha(surface, spec.surfaceAlpha ?? 100),
     "--muted": muted,
     "--border": border,
