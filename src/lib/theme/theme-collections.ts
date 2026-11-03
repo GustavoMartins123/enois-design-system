@@ -183,11 +183,16 @@ export function palette(spec: PaletteSpec): ThemeCollectionTokens {
     // Estrutura. Os raios DERIVADOS (sm/md/xl/2xl/3xl) são calc(var(--radius) ± N) no CSS
     // da marca — com raio 0 eles devolviam pixels (2xl = +8) e os cartões do Win95/Metro
     // continuavam arredondados. O tema emite os seis coerentes com o raio dele.
+    // The deltas are pixels: added to a rem base they turned 0.875rem into a 12.875rem (206px)
+    // `--radius-3xl`, and every card of a theme without its own radius came out oval.
     ...(() => {
       const parsed = /^([\d.]+)(px|rem)$/.exec(spec.radius ?? "0.875rem");
       const base = parsed ? Number(parsed[1]) : 14;
-      const unit = parsed ? parsed[2] : "rem";
-      const radiusToken = (delta: number) => `${Math.max(0, base + delta)}${unit}`;
+      const unit = parsed ? parsed[2] : "px";
+      const basePx = unit === "rem" ? base * 16 : base;
+      // A square theme (radius 0) stays square at every size.
+      const radiusToken = (delta: number) =>
+        basePx === 0 ? "0px" : `${Math.max(0, basePx + delta)}px`;
       return {
         "--radius": `${base}${unit}`,
         "--radius-sm": radiusToken(-4),
