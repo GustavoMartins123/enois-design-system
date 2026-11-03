@@ -63,8 +63,8 @@ import { Button, ToastProvider } from "@rede-enois/design-system/ui";
 
 `TokenInput` from `@rede-enois/design-system/patterns` provides the same removable
 chips for onboarding skills and profile project technologies. Pass `values`,
-`onAdd`, `onRemove`, `label`, `max` and `maxLength`; suggestions and copy overrides
-are optional. Use functional state updates in the callbacks because pasting a
+`onAdd`, `onRemove`, `label`, `max` and `maxLength`; suggestions, `duplicateMessage`
+and copy overrides are optional. Use functional state updates in the callbacks because pasting a
 comma-separated list can add several tokens in one input event.
 
 Enter, commas (including Android input events), and moving to another input or
@@ -121,6 +121,19 @@ falls back to the default `quintal`. The owner sees a hint about the part that g
   gardenStyle={gardenStyleOf(equippedGardenItemId)}
 />
 ```
+
+## Project stack chips
+
+`ProjectsManager` keeps confirmed technologies in the project's `stack` array and uses the text
+field only as a draft. Comma, Enter and blur commit trimmed values and clear the field; pasted
+comma-separated lists are supported. Chips wrap inside the field and can be removed individually
+with their labelled buttons. Duplicate values are compared without case or surrounding whitespace
+and show an inline error. Saving also commits any remaining draft, including when activated without
+a blur. Editing other fields preserves the stack and selected structured/HTML mode.
+
+Chip colors, focus rings and errors use the existing theme tokens. The `Domain/Profile` →
+`StackChips` story demonstrates editing and saving, including wrapping at mobile widths. This
+behavior addresses [enois-frontend#360](https://github.com/Rede-ENois/enois-frontend/issues/360).
 
 ## Migrating components from the front
 

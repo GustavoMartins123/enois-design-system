@@ -21,6 +21,7 @@ export function TokenInput({
   suggestions = [],
   suggestionsLabel,
   limitMessage,
+  duplicateMessage,
   count,
   removeLabel,
   disabled = false,
@@ -58,9 +59,14 @@ export function TokenInput({
     const next = [...valuesRef.current];
     const keys = new Set(next.map(keyOf));
     const added: string[] = [];
+    let duplicate = false;
     for (const part of parts) {
       const token = part.trim();
-      if (!token || keys.has(keyOf(token))) continue;
+      if (!token) continue;
+      if (keys.has(keyOf(token))) {
+        duplicate = true;
+        continue;
+      }
       if (token.length > maxLength || next.length >= max) {
         setError(token.length > maxLength ? messages.tooLong(maxLength) : messages.tooMany(max));
         updateDraft(raw);
@@ -72,7 +78,7 @@ export function TokenInput({
     }
     valuesRef.current = next;
     updateDraft(remainder);
-    setError(null);
+    setError(duplicate ? (duplicateMessage ?? null) : null);
     added.forEach((token) => onAdd(token));
     return next;
   };
@@ -116,6 +122,7 @@ export function TokenInput({
         {values.map((token) => (
           <span
             key={token}
+            data-token
             className="inline-flex min-w-0 max-w-full items-center gap-1 rounded-full bg-surface-2 py-1 pl-3 pr-1 text-sm text-text-strong"
           >
             <span className="min-w-0 truncate">{token}</span>

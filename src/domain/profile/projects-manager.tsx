@@ -223,7 +223,9 @@ export function ProjectsManager({
                   id="projeto-stack"
                   label={messages.stackField}
                   placeholder={messages.stackPlaceholder}
-                  removeLabel={messages.removeTechnology}
+                  removeLabel={messages.stackRemove}
+                  hint={messages.stackHint}
+                  duplicateMessage={messages.stackDuplicate}
                   values={editando.stack}
                   max={10}
                   maxLength={40}

@@ -15,6 +15,8 @@ export type TokenInputProps = {
   suggestions?: string[];
   suggestionsLabel?: string;
   limitMessage?: string;
+  /** Optional domain-specific feedback when an existing token is entered again. */
+  duplicateMessage?: string;
   count?: (count: number, max: number) => string;
   removeLabel?: (token: string) => string;
   disabled?: boolean;
