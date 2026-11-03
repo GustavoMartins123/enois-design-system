@@ -172,8 +172,9 @@ function buildBaseCss(innerPadding: boolean, clip: boolean, fill: boolean): stri
   // fills the strip instead of collapsing to its content. A frame that grows with its content
   // must not: the page would measure its own height and feed it back.
   const height = fill ? "height:100%;" : "";
+  const stretch = fill ? "\nbody>:first-child{min-height:100%}" : "";
   return `*{box-sizing:border-box}
-html,body{margin:0;${height}${overflow}}
+html,body{margin:0;${height}${overflow}}${stretch}
 body{background:transparent;color:light-dark(#1a1a1a,#e8e6ff);color-scheme:light dark;padding:${padding};overflow-wrap:break-word;
 font:400 14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
 h1,h2,h3,h4,h5,h6{line-height:1.25;margin:.6em 0 .4em}
