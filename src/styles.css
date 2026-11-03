@@ -4220,3 +4220,22 @@ html[data-lite] .cos-anim {
   opacity: var(--profile-decoration, 0.35);
   pointer-events: none;
 }
+
+/* Economia de aparelho dentro da vitrine temática: os tokens do perfil moram no container,
+   então os `var()` da página (`--background`, `--font-sans`) continuam valendo ali dentro.
+   Sem esta repetição, um perfil vestido de Terminal Green apareceria com o texto do tema
+   escuro sobre o fundo claro do BATATA (ou com a fonte da marca em vez da do sistema). */
+html[data-batata] .profile-scope__deco {
+  box-shadow: none;
+}
+html[data-batata] .profile-scope {
+  --radius: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-sans);
+}
