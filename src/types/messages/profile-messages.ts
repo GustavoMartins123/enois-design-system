@@ -111,6 +111,30 @@ export type ProfileMessages = {
     cancel: string;
     saving: string;
   };
+  profileEditMenu: {
+    trigger: string;
+    sending: string;
+    groups: { profile: string; career: string; look: string };
+    info: string;
+    infoHint: string;
+    photo: string;
+    photoHint: string;
+    cover: string;
+    coverHint: string;
+    status: string;
+    statusHint: string;
+    professional: string;
+    professionalSetup: string;
+    professionalHint: string;
+    resume: string;
+    resumeHint: string;
+    look: string;
+    lookHint: string;
+    appearance: string;
+    appearanceHint: string;
+    bioHtml: string;
+    bioHtmlHint: string;
+  };
   profileResumeDialog: {
     action: string;
     title: string;

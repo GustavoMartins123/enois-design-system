@@ -13,6 +13,7 @@ import { ProfileBannerDialog } from "./profile-banner-dialog.js";
 import { ProfileBioDialog } from "./profile-bio-dialog.js";
 import { ProfileCityPrivacy } from "./profile-city-privacy.js";
 import { ProfileCommunityShelf } from "./profile-community-shelf.js";
+import { ProfileEditMenu } from "./profile-edit-menu.js";
 import { ProfileExperiencesSection } from "./profile-experiences-section.js";
 import { ProfileExplorePanel } from "./profile-explore-panel.js";
 import { ProfileGamificationPanel } from "./profile-gamification-panel.js";
@@ -524,3 +525,26 @@ export const ProfessionalMinimal: StoryObj = {
     />
   ),
 };
+
+const editMenuActions = {
+  onEditInfo: () => {},
+  onEditPhoto: () => {},
+  onEditCover: () => {},
+  onEditStatus: () => {},
+  onEditResume: () => {},
+  onEditBioHtml: () => {},
+  onEditAppearance: () => {},
+  onEditLook: () => {},
+};
+
+/** Every way to change your own profile behind one button. Open it to see the groups. */
+export const EditMenu: StoryObj = {
+  render: () => (
+    <div className="flex flex-wrap gap-2">
+      <ProfileEditMenu {...editMenuActions} professional={{ href: "#", setup: false }} />
+      <ProfileEditMenu {...editMenuActions} photoBusy professional={{ href: "#", setup: true }} />
+    </div>
+  ),
+};
+
+export const EditMenuDark: StoryObj = { ...EditMenu, globals: { theme: "dark" } };
