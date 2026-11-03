@@ -29,7 +29,13 @@ describe("SandboxedHtmlFrame height", () => {
     expect(srcDoc({ clip: true })).toContain("html,body{margin:0;height:100%;");
   });
 
+  it("stretches the first child of body in a fixed-height frame (banner cover)", () => {
+    expect(srcDoc({ autoHeight: false })).toContain("body>:first-child{min-height:100%}");
+    expect(srcDoc({ clip: true })).toContain("body>:first-child{min-height:100%}");
+  });
+
   it("leaves a frame that grows with its content at its content height", () => {
     expect(srcDoc({})).not.toContain("height:100%");
+    expect(srcDoc({})).not.toContain("body>:first-child");
   });
 });
