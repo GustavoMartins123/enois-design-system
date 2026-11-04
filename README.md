@@ -59,6 +59,32 @@ import { Button, ToastProvider } from "@rede-enois/design-system/ui";
 </EnoisProvider>;
 ```
 
+### Token input
+
+`TokenInput` from `@rede-enois/design-system/patterns` provides the same removable
+chips for onboarding skills and profile project technologies. Pass `values`,
+`onAdd`, `onRemove`, `label`, `max` and `maxLength`; suggestions, `duplicateMessage`
+and copy overrides are optional. `allowMultiple` defaults to `true`: callbacks must
+use functional state updates because a pasted list can add several tokens in one
+input event. With `allowMultiple={false}`, a confirmation adds at most one token;
+multi-item text is kept for correction with an accessible message.
+
+Enter, commas (including Android input events), and moving to another input or
+blurring the field confirm pending text. Buttons and links defer confirmation to
+their action handler so a layout change cannot cancel the pointer click.
+Blank tokens and case-insensitive duplicates are ignored. Invalid
+lengths or batches exceeding the item cap leave the text available for correction
+and show an accessible error. IME composition is preserved. Suggestions exclude
+selected values and show at most eight matches.
+
+Forms can pass a `ref` typed as `TokenInputHandle` and call `commit()` before
+saving: it returns the complete list including pending text, or `null` when
+invalid. This avoids depending on a blur state update to build the save payload.
+Onboarding uses `allowMultiple={false}` with limits of 20 skills and 60 characters,
+preserving its existing single-skill frontend callbacks. Projects accept pasted
+lists with limits of 10 technologies and 40 characters. No frontend change is
+required to consume these views.
+
 ### Input counter
 
 `Input` shows a character counter by default when `maxLength` is set. Use

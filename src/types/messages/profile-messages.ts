@@ -258,6 +258,10 @@ export type ProfileMessages = {
     modeHtml: string;
     titleField: string;
     stackField: string;
+    stackPlaceholder: string;
+    stackHint: string;
+    stackDuplicate: string;
+    stackRemove: (technology: string) => string;
     repoField: string;
     bannerField: string;
     iconField: string;
@@ -266,6 +270,8 @@ export type ProfileMessages = {
     descriptionPlaceholder: string;
     diaryAdd: string;
     diaryText: string;
+    diaryDate: (entry: number) => string;
+    diaryEntryText: (entry: number) => string;
     add: string;
     save: string;
     remove: string;
