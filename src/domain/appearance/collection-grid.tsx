@@ -14,14 +14,11 @@ import { CollectionPreview } from "./collection-preview.js";
 
 const CATEGORY_ORDER: readonly ThemeCategory[] = [
   "casa",
+  "retro",
+  "web2000",
   "jogos",
   "maquinas",
   "papel",
-  "retro",
-  "swing",
-  "web2000",
-  "arcade",
-  "sistemas",
 ];
 
 /**
@@ -57,10 +54,7 @@ export function CollectionGrid({ activeId, previewId, onPreview, onSelect }: Col
     maquinas: messages.categoryMaquinas,
     papel: messages.categoryPapel,
     retro: messages.categoryRetro,
-    swing: messages.categorySwing,
     web2000: messages.categoryWeb2000,
-    arcade: messages.categoryArcade,
-    sistemas: messages.categorySistemas,
   };
 
   const categories: { id: ThemeCategory | null; label: string }[] = [
