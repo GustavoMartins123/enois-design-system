@@ -286,6 +286,21 @@ export const Dialogs: StoryObj = {
 };
 
 export const StackChips: StoryObj = {
+  parameters: {
+    docs: {
+      description: {
+        story: [
+          "Edit the sample project to try the shared TokenInput with up to 10 technologies",
+          "of 40 characters each. Enter, commas (including mobile input and pasted lists)",
+          "and leaving the field confirm trimmed values; duplicate technologies show inline feedback.",
+          "Remove chips with their labelled buttons, change another field or switch editor modes",
+          "to check that the stack is preserved. Saving also confirms pending text without blur",
+          "and updates the saved stack below. Use a mobile viewport to inspect chip wrapping",
+          "and the existing theme tokens for chip colors, focus rings and feedback.",
+        ].join(" "),
+      },
+    },
+  },
   render: function StackChipsStory() {
     const [open, setOpen] = useState(true);
     const [stack, setStack] = useState([

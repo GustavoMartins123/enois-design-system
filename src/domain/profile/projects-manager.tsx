@@ -35,9 +35,19 @@ const vazio = (): ProjectInput => ({
 });
 
 /**
- * Gerenciador de projetos (dono do perfil): lista + editor, com a dualidade da
- * casa — preencher o formulário estruturado OU escrever o HTML do card (que o
- * backend sanitiza e o quadro isolado renderiza, como a bio e a capa).
+ * Profile owner's project list and editor, with structured fields or a custom
+ * HTML card that the backend sanitizes and an isolated frame renders.
+ *
+ * Confirmed technologies live in the project's stack array. TokenInput keeps
+ * only the pending draft: Enter, comma input (including mobile and pasted lists)
+ * and leaving the field commit trimmed values. Action buttons commit through
+ * the input handle so a layout change cannot cancel their click. Saving includes
+ * the remaining draft even without blur, with at most 10 technologies of 40
+ * characters each. Case-insensitive duplicates show inline feedback.
+ *
+ * Chips wrap inside the field and have labelled removal buttons. Updating other
+ * fields preserves the stack and the selected structured/HTML mode. The
+ * Domain/Profile StackChips story demonstrates editing, saving and mobile wrapping.
  */
 export function ProjectsManager({
   open,
