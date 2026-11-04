@@ -150,6 +150,7 @@ export function OnboardingView({
             suggestions={skillSuggestions}
             max={maxSkills}
             maxLength={maxSkillLength}
+            allowMultiple={false}
             onAdd={onAddSkill}
             onRemove={onRemoveSkill}
           />

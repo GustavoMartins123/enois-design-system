@@ -4,7 +4,7 @@ import type { TokenInputHandle } from "./token-input-handle.js";
 
 export type TokenInputProps = {
   values: string[];
-  /** May be called multiple times for one pasted list; use functional state updates. */
+  /** Called once per confirmation when allowMultiple is false; batches need functional updates. */
   onAdd: (token: string) => void;
   onRemove: (token: string) => void;
   label: string;
@@ -12,6 +12,8 @@ export type TokenInputProps = {
   placeholder?: string;
   max: number;
   maxLength: number;
+  /** Defaults to true. Disable for consumers that accept one token per event. */
+  allowMultiple?: boolean;
   suggestions?: string[];
   suggestionsLabel?: string;
   limitMessage?: string;

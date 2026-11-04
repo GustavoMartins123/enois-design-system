@@ -18,6 +18,7 @@ export function TokenInput({
   placeholder,
   max,
   maxLength,
+  allowMultiple = true,
   suggestions = [],
   suggestionsLabel,
   limitMessage,
@@ -55,6 +56,11 @@ export function TokenInput({
   const commit = (raw: string, all = true): string[] | null => {
     if (disabled || composing.current) return null;
     const parts = raw.split(",");
+    if (!allowMultiple && parts.filter((part) => part.trim()).length > 1) {
+      updateDraft(raw);
+      setError(messages.singleItem);
+      return null;
+    }
     const remainder = all ? "" : parts.pop()!;
     const next = [...valuesRef.current];
     const keys = new Set(next.map(keyOf));

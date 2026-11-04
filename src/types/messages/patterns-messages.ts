@@ -9,6 +9,7 @@ export type PatternsMessages = {
     suggestions: string;
     tooLong: (maxLength: number) => string;
     tooMany: (max: number) => string;
+    singleItem: string;
   };
   appSidebar: { expandMenu: string; collapseMenu: string };
   navigationDrawer: { title: string };

@@ -10,7 +10,10 @@ const meta: Meta<typeof TokenInput> = { title: "Patterns/TokenInput", component:
 export default meta;
 
 function Field(
-  props: Pick<TokenInputProps, "label" | "max" | "maxLength" | "suggestions" | "disabled"> & {
+  props: Pick<
+    TokenInputProps,
+    "label" | "max" | "maxLength" | "suggestions" | "disabled" | "allowMultiple"
+  > & {
     initial?: string[];
   },
 ) {
@@ -33,6 +36,7 @@ export const Skills: StoryObj = {
       label="Habilidades e ferramentas"
       max={20}
       maxLength={60}
+      allowMultiple={false}
       suggestions={["Comunicação", "Design", "Fotografia", "React"]}
     />
   ),

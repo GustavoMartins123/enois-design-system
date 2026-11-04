@@ -9,10 +9,15 @@ New pattern tests cover Android-style comma input, pasted lists, pending drafts,
 case-insensitive duplicates, limits, IME composition and focus behavior. Project
 duplicates keep their existing accessible inline message; onboarding ignores
 duplicates without adding another chip.
+Onboarding confirms one skill per action (`allowMultiple={false}`), preserving the
+original frontend callbacks. Pasting several skills shows a message and keeps the
+draft available for correction without emitting additions or advancing the step.
+Project stacks continue accepting comma-separated batches.
 
 Verification uses the local Docker environment, H2 and fictitious accounts only.
 The Chromium smoke test completes signup/email verification, fills onboarding
-skills using input events, advances with a pending token, then creates and edits a
+skills one at a time using input events, rejects a multi-skill paste without losing
+the draft, advances with a pending token, then creates and edits a
 profile project and checks the exact arrays sent to and returned by the API.
 The action button's click must survive the input blur without a layout shift
 cancelling the click. Both field layouts were checked at 390px and 1440px.

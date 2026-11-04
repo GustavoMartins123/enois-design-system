@@ -71,6 +71,29 @@ afterEach(() => {
 });
 
 describe("TokenInput", () => {
+  it("confirms one token per action in single-item mode and preserves rejected batches", () => {
+    render({ allowMultiple: false, max: 20, maxLength: 60 });
+    type("React, TypeScript,");
+    expect(added).not.toHaveBeenCalled();
+    expect(input().value).toBe("React, TypeScript,");
+    expect(host.querySelector('[role="alert"]')!.textContent).toBe(
+      defaultMessages.tokenInput.singleItem,
+    );
+    let result: string[] | null = [];
+    act(() => {
+      result = ref.current!.commit();
+    });
+    expect(result).toBeNull();
+    expect(added).not.toHaveBeenCalled();
+    type("React,");
+    expect(added.mock.calls).toEqual([["React"]]);
+    expect(input().value).toBe("");
+    type("TypeScript");
+    key("Enter");
+    expect(added.mock.calls).toEqual([["React"], ["TypeScript"]]);
+    expect(tokens()).toHaveLength(2);
+  });
+
   it("keeps action buttons in place until their click commits the draft", () => {
     render({ suggestions: ["React", "Redis"] });
     const action = document.createElement("button");

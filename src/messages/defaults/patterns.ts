@@ -9,6 +9,7 @@ export const patternsMessages: PatternsMessages = {
     suggestions: "Sugestões",
     tooLong: (maxLength) => `Cada item pode ter até ${maxLength} caracteres.`,
     tooMany: (max) => `Adicione no máximo ${max} itens.`,
+    singleItem: "Adicione um item por vez.",
   },
   appSidebar: { expandMenu: "Expandir menu", collapseMenu: "Recolher menu" },
   navigationDrawer: { title: "Menu de navegação" },
