@@ -52,6 +52,14 @@ export const ProjectStack: StoryObj = {
   ),
 };
 export const AtLimit: StoryObj = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Remove a focused chip with Enter or Space. Focus returns to the input after removal enables it below the item limit.",
+      },
+    },
+  },
   render: () => (
     <Field
       label="Tecnologias do projeto"

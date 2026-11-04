@@ -71,6 +71,41 @@ afterEach(() => {
 });
 
 describe("TokenInput", () => {
+  describe.each([
+    { name: "project stacks", max: 10, allowMultiple: true },
+    { name: "onboarding skills", max: 20, allowMultiple: false },
+  ])("removal focus for $name", ({ max, allowMultiple }) => {
+    it("returns focus to the input when the focused remove button is unmounted", () => {
+      render({ values: ["React", "TypeScript"], max, allowMultiple });
+      const removeButton = tokens()[0] as HTMLButtonElement;
+      act(() => removeButton.focus());
+      expect(document.activeElement).toBe(removeButton);
+      act(() => removeButton.click());
+      expect(removeButton.isConnected).toBe(false);
+      expect(removed).toHaveBeenLastCalledWith("React");
+      expect(document.activeElement).toBe(input());
+      expect(tokens()).toHaveLength(1);
+    });
+
+    it("focuses the input after removal enables it at the item limit", () => {
+      render({
+        values: Array.from({ length: max }, (_, index) => `Tool ${index}`),
+        max,
+        allowMultiple,
+      });
+      expect(input().disabled).toBe(true);
+      const removeButton = tokens()[0] as HTMLButtonElement;
+      act(() => removeButton.focus());
+      act(() => removeButton.click());
+      expect(input().disabled).toBe(false);
+      expect(document.activeElement).toBe(input());
+      type("Rust");
+      key("Enter");
+      expect(added).toHaveBeenLastCalledWith("Rust");
+      expect(tokens()).toHaveLength(max);
+    });
+  });
+
   it("confirms one token per action in single-item mode and preserves rejected batches", () => {
     render({ allowMultiple: false, max: 20, maxLength: 60 });
     type("React, TypeScript,");

@@ -1,4 +1,4 @@
-import { useId, useImperativeHandle, useRef, useState } from "react";
+import { useId, useImperativeHandle, useLayoutEffect, useRef, useState } from "react";
 
 import { Plus, X } from "lucide-react";
 
@@ -8,7 +8,10 @@ import { Pill } from "../../ui/pill.js";
 
 const keyOf = (value: string) => value.toLocaleLowerCase("pt-BR");
 
-/** Controlled tokens with a local draft; commas also commit through mobile input events. */
+/**
+ * Controlled tokens with a local draft; commas also commit through mobile input events.
+ * Removing a chip returns focus to the input after the controlled values update.
+ */
 export function TokenInput({
   values,
   onAdd,
@@ -33,6 +36,8 @@ export function TokenInput({
   const generatedId = useId();
   const id = providedId ?? generatedId;
   const rootRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const pendingFocusRef = useRef<string | null>(null);
   const composing = useRef(false);
   const valuesRef = useRef(values);
   valuesRef.current = values;
@@ -91,7 +96,15 @@ export function TokenInput({
 
   useImperativeHandle(ref, () => ({ commit: () => commit(draftRef.current) }));
 
+  useLayoutEffect(() => {
+    if (pendingFocusRef.current === null || values.includes(pendingFocusRef.current)) return;
+    pendingFocusRef.current = null;
+    // At the item limit, the input becomes enabled only after the removal renders.
+    inputRef.current?.focus();
+  }, [values]);
+
   const remove = (token: string) => {
+    pendingFocusRef.current = token;
     valuesRef.current = valuesRef.current.filter((value) => value !== token);
     onRemove(token);
     setError(null);
@@ -145,6 +158,7 @@ export function TokenInput({
           </span>
         ))}
         <input
+          ref={inputRef}
           id={id}
           value={draft}
           disabled={disabled || (full && !draft)}

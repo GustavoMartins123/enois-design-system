@@ -13,6 +13,9 @@ Onboarding confirms one skill per action (`allowMultiple={false}`), preserving t
 original frontend callbacks. Pasting several skills shows a message and keeps the
 draft available for correction without emitting additions or advancing the step.
 Project stacks continue accepting comma-separated batches.
+Removing a chip returns focus to the input after the controlled values update,
+including when removal enables an input disabled by the item limit. Regression
+tests cover both project stacks (10 items) and onboarding skills (20 items).
 
 Verification uses the local Docker environment, H2 and fictitious accounts only.
 The Chromium smoke test completes signup/email verification, fills onboarding
