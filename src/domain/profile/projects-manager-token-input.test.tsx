@@ -25,7 +25,12 @@ function type(input: HTMLInputElement, value: string) {
     input.dispatchEvent(new Event("input", { bubbles: true }));
   });
 }
-const stack = () => document.querySelector<HTMLInputElement>("#projeto-stack")!;
+const stack = () => {
+  const label = [...document.querySelectorAll("label")].find(
+    (item) => item.textContent === messages.stackField,
+  )!;
+  return document.getElementById(label.htmlFor) as HTMLInputElement;
+};
 const chip = (name: string) =>
   document.querySelector<HTMLButtonElement>(`[aria-label="${messages.stackRemove(name)}"]`);
 const render = (projects: ProjectsManagerProps["projects"] = []) =>

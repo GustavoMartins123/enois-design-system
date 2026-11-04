@@ -98,6 +98,92 @@ afterEach(() => {
 });
 
 describe("ProjectsManager stack chips", () => {
+  it("associates each structured field with its label and names the status group", () => {
+    render();
+    click(messages.add);
+    for (const name of [
+      messages.titleField,
+      messages.descriptionField,
+      messages.stackField,
+      messages.bannerField,
+      messages.iconField,
+      messages.repoField,
+    ]) {
+      const label = [...document.querySelectorAll("label")].find(
+        (item) => item.textContent === name,
+      )!;
+      expect(label, name).toBeDefined();
+      expect(label.htmlFor, name).not.toBe("");
+      expect(label.control, name).toBeInstanceOf(HTMLInputElement);
+      expect(label.control!.id).toBe(label.htmlFor);
+      expect([...(label.control as HTMLInputElement).labels!]).toContain(label);
+    }
+    const group = document.querySelector("fieldset")!;
+    expect(group.querySelector("legend")!.textContent).toBe(messages.statusField);
+    expect(group.querySelectorAll("button")).toHaveLength(4);
+  });
+
+  it("labels each diary date and text and keeps the associations after removing an entry", () => {
+    render();
+    click(messages.add);
+    click(messages.diaryAdd);
+    click(messages.diaryAdd);
+    for (const entry of [1, 2]) {
+      for (const name of [messages.diaryDate(entry), messages.diaryEntryText(entry)]) {
+        const label = [...document.querySelectorAll("label")].find(
+          (item) => item.textContent === name,
+        )!;
+        expect(label.control, name).not.toBeNull();
+        expect(label.control!.id).toBe(label.htmlFor);
+      }
+    }
+    const dates = [...document.querySelectorAll<HTMLInputElement>('input[type="date"]')];
+    expect(dates[0].id).not.toBe(dates[1].id);
+    type(dates[1], "2026-01-02");
+    const firstRow = dates[0].parentElement!.parentElement!;
+    act(() => firstRow.querySelector("button")!.click());
+    const dateLabel = [...document.querySelectorAll("label")].find(
+      (item) => item.textContent === messages.diaryDate(1),
+    )!;
+    expect((dateLabel.control as HTMLInputElement).value).toBe("2026-01-02");
+    expect(document.querySelectorAll('input[type="date"]')).toHaveLength(1);
+    expect(
+      [...document.querySelectorAll("label")].some(
+        (item) => item.textContent === messages.diaryDate(2),
+      ),
+    ).toBe(false);
+  });
+
+  it("uses the HTML editor's own associated label without duplicating its accessible name", () => {
+    render();
+    click(messages.add);
+    click(messages.modeHtml);
+    const editor = document.querySelector("textarea")!;
+    expect(editor.labels).toHaveLength(1);
+    expect(editor.labels![0].textContent).toBe(messages.modeHtml);
+    expect(editor.labels![0].htmlFor).toBe(editor.id);
+    expect(editor.labels![0].control).toBe(editor);
+  });
+
+  it("keeps field IDs stable during editing and unique between editor instances", () => {
+    render();
+    click(messages.add);
+    const ids = () =>
+      [...document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input, textarea")].map(
+        (item) => item.id,
+      );
+    const first = ids();
+    expect(first.every(Boolean)).toBe(true);
+    expect(new Set(first).size).toBe(first.length);
+    type(document.querySelector("input")!, "Changed title");
+    expect(ids()).toEqual(first);
+    act(() => root.unmount());
+    root = createRoot(host);
+    render();
+    click(messages.add);
+    expect(ids().every((id) => !first.includes(id))).toBe(true);
+  });
+
   it.each([",", "Enter", "blur"])("adds a trimmed chip on %s and clears the draft", (trigger) => {
     render();
     click(messages.add);

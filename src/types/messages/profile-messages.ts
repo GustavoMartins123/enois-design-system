@@ -270,6 +270,8 @@ export type ProfileMessages = {
     descriptionPlaceholder: string;
     diaryAdd: string;
     diaryText: string;
+    diaryDate: (entry: number) => string;
+    diaryEntryText: (entry: number) => string;
     add: string;
     save: string;
     remove: string;

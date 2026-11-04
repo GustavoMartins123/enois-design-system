@@ -300,6 +300,8 @@ export const profileMessages: ProfileMessages = {
     descriptionPlaceholder: "Uma frase sobre o que o projeto faz",
     diaryAdd: "Adicionar entrada ao diário",
     diaryText: "O que evoluiu",
+    diaryDate: (entry) => `Data da entrada ${entry}`,
+    diaryEntryText: (entry) => `Texto da entrada ${entry}`,
     add: "Novo projeto",
     save: "Salvar projeto",
     remove: "Excluir",
