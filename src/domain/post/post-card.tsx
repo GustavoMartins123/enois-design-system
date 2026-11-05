@@ -64,6 +64,7 @@ export function PostCard({
   renderRichText,
   renderMediaGrid,
   renderAuthorTrigger,
+  renderLinkPreview,
 }: PostCardProps) {
   const messages = useMessages().postCard;
   const sealLabels = useMessages().postSeals;
@@ -355,7 +356,11 @@ export function PostCard({
 
       {poll}
       {reactionsSummary}
-      <LinkPreviews content={post.content} autoplay={autoplayLinks} />
+      <LinkPreviews
+        content={post.content}
+        autoplay={autoplayLinks}
+        renderLinkPreview={renderLinkPreview}
+      />
 
       {post.tags.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-1.5">
