@@ -64,6 +64,7 @@ export type { AuthorInfoProps } from "../../types/domain/post/author-info-props.
 export type { CommentItemData } from "../../types/domain/post/comment-item-data.js";
 export type { CommentItemProps } from "../../types/domain/post/comment-item-props.js";
 export type { CommentMediaDraft } from "../../types/domain/post/comment-media-draft.js";
+export { isComposerError } from "../../types/domain/post/comments-error.js";
 export type { CommentsError } from "../../types/domain/post/comments-error.js";
 export type { EmbedPlayerProps } from "../../types/domain/post/embed-player-props.js";
 export type { GifData } from "../../types/domain/post/gif-data.js";
