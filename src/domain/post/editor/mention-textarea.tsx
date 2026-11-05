@@ -17,6 +17,7 @@ import { applyFormat } from "../../../lib/rich-text/apply-format.js";
 import { insertSnippet } from "../../../lib/rich-text/insert-snippet.js";
 import { parseRichText } from "../../../lib/rich-text/parse.js";
 import { isSubmitShortcut } from "../../../lib/submit-shortcut.js";
+import { textFieldClasses } from "../../../lib/text-field-classes.js";
 import { useMessages } from "../../../messages/messages-context.js";
 import { RichTextToolbar } from "../../../patterns/editor/rich-text-toolbar.js";
 import type { MentionTextareaProps } from "../../../types/domain/post/mention-textarea-props.js";
@@ -356,7 +357,10 @@ export function MentionTextarea({
           onPasteImages(files);
         }}
         placeholder={placeholder}
-        className={`max-h-[240px] w-full resize-none overflow-y-auto ${className}`}
+        className={textFieldClasses(
+          "max-h-[240px] w-full resize-none overflow-y-auto text-base md:text-sm",
+          className,
+        )}
         maxLength={maxLength}
         rows={rows}
       />
