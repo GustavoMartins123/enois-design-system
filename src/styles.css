@@ -3620,6 +3620,11 @@ html[data-batata] .cos-card__banner {
   font-size: 12px;
   color: var(--text-strong);
 }
+@media (width < 768px) {
+  .frame-shop-search input {
+    font-size: 16px;
+  }
+}
 .frame-shop-search:focus-within {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
