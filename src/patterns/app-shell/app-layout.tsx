@@ -20,8 +20,8 @@ function AppLayoutHeader({ children }: WithRequiredChildren) {
 
 function AppLayoutContent({ children }: WithRequiredChildren) {
   return (
-    // Bottom room on phones so the last item is never under the floating dock.
-    <div className="mx-auto flex max-w-7xl gap-6 px-3 pb-28 pt-4 sm:px-6 sm:pt-6 lg:pb-6">
+    // Bottom room on phones so the last item is never under the flat dock.
+    <div className="mx-auto flex max-w-7xl gap-6 px-3 pb-20 pt-4 sm:px-6 sm:pt-6 lg:pb-6">
       {children}
     </div>
   );
