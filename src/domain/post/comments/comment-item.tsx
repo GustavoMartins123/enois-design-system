@@ -51,7 +51,6 @@ export function CommentItem<T extends string>({
   reportDialog,
   reactionsDialog,
   renderAuthorTrigger,
-  renderLinkPreview,
 }: CommentItemProps<T>) {
   const messages = useMessages().commentItem;
   const { isOwnMediaUrl } = useAdapters();
@@ -220,7 +219,7 @@ export function CommentItem<T extends string>({
                 </div>
               )}
 
-              <LinkPreviews content={content} compact renderLinkPreview={renderLinkPreview} />
+              <LinkPreviews content={content} />
             </>
           )}
         </div>

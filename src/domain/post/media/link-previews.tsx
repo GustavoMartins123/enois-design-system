@@ -1,5 +1,3 @@
-import { Fragment } from "react";
-
 import { useAdapters } from "../../../adapters/adapters-context.js";
 import { rendersInline, trimTrailingPunctuation } from "../../../lib/shared-links.js";
 import { useMessages } from "../../../messages/messages-context.js";
@@ -9,12 +7,7 @@ import { EmbedPlayer } from "./embed-player.js";
 import { extractVideoId } from "./extract-video-id.js";
 
 /** Renderiza preview de cada URL do conteúdo de um post (vídeo embedado ou card do link). */
-export function LinkPreviews({
-  content,
-  autoplay = false,
-  renderLinkPreview,
-  compact = false,
-}: LinkPreviewsProps) {
+export function LinkPreviews({ content, autoplay = false }: LinkPreviewsProps) {
   const messages = useMessages().linkPreviews;
   const { isOwnMediaUrl } = useAdapters();
   const urlRegex = /https?:\/\/[^\s]+/g;
@@ -35,12 +28,6 @@ export function LinkPreviews({
         const video = extractVideoId(url);
         if (video) {
           return <EmbedPlayer key={url} type={video.type} id={video.id} autoplay={autoplay} />;
-        }
-
-        // O app desenha o cartão quando sabe mais do que o host (título, descrição, miniatura).
-        // `null` é resposta válida: a prévia ainda está chegando e o link não aparece sozinho.
-        if (renderLinkPreview) {
-          return <Fragment key={url}>{renderLinkPreview(url, { compact })}</Fragment>;
         }
 
         return (

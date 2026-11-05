@@ -6,7 +6,6 @@ import type { PostMediaGridProps } from "./post-media-grid-props.js";
 import type { PostRichTextProps } from "./post-rich-text-props.js";
 import type { PostSealCount } from "./post-seal-count.js";
 import type { RenderAuthorTrigger } from "./render-author-trigger.js";
-import type { RenderLinkPreview } from "./render-link-preview.js";
 
 export type PostCardProps = {
   post: PostCardData;
@@ -74,6 +73,4 @@ export type PostCardProps = {
   renderMediaGrid: (props: PostMediaGridProps) => ReactNode;
   /** Avatar e nome abrem o gatilho do app (mini cartão) em vez do link do perfil. */
   renderAuthorTrigger?: RenderAuthorTrigger;
-  /** O cartão de cada link de página (miniatura, título, descrição); sem ele, o cartão simples. */
-  renderLinkPreview?: RenderLinkPreview;
 };
