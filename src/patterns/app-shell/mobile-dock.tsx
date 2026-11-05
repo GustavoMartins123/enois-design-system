@@ -23,7 +23,7 @@ function DockLink({ item }: { item: MobileDockItem }) {
           item.active && "text-primary",
         )}
       >
-        <Icon className="h-[22px] w-[22px]" strokeWidth={item.active ? 2.5 : 2} />
+        <Icon className="h-[22px] w-[22px]" />
         {item.signal && (
           <Signal
             signal={item.signal.kind === "today" ? { kind: "new" } : item.signal}
