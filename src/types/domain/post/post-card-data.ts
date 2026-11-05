@@ -23,6 +23,7 @@ export type PostCardData = {
   repostWithOpinion?: boolean;
   repostOfContent?: string | null;
   repostOfMediaIds?: string[] | null;
+  repostOfAvatar?: string | null;
   repostedByName?: string | null;
   repostedByAvatar?: string | null;
   repostedByUsername?: string | null;

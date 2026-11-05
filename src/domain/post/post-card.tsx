@@ -112,6 +112,9 @@ export function PostCard({
           href={hrefs.repostOf}
           className="mb-2 inline-flex items-center gap-1.5 text-xs text-text-subtle transition hover:text-primary"
         >
+          {post.repostOfAvatar && (
+            <UserAvatar src={post.repostOfAvatar} alt={post.repostOfAuthor} className="h-4 w-4" />
+          )}
           <Repeat2 className="h-3.5 w-3.5" />
 
           <>
@@ -276,6 +279,9 @@ export function PostCard({
             href={hrefs.repostOf}
             className="inline-flex items-center gap-1.5 text-xs text-text-subtle transition hover:text-primary"
           >
+            {post.repostOfAvatar && (
+              <UserAvatar src={post.repostOfAvatar} alt={post.repostOfAuthor} className="h-4 w-4" />
+            )}
             <Repeat2 className="h-3.5 w-3.5" />
 
             <>{messages.quotedFrom(post.repostOfAuthor)}</>
