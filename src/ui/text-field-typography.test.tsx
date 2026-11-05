@@ -26,24 +26,40 @@ describe("text field typography", () => {
       `keeps compact %s text on desktop and readable text on mobile (${Component.name})`,
       (size) => {
         const html = renderToStaticMarkup(
-          <Component className={`h-9 text-${size} md:text-lg text-primary leading-6`} />,
+          <Component className={`h-9 text-${size} text-primary leading-6`} />,
         );
         const classes = html.match(/<(?:input|textarea)[^>]*class="([^"]*)"/)?.[1].split(" ");
 
         expect(classes).toContain("text-base");
-        expect(classes).toContain("md:text-lg");
+        expect(classes).toContain(`md:text-${size}`);
         expect(classes).toContain("text-primary");
         expect(classes).toContain("leading-6");
         expect(classes).not.toContain(`text-${size}`);
       },
     );
 
-    it(`preserves an explicit larger size (${Component.name})`, () => {
-      const html = renderToStaticMarkup(<Component className="text-lg" />);
-      expect(html.match(/<(?:input|textarea)[^>]*class="([^"]*)"/)?.[1].split(" ")).toContain(
-        "text-lg",
-      );
-    });
+    it.each(["text-lg", "text-base", "text-[15px]"])(
+      `preserves an explicit %s size on mobile and desktop (${Component.name})`,
+      (size) => {
+        const html = renderToStaticMarkup(<Component className={size} />);
+        const classes = html.match(/<(?:input|textarea)[^>]*class="([^"]*)"/)?.[1].split(" ");
+        expect(classes).toContain(size);
+        expect(classes).toContain(`md:${size}`);
+        expect(classes).not.toContain("md:text-sm");
+      },
+    );
+
+    it.each(["text-lg md:text-xl", "md:text-xl text-lg"])(
+      `keeps the explicit desktop override in %s (${Component.name})`,
+      (className) => {
+        const html = renderToStaticMarkup(<Component className={className} />);
+        const classes = html.match(/<(?:input|textarea)[^>]*class="([^"]*)"/)?.[1].split(" ");
+        expect(classes).toContain("text-lg");
+        expect(classes).toContain("md:text-xl");
+        expect(classes).not.toContain("md:text-lg");
+        expect(classes).not.toContain("md:text-sm");
+      },
+    );
   }
 
   it("retains the requested compact desktop size", () => {

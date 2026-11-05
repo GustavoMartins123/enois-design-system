@@ -67,7 +67,7 @@ export const MobileTypography: StoryObj = {
 
       <label>
         Texto maior
-        <Input aria-label="Input large" className="text-lg md:text-lg" defaultValue="Texto maior" />
+        <Input aria-label="Input large" className="text-lg" defaultValue="Texto maior" />
       </label>
 
       <label>

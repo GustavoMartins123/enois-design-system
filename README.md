@@ -89,9 +89,11 @@ required to consume these views.
 
 `Input`, `Textarea` and `MentionTextarea` keep compact `text-xs` and `text-sm`
 overrides at 16px below 768px, retaining their requested size on desktop. The
-shared `textFieldClasses` helper merges classes before converting these compact
-sizes, so larger sizes such as `text-lg`, responsive desktop overrides, colors
-and line heights remain available. Native text fields in DS views use explicit
+internal `textFieldClasses` helper merges classes before converting these compact
+sizes. Other unprefixed font sizes are also mirrored at `md:`, so `text-lg`,
+`text-base` and `text-[15px]` override the desktop default too. Explicit responsive
+overrides, colors and line heights remain available. The helper is not part of
+the package's public API. Native text fields in DS views use explicit
 mobile and desktop sizes. Non-text inputs and unrelated app controls are not
 targeted by a global font rule. Manual page zoom remains available.
 

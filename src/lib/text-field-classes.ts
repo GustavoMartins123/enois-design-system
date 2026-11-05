@@ -7,11 +7,18 @@ export function textFieldClasses(...inputs: ClassValue[]) {
   return cn(
     ...inputs.map((input) => {
       const tokens = cn(input).split(/\s+/);
-      const compact = tokens.find((token) => token === "text-xs" || token === "text-sm");
-      if (!compact) return tokens.join(" ");
+      // Let tailwind-merge distinguish font sizes from text colors and alignment.
+      const size = tokens.find(
+        (token) => token.startsWith("text-") && cn("text-xs", token) === token,
+      );
+      if (!size) return tokens.join(" ");
       return cn(
-        compact === "text-xs" ? "text-base md:text-xs" : "text-base md:text-sm",
-        tokens.filter((token) => token !== compact).join(" "),
+        size === "text-xs"
+          ? "text-base md:text-xs"
+          : size === "text-sm"
+            ? "text-base md:text-sm"
+            : `${size} md:${size}`,
+        tokens.filter((token) => token !== size).join(" "),
       );
     }),
   );
