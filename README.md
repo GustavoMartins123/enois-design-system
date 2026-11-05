@@ -20,6 +20,9 @@ Rules:
 - Components never fetch, route or read app stores. Data comes in through props, actions go out through callbacks.
 - Content (titles, post text, names) is always a prop. Fixed component microcopy (accessible labels, counters, empty states) comes from `useMessages()` with pt-BR defaults.
 
+See [`docs/visual-language.md`](docs/visual-language.md) for the default look: surfaces, semantic
+contours (person, community, event) and the signal vocabulary.
+
 ## Using it in an app
 
 `.npmrc` (GitHub Packages needs a token with `read:packages`, even for public packages):
@@ -56,6 +59,32 @@ import { Button, ToastProvider } from "@rede-enois/design-system/ui";
 </EnoisProvider>;
 ```
 
+### Token input
+
+`TokenInput` from `@rede-enois/design-system/patterns` provides the same removable
+chips for onboarding skills and profile project technologies. Pass `values`,
+`onAdd`, `onRemove`, `label`, `max` and `maxLength`; suggestions, `duplicateMessage`
+and copy overrides are optional. `allowMultiple` defaults to `true`: callbacks must
+use functional state updates because a pasted list can add several tokens in one
+input event. With `allowMultiple={false}`, a confirmation adds at most one token;
+multi-item text is kept for correction with an accessible message.
+
+Enter, commas (including Android input events), and moving to another input or
+blurring the field confirm pending text. Buttons and links defer confirmation to
+their action handler so a layout change cannot cancel the pointer click.
+Blank tokens and case-insensitive duplicates are ignored. Invalid
+lengths or batches exceeding the item cap leave the text available for correction
+and show an accessible error. IME composition is preserved. Suggestions exclude
+selected values and show at most eight matches.
+
+Forms can pass a `ref` typed as `TokenInputHandle` and call `commit()` before
+saving: it returns the complete list including pending text, or `null` when
+invalid. This avoids depending on a blur state update to build the save payload.
+Onboarding uses `allowMultiple={false}` with limits of 20 skills and 60 characters,
+preserving its existing single-skill frontend callbacks. Projects accept pasted
+lists with limits of 10 technologies and 40 characters. No frontend change is
+required to consume these views.
+
 ### Input counter
 
 `Input` shows a character counter by default when `maxLength` is set. Use
@@ -70,6 +99,32 @@ for a verification code:
 
 `MentionTextarea` shows its character counter when `maxLength` is set. Forms that render the same
 `CharCounter` in their own footer can pass `showCounter={false}` while keeping the textarea limit.
+
+Formatting buttons, keyboard shortcuts, emoji and mention suggestions also respect `maxLength`:
+an insertion that would exceed it leaves the current text unchanged. The `onChange` callback emits
+only selected mention IDs whose complete usernames remain as rendered mentions, including inside
+Markdown formatting. Literal code does not count as a mention. Removing a mention or
+clearing the controlled `value` removes that recipient from subsequent edits; typing a username
+manually does not restore a previously removed selection.
+
+### Profile garden
+
+`ProfileGarden` (domain) draws a profile's reputation as a small static garden: the tree is
+`trajectory`, the flowers `relations`, the raised bed and its fruits `contribution` and the grass
+`tenure`, each at stage 0 to 3. `health` (0 to 2) only softens the colors; nothing ever dries or
+dies. The style comes from the equipped `GARDEN` cosmetic (`garden-cerrado`,
+`garden-mata-atlantica`, `garden-caatinga`, `garden-pampa`); map its id with `gardenStyleOf`, which
+falls back to the default `quintal`. The owner sees a hint about the part that grows next.
+
+`ProfileGamificationPanel` takes `garden` and `gardenStyle` and draws it next to the reputation:
+
+```tsx
+<ProfileGamificationPanel
+  {...panelProps}
+  garden={profile.garden}
+  gardenStyle={gardenStyleOf(equippedGardenItemId)}
+/>
+```
 
 ## Migrating components from the front
 

@@ -1,5 +1,6 @@
 export type JobsMessages = {
   applyByEmailButton: { action: string; hint: string };
+  professionalSignature: { sendingAs: string; needsProfile: string; setup: string };
   applyFreelanceDialog: {
     title: string;
     hint: string;
@@ -111,5 +112,8 @@ export type JobsMessages = {
     memberSearch: string;
     memberAdd: string;
     cancel: string;
+    roleLabel: string;
+    /** Screen names of the roles, by API code; unknown codes show as they come. */
+    roles: Record<string, string>;
   };
 };

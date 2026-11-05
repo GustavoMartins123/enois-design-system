@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Flag, Heart, MessageCircle, Pencil, Pin, PinOff, Trash2 } from "lucide-react";
+import { CircleCheck, Flag, Heart, MessageCircle, Pencil, Pin, PinOff, Trash2 } from "lucide-react";
 
 import { useAdapters } from "../../../adapters/adapters-context.js";
 import { hideExternalPageUrls } from "../../../lib/shared-links.js";
@@ -28,6 +28,10 @@ export function CommentItem<T extends string>({
   isOwner,
   canPin,
   pinning = false,
+  canAccept = false,
+  acceptPending = false,
+  onAccept,
+  onUnaccept,
   emojis,
   reaction,
   onReact,
@@ -47,6 +51,7 @@ export function CommentItem<T extends string>({
   reportDialog,
   reactionsDialog,
   renderAuthorTrigger,
+  renderLinkPreview,
 }: CommentItemProps<T>) {
   const messages = useMessages().commentItem;
   const { isOwnMediaUrl } = useAdapters();
@@ -117,7 +122,18 @@ export function CommentItem<T extends string>({
       )}
 
       <div className="min-w-0 flex-1">
-        <div className="rounded-xl bg-surface-1 px-3 py-2">
+        <div
+          className={`rounded-xl bg-surface-1 px-3 py-2 ${
+            comment.accepted ? "border-l-2 border-growth/70" : ""
+          }`}
+        >
+          {comment.accepted && (
+            <p className="mb-1 flex items-center gap-1 text-[11px] font-medium text-growth">
+              <CircleCheck className="h-3 w-3" aria-hidden />
+              {messages.accepted}
+            </p>
+          )}
+
           <div className="flex flex-wrap items-center gap-2">
             {profileLink}
 
@@ -204,7 +220,7 @@ export function CommentItem<T extends string>({
                 </div>
               )}
 
-              <LinkPreviews content={content} />
+              <LinkPreviews content={content} compact renderLinkPreview={renderLinkPreview} />
             </>
           )}
         </div>
@@ -277,6 +293,21 @@ export function CommentItem<T extends string>({
               ) : (
                 <Pin className="h-3.5 w-3.5" />
               )}
+            </button>
+          )}
+
+          {canAccept && !editing && (comment.accepted ? onUnaccept : onAccept) && (
+            <button
+              type="button"
+              onClick={comment.accepted ? onUnaccept : onAccept}
+              disabled={acceptPending}
+              aria-busy={acceptPending || undefined}
+              className={`flex h-7 items-center gap-1 rounded-full px-2 text-xs transition-colors hover:bg-surface-2 disabled:opacity-50 ${
+                comment.accepted ? "hover:text-text-strong" : "hover:text-growth"
+              }`}
+            >
+              <CircleCheck className="h-3.5 w-3.5" aria-hidden />
+              {comment.accepted ? messages.unaccept : messages.accept}
             </button>
           )}
 

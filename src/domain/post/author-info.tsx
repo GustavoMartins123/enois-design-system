@@ -50,13 +50,13 @@ export function AuthorInfo({
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
           {renderAuthorTrigger ? (
-            <span className="min-w-0 max-w-full font-bold hover:underline text-sm">
+            <span className="min-w-0 max-w-full truncate font-bold hover:underline text-sm">
               {renderAuthorTrigger(name, "name")}
             </span>
           ) : (
             <AppLink
               href={authorHref}
-              className="min-w-0 max-w-full font-bold hover:underline text-sm"
+              className="min-w-0 max-w-full truncate font-bold hover:underline text-sm"
             >
               {name}
             </AppLink>

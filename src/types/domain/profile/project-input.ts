@@ -2,6 +2,8 @@
 export type ProjectInput = {
   title: string;
   description?: string | null;
+  banner: string | null;
+  icon: string | null;
   stack: string[];
   repoUrl: string | null;
   status: string | null;

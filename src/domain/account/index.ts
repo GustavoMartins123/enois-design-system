@@ -1,4 +1,5 @@
 export { AccountMenu } from "./account-menu.js";
+export { AccountSettings } from "./account-settings.js";
 export { AgeGate } from "./age-gate.js";
 export { BlockUserDialog } from "./block-user-dialog.js";
 export { ChangeEmailDialog } from "./change-email-dialog.js";
@@ -7,10 +8,10 @@ export { DeleteAccountDialog } from "./delete-account-dialog.js";
 export { LinkedAccountsDialog } from "./linked-accounts-dialog.js";
 export { LinkedInSyncPrompt } from "./linkedin-sync-prompt.js";
 export { PushToggle } from "./push-toggle.js";
-export type { AccountIdentity } from "../../types/domain/account/account-identity.js";
 export type { AccountMenuHrefs } from "../../types/domain/account/account-menu-hrefs.js";
 export type { AccountMenuProfile } from "../../types/domain/account/account-menu-profile.js";
 export type { AccountMenuProps } from "../../types/domain/account/account-menu-props.js";
+export type { AccountSettingsProps } from "../../types/domain/account/account-settings-props.js";
 export type { AgeGateMode } from "../../types/domain/account/age-gate-mode.js";
 export type { AgeGateProps } from "../../types/domain/account/age-gate-props.js";
 export type { BlockUserDialogProps } from "../../types/domain/account/block-user-dialog-props.js";

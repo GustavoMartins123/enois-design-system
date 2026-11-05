@@ -51,4 +51,100 @@ describe("cabeçalho do card de post", () => {
       expect(header?.querySelector('button[aria-label="Ações da publicação"]')).not.toBeNull();
     },
   );
+
+  it.each([
+    [true, "Resolvida"],
+    [false, "Aberta"],
+  ])("mostra o status da pergunta (resolvida: %s)", (resolved, label) => {
+    const html = renderToStaticMarkup(
+      <PostCard
+        post={{
+          id: "q",
+          type: "QUESTION",
+          content: "Como centralizo uma div?",
+          authorName: "Ana",
+          authorAvatar: null,
+          tags: [],
+          mediaIds: [],
+          resolved,
+        }}
+        hrefs={{ author: "/perfil/ana", post: "/post/q" }}
+        timeLabel="agora"
+        isOwner={false}
+        mySeals={[]}
+        onShowSeals={vi.fn()}
+        renderRichText={({ content }) => <p>{content}</p>}
+        renderMediaGrid={() => null}
+      />,
+    );
+    expect(html).toContain("Pergunta");
+    expect(html).toContain(label);
+  });
+
+  it("mostra a enquete no slot proprio e marca o tipo", () => {
+    const html = renderToStaticMarkup(
+      <PostCard
+        post={{
+          id: "p",
+          type: "POLL",
+          content: "Café ou chá?",
+          authorName: "Ana",
+          authorAvatar: null,
+          tags: [],
+          mediaIds: [],
+        }}
+        hrefs={{ author: "/perfil/ana", post: "/post/p" }}
+        timeLabel="agora"
+        isOwner={false}
+        mySeals={[]}
+        onShowSeals={vi.fn()}
+        poll={
+          <ul data-testid="enquete">
+            {["Café", "Chá"].map((o) => (
+              <li key={o}>{o}</li>
+            ))}
+          </ul>
+        }
+        renderRichText={({ content }) => <p>{content}</p>}
+        renderMediaGrid={() => null}
+      />,
+    );
+    expect(html).toContain("Enquete");
+    expect(html).toContain("Café ou chá?");
+    expect(html).toContain("Café");
+    expect(html).toContain("Chá");
+  });
+});
+
+describe("post card offscreen rendering", () => {
+  const render = (virtualized: boolean) =>
+    renderToStaticMarkup(
+      <PostCard
+        post={{
+          id: "post-demo",
+          type: "INSIGHT",
+          content: "Publicação de demonstração.",
+          authorName: "Perfil de demonstração",
+          authorAvatar: null,
+          tags: [],
+          mediaIds: [],
+        }}
+        hrefs={{ author: "/perfil/demo", post: "/post/demo" }}
+        timeLabel="agora"
+        virtualized={virtualized}
+        isOwner={false}
+        mySeals={[]}
+        onShowSeals={vi.fn()}
+        renderRichText={({ content }) => <p>{content}</p>}
+        renderMediaGrid={() => null}
+      />,
+    );
+
+  it("skips offscreen paint in a plain list", () => {
+    expect(render(false)).toContain("[content-visibility:auto]");
+  });
+
+  it("keeps the real height measurable in a virtualized list", () => {
+    expect(render(true)).not.toContain("content-visibility");
+  });
 });

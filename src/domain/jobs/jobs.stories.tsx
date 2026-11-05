@@ -11,6 +11,7 @@ import { CompanyTeamSection } from "./company-team-section.js";
 import { CreateExternalJobDialog } from "./create-external-job-dialog.js";
 import { JobCardSkeletons } from "./job-card-skeletons.js";
 import { JobEditDialog } from "./job-edit-dialog.js";
+import { ProfessionalSignature } from "./professional-signature.js";
 
 const meta: Meta = {
   title: "Domain/Jobs",
@@ -85,6 +86,18 @@ export const ApplyFreelance: StoryObj = {
       onSend={noop}
       onOpenChat={noop}
     />
+  ),
+};
+
+export const ProfessionalSignatureStates: StoryObj = {
+  render: () => (
+    <div className="max-w-md space-y-3">
+      <ProfessionalSignature
+        identity={{ name: "Mel Santos", username: "mel.pro" }}
+        setupHref={null}
+      />
+      <ProfessionalSignature identity={null} setupHref="#profissional" />
+    </div>
   ),
 };
 
@@ -167,7 +180,10 @@ export const EditCompany: StoryObj = {
       onUploadImage={async () => null}
       teamSection={
         <CompanyTeamSection
-          members={[{ userId: "0b6f0c1e-2c55-4d6a-9f3e-6a2f1c9d7e11", role: "OWNER" }]}
+          members={[
+            { userId: "u1", role: "OWNER", name: "Ana Souza", username: "ana.souza", avatar: null },
+            { userId: "0b6f0c1e-2c55-4d6a-9f3e-6a2f1c9d7e11", role: "EDITOR" },
+          ]}
           search=""
           onSearchChange={noop}
           results={[]}

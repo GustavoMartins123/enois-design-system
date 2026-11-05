@@ -17,6 +17,7 @@ export const COSMETIC_KINDS: readonly CosmeticKind[] = [
   "NAMEPLATE",
   "BANNER",
   "PROFILE_EFFECT",
+  "GARDEN",
 ];
 
 export const EMPTY_TRY_ON: CosmeticTryOn = {
@@ -172,4 +173,20 @@ export function defaultCollection(
 ): string | null {
   if (initial !== undefined) return initial;
   return (collections.find((c): boolean => c.available) ?? collections[0])?.id ?? null;
+}
+
+/**
+ * The collection tabs in shop order: what can be bought today comes first (collections in
+ * season, then the year-round classics, `null`), and out-of-season collections close the row.
+ * The row scrolls sideways, so a tab at its end is easy to miss.
+ */
+export function shopTabs(
+  collections: readonly CosmeticShopCollection[],
+  hasClassics: boolean,
+): (CosmeticShopCollection | null)[] {
+  return [
+    ...collections.filter((c): boolean => c.available),
+    ...(hasClassics ? [null] : []),
+    ...collections.filter((c): boolean => !c.available),
+  ];
 }

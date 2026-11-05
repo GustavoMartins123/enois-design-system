@@ -11,7 +11,7 @@ import { StyledName } from "../name/styled-name.js";
 
 import { cardTheme, cardThemeStyle } from "./card-themes.js";
 import { CosmeticIcon } from "./cosmetic-icon.js";
-import { motionAllowed } from "./motion-allowed.js";
+import { motionAllowed, tiltAllowed } from "./motion-allowed.js";
 import { OfficialBanner } from "./official-banner.js";
 import { OFFICIAL_BANNERS } from "./official-banners.js";
 import { ProfileEffect } from "./profile-effect.js";
@@ -59,7 +59,13 @@ export function ProfileCard({
     if (compact || !card || !window.matchMedia?.("(hover: hover)").matches || !motionAllowed()) {
       return;
     }
+    const leave = () => TILT_PROPS.forEach((prop) => card.style.removeProperty(prop));
     const move = (event: PointerEvent) => {
+      // Read on every move so the person's switch applies at once, without remounting the card.
+      if (!tiltAllowed()) {
+        leave();
+        return;
+      }
       const box = card.getBoundingClientRect();
       const x = (event.clientX - box.left) / box.width;
       const y = (event.clientY - box.top) / box.height;
@@ -69,7 +75,6 @@ export function ProfileCard({
       card.style.setProperty("--my", `${round(y * 100)}%`);
       card.style.setProperty("--sheen", "1");
     };
-    const leave = () => TILT_PROPS.forEach((prop) => card.style.removeProperty(prop));
     card.addEventListener("pointermove", move);
     card.addEventListener("pointerleave", leave);
     return () => {

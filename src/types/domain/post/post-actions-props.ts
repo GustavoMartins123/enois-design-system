@@ -11,10 +11,13 @@ export type PostActionsProps<T extends string = string> = {
   motionAllowed: () => boolean;
   reactionCount: number;
   commentsCount: number;
+  repostsCount: number;
   savesCount: number;
   saved: boolean;
   /** Conteúdo de comunidade e os tipos que não viajam não oferecem republicar. */
   canRepost: boolean;
+  /** O viewer já republicou este post (botão fica ativo, como saved). */
+  reposted?: boolean;
   /**
    * Por que este post não pode ser republicado. Com `canRepost` falso e um motivo, o botão
    * aparece desabilitado e explica o motivo ao tocar, clicar ou focar; sem motivo, ele some.

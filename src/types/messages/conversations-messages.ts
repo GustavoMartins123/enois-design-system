@@ -3,7 +3,6 @@ export type ConversationsMessages = {
   conversationItem: { conversationFallback: string };
   chatDock: {
     title: string;
-    collapse: string;
     empty: string;
     loading: string;
     loadMore: string;
@@ -15,6 +14,7 @@ export type ConversationsMessages = {
     readReceiptRead: string;
     react: string;
     report: string;
+    reply: string;
   };
   e2eSetupBanner: {
     prompt: string;
@@ -41,6 +41,8 @@ export type ConversationsMessages = {
     noMessages: string;
     loadOlderMessages: string;
     loadingOlder: string;
+    replyingTo: (name: string) => string;
+    cancelReply: string;
     inputPlaceholder: string;
     send: string;
     attachMedia: string;

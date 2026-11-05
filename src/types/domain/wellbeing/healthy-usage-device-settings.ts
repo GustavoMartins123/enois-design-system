@@ -4,6 +4,7 @@ export type HealthyUsageDeviceSettings = {
   enabled: boolean;
   minutes: number;
   forceMotion: boolean;
+  cardTilt: boolean;
   /** The system asks for reduced motion: only then the "keep animations" switch shows up. */
   reducedMotion: boolean;
 };

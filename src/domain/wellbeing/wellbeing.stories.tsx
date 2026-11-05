@@ -23,6 +23,7 @@ export const HealthyUsage: StoryObj = {
         enabled: true,
         minutes: 30,
         forceMotion: false,
+        cardTilt: true,
         reducedMotion: true,
       })}
       personalization={{
@@ -31,6 +32,7 @@ export const HealthyUsage: StoryObj = {
         disabledModules: ["EVENTS"],
         nightRestReminder: true,
         liteMode: false,
+        batataMode: false,
       }}
       topics={[
         { value: "TECNOLOGIA", label: "Tecnologia" },

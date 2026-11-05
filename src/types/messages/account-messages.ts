@@ -1,29 +1,38 @@
 export type AccountMessages = {
   accountMenu: {
     trigger: string;
-    triggerLabel: string;
     profile: string;
-    identity: string;
-    socialIdentity: string;
-    corporateIdentity: string;
-    corporateProfile: string;
     wallet: string;
-    marketplace: string;
-    changeEmail: string;
-    changePassword: string;
+    account: string;
     support: string;
-    blockedUsers: string;
-    myReports: string;
-    moderator: string;
-    sanctions: string;
-    linkedAccounts: string;
-    healthyUsage: string;
     guardian: string;
-    security: string;
-    apoie: string;
-    deleteAccount: string;
+    moderator: string;
+    theme: string;
     logout: string;
     loggingOut: string;
+  };
+
+  accountSettings: {
+    title: string;
+    description: string;
+    access: string;
+    privacy: string;
+    danger: string;
+    changeEmail: string;
+    changePassword: string;
+    linkedAccounts: string;
+    security: string;
+    blockedUsers: string;
+    myReports: string;
+    sanctions: string;
+    deleteAccount: string;
+    mutedUsers: string;
+    guardian: string;
+    preferences: string;
+    notificationPreferences: string;
+    healthyUsage: string;
+    project: string;
+    supportUs: string;
   };
   pushToggle: { on: string; off: string; working: string };
   ageGate: {

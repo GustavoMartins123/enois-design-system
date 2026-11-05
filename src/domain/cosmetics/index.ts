@@ -7,7 +7,7 @@ export { OfficialBanner } from "./official-banner.js";
 export { OFFICIAL_BANNERS } from "./official-banners.js";
 export { ProfileEffect } from "./profile-effect.js";
 export { PROFILE_EFFECTS, profileEffect, profileEffectParticles } from "./profile-effects.js";
-export { motionAllowed } from "./motion-allowed.js";
+export { motionAllowed, tiltAllowed } from "./motion-allowed.js";
 export { ProfileCard } from "./profile-card.js";
 export { ProfileMiniCard } from "./profile-mini-card.js";
 export { CosmeticItemArt } from "./cosmetic-item-art.js";

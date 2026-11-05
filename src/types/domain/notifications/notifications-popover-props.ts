@@ -4,10 +4,8 @@ import type { NotificationData } from "./notification-data.js";
 export type NotificationsPopoverProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  /** Visible notifications for the "Novas" and "Histórico" tabs (no chat, no connection requests). */
+  /** Visible notifications for the "Novas" and "Histórico" tabs. */
   notifications: NotificationData[];
-  /** Visible chat notifications. */
-  chatNotifications: NotificationData[];
   /** Incoming requests, already filtered (removed or missing senders left out). */
   requests: ConnectionRequestData[];
   requestsLoading: boolean;
@@ -21,4 +19,8 @@ export type NotificationsPopoverProps = {
   onRejectConnection: (actorId: string) => void;
   /** Opens a notification destination; the popover closes itself. */
   onOpenNotification: (href: string) => void;
+  /** Notification preferences page; the header shows a settings link only when it is set. */
+  preferencesHref?: string;
+  /** Full notifications page; the popover footer links to it when set. */
+  allHref?: string;
 };

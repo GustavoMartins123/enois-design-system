@@ -1,14 +1,19 @@
+import type { NotificationPreferenceKey } from "../domain/notifications/notification-preference-key.js";
+
 export type NotificationsMessages = {
   notificationsPopover: {
     title: string;
     markAllRead: string;
+    preferences: string;
     overflowCount: string;
-    tabs: { new: string; history: string; requests: string; chat: string };
+    tabs: { new: string; history: string; requests: string };
     emptyNew: string;
     emptyHistory: string;
-    emptyChat: string;
     emptyRequests: string;
     unreadLabel: (count: number) => string;
+    viewAll: string;
+    loadMore: string;
+    loadingMore: string;
   };
   notificationItem: {
     markRead: string;
@@ -16,4 +21,20 @@ export type NotificationsMessages = {
     openActorProfile: (name: string) => string;
   };
   connectionRequestItem: { someone: string; accept: string; reject: string };
+  notificationPreferences: {
+    emailTitle: string;
+    pushTitle: string;
+    pushHint: string;
+    items: Record<NotificationPreferenceKey, { label: string; hint: string }>;
+    pushOff: string;
+    enablePush: string;
+    enablingPush: string;
+    securityNote: string;
+    loading: string;
+    loadError: string;
+    retry: string;
+    saving: string;
+    saved: string;
+    saveError: string;
+  };
 };

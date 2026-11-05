@@ -12,6 +12,11 @@ export type MentionTextareaProps = Pick<
   showCounter?: boolean;
   /** Mostra a barra de formatacao (negrito, lista, citacao...) acima do campo. */
   toolbar?: boolean;
+  /**
+   * Draws the formatting bar; default true. A compact composer hides it until asked: the
+   * shortcuts (Ctrl+B, Ctrl+I...) keep working while it is hidden.
+   */
+  toolbarVisible?: boolean;
   /** Imagens coladas no campo (Ctrl+V): o dono do campo decide subir e anexar. */
   onPasteImages?: (files: File[]) => void;
   /** Ctrl+Enter (Cmd+Enter no Mac): o dono do campo decide o que é "enviar". Sem ela, não há atalho. */

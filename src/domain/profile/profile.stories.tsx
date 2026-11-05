@@ -2,17 +2,23 @@ import { useState } from "react";
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import type { ProfileGardenStyle } from "../../types/domain/profile/profile-garden-style.js";
 import type { ProfileHtmlFrameProps } from "../../types/domain/profile/profile-html-frame-props.js";
 import { Button } from "../../ui/button.js";
 
 import { EditProfileDialog } from "./edit-profile-dialog.js";
 import { GithubImportDialog } from "./github-import-dialog.js";
+import { ProfessionalProfile } from "./professional-profile.js";
 import { ProfileBannerDialog } from "./profile-banner-dialog.js";
 import { ProfileBioDialog } from "./profile-bio-dialog.js";
+import { ProfileCityPrivacy } from "./profile-city-privacy.js";
 import { ProfileCommunityShelf } from "./profile-community-shelf.js";
+import { ProfileEditMenu } from "./profile-edit-menu.js";
 import { ProfileExperiencesSection } from "./profile-experiences-section.js";
 import { ProfileExplorePanel } from "./profile-explore-panel.js";
 import { ProfileGamificationPanel } from "./profile-gamification-panel.js";
+import { PROFILE_GARDEN_STYLES } from "./profile-garden-styles.js";
+import { ProfileGarden } from "./profile-garden.js";
 import { ProfileNetworkDialog } from "./profile-network-dialog.js";
 import { ProfileProjectsSection } from "./profile-projects-section.js";
 import { ProfileQuickComposer } from "./profile-quick-composer.js";
@@ -57,6 +63,60 @@ const projects = [
   },
 ];
 
+const GARDEN_STYLES = Object.keys(PROFILE_GARDEN_STYLES) as ProfileGardenStyle[];
+const gardenAt = (stage: number, health = 2) => ({
+  trajectory: stage,
+  relations: stage,
+  contribution: stage,
+  tenure: stage,
+  health,
+});
+
+/** Every style at stages 0 to 3. Switch the toolbar theme to check light and dark. */
+export const Gardens: StoryObj = {
+  render: () => (
+    <div className="grid gap-6">
+      {GARDEN_STYLES.map((style) => (
+        <section key={style} className="grid gap-2">
+          <h3 className="text-sm font-medium text-text-strong">{style}</h3>
+
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+            {[0, 1, 2, 3].map((stage) => (
+              <ProfileGarden key={stage} garden={gardenAt(stage)} style={style} />
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  ),
+};
+
+export const GardensDark: StoryObj = { ...Gardens, globals: { theme: "dark" } };
+
+/** Health only softens the colors: 2 normal, 1 softer, 0 softest. */
+export const GardenHealth: StoryObj = {
+  render: () => (
+    <div className="grid max-w-3xl grid-cols-3 gap-3">
+      {[2, 1, 0].map((health) => (
+        <ProfileGarden key={health} garden={gardenAt(2, health)} style="cerrado" />
+      ))}
+    </div>
+  ),
+};
+
+/** Mixed stages: the owner sees a hint about the part that grows next, visitors do not. */
+export const GardenOwnerAndVisitor: StoryObj = {
+  render: () => {
+    const garden = { trajectory: 2, relations: 1, contribution: 3, tenure: 2, health: 2 };
+    return (
+      <div className="grid max-w-2xl gap-4 sm:grid-cols-2">
+        <ProfileGarden garden={garden} style="mata-atlantica" isOwner />
+        <ProfileGarden garden={garden} style="mata-atlantica" />
+      </div>
+    );
+  },
+};
+
 export const Panels: StoryObj = {
   render: () => (
     <div className="grid max-w-3xl gap-4 sm:grid-cols-2">
@@ -66,6 +126,8 @@ export const Panels: StoryObj = {
         postsCount={12}
         walletBalance="1.250"
         walletHref="#"
+        garden={{ trajectory: 2, relations: 1, contribution: 2, tenure: 3, health: 2 }}
+        gardenStyle="caatinga"
       />
 
       <div className="space-y-4">
@@ -91,7 +153,12 @@ export const Panels: StoryObj = {
 export const Sections: StoryObj = {
   render: () => (
     <div className="max-w-2xl space-y-4">
-      <ProfileQuickComposer profile={{ name: "Ana Souza" }} onPublish={async () => true} />
+      <ProfileQuickComposer
+        profile={{ name: "Ana Souza" }}
+        onCompose={() => undefined}
+        onComposeWithMedia={() => undefined}
+        onWriteArticle={() => undefined}
+      />
       <ProfileProjectsSection
         projects={projects}
         isOwner
@@ -154,6 +221,8 @@ export const Dialogs: StoryObj = {
           onPickPhoto={() => undefined}
           maxLength={20000}
           onSave={() => setOpen(null)}
+          shopBanner="Cemitério"
+          onUseOwnCover={() => setOpen(null)}
           renderHtmlFrame={frame}
         />
         <ProfileBioDialog
@@ -210,6 +279,57 @@ export const Dialogs: StoryObj = {
           open={open === "project"}
           onOpenChange={toggle("project")}
           onSave={() => setOpen(null)}
+        />
+      </div>
+    );
+  },
+};
+
+export const StackChips: StoryObj = {
+  parameters: {
+    docs: {
+      description: {
+        story: [
+          "Edit the sample project to try the shared TokenInput with up to 10 technologies",
+          "of 40 characters each. Enter, commas (including mobile input and pasted lists)",
+          "and leaving the field confirm trimmed values; duplicate technologies show inline feedback.",
+          "Remove chips with their labelled buttons, change another field or switch editor modes",
+          "to check that the stack is preserved. Saving also confirms pending text without blur",
+          "and updates the saved stack below. Use a mobile viewport to inspect chip wrapping",
+          "and the existing theme tokens for chip colors, focus rings and feedback.",
+        ].join(" "),
+      },
+    },
+  },
+  render: function StackChipsStory() {
+    const [open, setOpen] = useState(true);
+    const [stack, setStack] = useState([
+      "React",
+      "TypeScript",
+      "Postgres",
+      "Tailwind CSS",
+      "Node.js",
+      "Docker",
+      "Vitest",
+      "Storybook",
+    ]);
+
+    return (
+      <div className="max-w-2xl space-y-3">
+        <Button onClick={() => setOpen(true)}>Gerenciar stack</Button>
+
+        <p className="text-sm text-text-subtle">Stack salva: {stack.join(", ")}</p>
+
+        <ProjectsManager
+          open={open}
+          onOpenChange={setOpen}
+          projects={[{ ...projects[0], stack }]}
+          onSave={async (_id, input) => {
+            setStack(input.stack);
+            return true;
+          }}
+          onDelete={() => setStack([])}
+          renderHtmlFrame={frame}
         />
       </div>
     );
@@ -366,3 +486,116 @@ export const GithubImport: StoryObj = {
     );
   },
 };
+
+export const CityPrivacy: StoryObj = {
+  render: function CityPrivacyStory() {
+    const [showCity, setShowCity] = useState(false);
+
+    return (
+      <div className="max-w-md space-y-6">
+        <ProfileCityPrivacy value={showCity} onChange={setShowCity} />
+        <ProfileCityPrivacy value onChange={() => {}} pending />
+      </div>
+    );
+  },
+};
+
+// Fake data only: the public work profile with every section filled, owner view.
+export const Professional: StoryObj = {
+  render: () => (
+    <ProfessionalProfile
+      backHref="#"
+      editHref="#"
+      profile={{
+        name: "Ana Exemplo",
+        username: "ana.exemplo",
+        headline: "Engenheira de software focada em plataformas de dados",
+        bio: "Construo sistemas que aguentam o dia a dia.\nGosto de mentoria e de documentação clara.",
+        location: "Belo Horizonte, MG",
+        industry: "Tecnologia",
+        identityVerified: true,
+        reputation: 1240,
+        memberSinceLabel: "mar. 2026",
+        skills: ["Go", "PostgreSQL", "Kubernetes", "Observabilidade"],
+        links: ["https://example.dev/ana", "https://github.com/example"],
+      }}
+      experiences={[
+        {
+          id: "e1",
+          title: "Engenheira de software sênior",
+          company: "Empresa Exemplo",
+          location: "Remoto",
+          currentlyHere: true,
+          startLabel: "jan. 2024",
+          endLabel: null,
+          months: 22,
+          description: "Plataforma de dados e times de produto.",
+        },
+        {
+          id: "e2",
+          title: "Engenheira de software",
+          company: "Outra Exemplo",
+          startLabel: "fev. 2020",
+          endLabel: "dez. 2023",
+          months: 47,
+        },
+      ]}
+      educations={[
+        {
+          id: "d1",
+          school: "Universidade Exemplo",
+          degree: "Bacharelado",
+          field: "Ciência da Computação",
+          periodLabel: "2016 a 2020",
+        },
+      ]}
+      certifications={[
+        {
+          id: "c1",
+          name: "Certificação Exemplo",
+          issuer: "Instituto Exemplo",
+          issuedLabel: "jun. 2025",
+          credentialUrl: "https://example.dev/cred",
+        },
+      ]}
+      posts={<p className="text-sm text-text-subtle">Publicações do perfil profissional.</p>}
+    />
+  ),
+};
+
+export const ProfessionalMinimal: StoryObj = {
+  render: () => (
+    <ProfessionalProfile
+      backHref="#"
+      profile={{ name: "Perfil Novo", username: "perfil.novo", skills: [], links: [] }}
+      experiences={[]}
+      educations={[]}
+      certifications={[]}
+      statusNote="Rascunho: só você vê esta página."
+      posts={<p className="text-sm text-text-subtle">Nada publicado ainda.</p>}
+    />
+  ),
+};
+
+const editMenuActions = {
+  onEditInfo: () => {},
+  onEditPhoto: () => {},
+  onEditCover: () => {},
+  onEditStatus: () => {},
+  onEditResume: () => {},
+  onEditBioHtml: () => {},
+  onEditAppearance: () => {},
+  onEditLook: () => {},
+};
+
+/** Every way to change your own profile behind one button. Open it to see the groups. */
+export const EditMenu: StoryObj = {
+  render: () => (
+    <div className="flex flex-wrap gap-2">
+      <ProfileEditMenu {...editMenuActions} professional={{ href: "#", setup: false }} />
+      <ProfileEditMenu {...editMenuActions} photoBusy professional={{ href: "#", setup: true }} />
+    </div>
+  ),
+};
+
+export const EditMenuDark: StoryObj = { ...EditMenu, globals: { theme: "dark" } };

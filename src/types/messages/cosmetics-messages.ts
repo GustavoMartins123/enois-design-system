@@ -12,7 +12,12 @@ export type CosmeticsMessages = {
     looksTitle: string;
     looksDescription: string;
     wearLook: (title: string) => string;
+    equipLook: (title: string) => string;
+    unequipLook: (title: string) => string;
     lookOwned: string;
+    /** Footer and action of an owned look: on the profile now, or the click that puts it back. */
+    lookWearing: string;
+    lookWear: string;
     lookDiscount: (missing: number) => string;
     search: string;
     searchLabel: string;
@@ -60,6 +65,7 @@ export type CosmeticsMessages = {
     noVotes: string;
     choose: string;
     chosen: (team: string) => string;
+    upcoming: string;
     closed: string;
     winner: (team: string) => string;
     tie: string;

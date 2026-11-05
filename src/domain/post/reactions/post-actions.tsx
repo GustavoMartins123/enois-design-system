@@ -28,6 +28,8 @@ export function PostActions<T extends string>({
   savesCount,
   saved,
   canRepost,
+  reposted,
+  repostsCount,
   repostUnavailableReason,
   onShowReactions,
   onComments,
@@ -111,11 +113,16 @@ export function PostActions<T extends string>({
           {canRepost && (
             <button
               onClick={onRepost}
-              title={messages.repost}
-              aria-label={messages.repost}
-              className="flex items-center rounded-lg px-2.5 py-2.5 transition hover:bg-muted hover:text-foreground"
+              title={reposted ? messages.reposted : messages.repost}
+              aria-label={reposted ? messages.reposted : messages.repost}
+              aria-pressed={reposted}
+              className={`flex items-center gap-1.5 rounded-lg px-2.5 py-2.5 transition-colors hover:bg-muted ${
+                reposted ? "text-primary" : "hover:text-foreground"
+              }`}
             >
               <Repeat2 className="h-4 w-4" />
+
+              {repostsCount > 0 && <span className="text-xs tabular-nums">{repostsCount}</span>}
             </button>
           )}
 
